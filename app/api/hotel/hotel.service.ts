@@ -1,6 +1,8 @@
 import useRandomHotelImage, {
     DEFAULT_IMAGE,
 } from "@/hooks/useRandomImage/useRandomImage";
+import { IRoom, RoomService } from "../room/room.service";
+import { BookingService, IBooking } from "../bookings/bookings.service";
 
 export interface IHotel {
     id?: string;
@@ -14,34 +16,47 @@ export interface IHotel {
 export class HotelService {
     static hotels: IHotel[] = [
         {
-            id: crypto.randomUUID(),
+            id: "1",
             name: "Hotel 1",
             description: "Description 1",
             stars: 3,
             imageUrl: DEFAULT_IMAGE,
-            cityId: 1,
+            cityId: 210,
         },
         {
-            id: crypto.randomUUID(),
+            id: "2",
             name: "Hotel 2",
             description: "Description 2",
             stars: 4,
             imageUrl: DEFAULT_IMAGE,
-            cityId: 1,
+            cityId: 144,
         },
         {
-            id: crypto.randomUUID(),
+            id: "3",
             name: "Hotel 3",
             description: "Description 3",
             stars: 5,
             imageUrl: DEFAULT_IMAGE,
-            cityId: 1,
+            cityId: 210,
         },
     ];
 
     static getHotels(): Promise<IHotel[]> {
         return new Promise((resolve) => {
             resolve(this.hotels);
+        });
+    }
+
+    static getHotelById(hotelId: string): Promise<IHotel> {
+        return new Promise((resolve, reject) => {
+            const hotel = this.hotels.find((hotel) => hotel.id === hotelId);
+
+            if (!hotel) {
+                reject("No se encuentra el hotel");
+                return;
+            }
+
+            resolve(hotel);
         });
     }
 
@@ -57,6 +72,44 @@ export class HotelService {
             }
 
             resolve(hotels);
+        });
+    }
+
+    static filterHotelsByCityAndDate(
+        cityId: number,
+        checkDate: string,
+    ): Promise<IHotel[]> {
+        return new Promise((resolve, reject) => {
+            const rooms: IRoom[] = RoomService.rooms;
+            const bookings: IBooking[] = BookingService.bookings;
+
+            const filteredHotels = this.hotels.filter(
+                (hotel) => hotel.cityId === cityId,
+            );
+
+            if (!filteredHotels.length) {
+                reject("No se encuentran hoteles para esta ciudad");
+                return;
+            }
+
+            const reservationsOnDate: string[] = bookings
+                .filter(
+                    (booking) =>
+                        new Date(booking.checkIn) <= new Date(checkDate) &&
+                        new Date(booking.checkOut) >= new Date(checkDate),
+                )
+                .map((booking) => booking.roomId);
+
+            const availableHotels = filteredHotels.filter((hotel) => {
+                const hotelRooms = rooms.filter(
+                    (room) => room.hotelId === hotel.id,
+                );
+                return hotelRooms.some(
+                    (room) => !reservationsOnDate.includes(room.id || ""),
+                );
+            });
+
+            resolve(availableHotels);
         });
     }
 

@@ -1,5 +1,6 @@
 import { FC, ReactNode, createElement } from "react";
 import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
     title: "Auth",
@@ -19,7 +20,9 @@ const LoginLayout: FC<IProps> = ({ children }) => {
             <div>
                 <h1 className="text-4xl font-bold text-white text-center">
                     Agencia de viajes
-                    <span className="block text-emerald-500">Ultra Group</span>
+                    <Link href="/" className="block text-emerald-500 underline">
+                        Ultra Group
+                    </Link>
                 </h1>
             </div>
 

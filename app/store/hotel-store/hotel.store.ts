@@ -4,17 +4,22 @@ import { create } from "zustand";
 
 type State = {
     hotels: IHotel[];
+    isLoadingHotels: boolean;
     hotel: IHotel | null;
 };
 
 type Actions = {
     getAllHotels: () => Promise<void>;
     getHotelById: (id: string) => Promise<void>;
-    getHotelByCityId: (cityId: number) => Promise<void>;
+    getHotelsByCityAndDate: (
+        cityId: number | null,
+        checkDate: string,
+    ) => Promise<void>;
 };
 
 const initialState: State = {
     hotels: [],
+    isLoadingHotels: false,
     hotel: null,
 };
 
@@ -39,14 +44,26 @@ export const useHotelStore = create<State & Actions>((set) => ({
             console.log(error);
         }
     },
-    getHotelByCityId: async (cityId) => {
-        try {
-            const response = await fetch(`/api/hotel/city/${cityId}`);
-            const hotels = await response.json();
 
-            set({ hotels });
+    getHotelsByCityAndDate: async (
+        cityId: number | null,
+        checkDate: string,
+    ) => {
+        set({ isLoadingHotels: true });
+        set({ hotels: [] });
+        try {
+            const { data } = await axios.get<IHotel[]>("api/hotel", {
+                params: {
+                    cityId,
+                    checkDate,
+                },
+            });
+
+            set({ hotels: data });
         } catch (error) {
             console.log(error);
+        } finally {
+            set({ isLoadingHotels: false });
         }
     },
 }));

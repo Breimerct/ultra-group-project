@@ -11,6 +11,14 @@ export interface IUser {
     avatar?: string;
     password?: string;
     role?: string;
+    gender?: Gender;
+    documentType?: string;
+    documentNumber?: string;
+}
+
+export enum Gender {
+    Female = "female",
+    Male = "Male",
 }
 
 export class AuthService {
@@ -23,6 +31,9 @@ export class AuthService {
             avatar: "https://i.pravatar.cc/300",
             id: "1",
             role: "admin",
+            documentNumber: "1234567890",
+            documentType: "dni",
+            gender: Gender.Male,
         },
     ];
 

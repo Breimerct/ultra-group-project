@@ -1,13 +1,21 @@
 "use client";
 import React, { use, useEffect, useState } from "react";
 import { CloseIcon } from "../Icons";
+import { on } from "events";
 
 interface AutocompleteProps {
     items: any[];
     filterBy: string;
+    onSelectItem?: (item: any) => void;
+    onClearInput?: () => void;
 }
 
-const Autocomplete: React.FC<AutocompleteProps> = ({ items, filterBy }) => {
+const Autocomplete: React.FC<AutocompleteProps> = ({
+    items,
+    filterBy,
+    onSelectItem,
+    onClearInput,
+}) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [results, setResults] = useState<any[]>([]);
     const [showResults, setShowResults] = useState(false);
@@ -35,6 +43,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({ items, filterBy }) => {
         setSearchTerm(item[filterBy]);
         setResults(items.slice(0, 10));
         setShowResults(false);
+        onSelectItem && onSelectItem(item);
     };
 
     const handleFocus = () => {
@@ -44,6 +53,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({ items, filterBy }) => {
     const clearSearch = () => {
         setSearchTerm("");
         setResults([]);
+        onClearInput && onClearInput();
     };
 
     const handleClickOutside = (event: MouseEvent) => {

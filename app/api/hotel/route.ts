@@ -1,8 +1,30 @@
 import { HotelService, IHotel } from "./hotel.service";
 
-export async function GET() {
+export async function GET(request: Request) {
     try {
-        const hotels = await HotelService.getHotels();
+        const params = new URL(request.url).searchParams;
+        const cityId = Number(params.get("cityId"));
+        const checkDate = params.get("checkDate");
+        let hotels: IHotel[] = [];
+
+        if (!cityId && !checkDate) {
+            hotels = await HotelService.getHotels();
+        }
+
+        if (checkDate && !cityId) {
+            throw "Falta el parametro cityId";
+        }
+
+        if (cityId && !checkDate) {
+            hotels = await HotelService.getHotelsByCityId(cityId);
+        }
+
+        if (cityId && checkDate) {
+            hotels = await HotelService.filterHotelsByCityAndDate(
+                cityId,
+                checkDate,
+            );
+        }
 
         return Response.json(hotels, { status: 200 });
     } catch (error: any) {
