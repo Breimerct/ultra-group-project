@@ -6,8 +6,6 @@ interface IProps {}
 const HotelPage: FC<IProps> = () => {
     return (
         <div>
-            <h1>Hotel Page</h1>
-
             <section>
                 <HotelList />
             </section>

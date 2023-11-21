@@ -1,38 +1,40 @@
-import useRandomHotelImage from "@/hooks/useRandomImage/useRandomImage";
+import useRandomHotelImage, {
+    DEFAULT_IMAGE,
+} from "@/hooks/useRandomImage/useRandomImage";
 
 export interface IHotel {
     id?: string;
     name: string;
     description?: string | null;
     stars?: number;
-    imageUrl: string | null;
+    imageUrl: string;
     cityId: number;
 }
 
 export class HotelService {
     static hotels: IHotel[] = [
         {
-            id: "1",
+            id: crypto.randomUUID(),
             name: "Hotel 1",
             description: "Description 1",
             stars: 3,
-            imageUrl: "http://lorempixel.com/400/200/",
+            imageUrl: DEFAULT_IMAGE,
             cityId: 1,
         },
         {
-            id: "2",
+            id: crypto.randomUUID(),
             name: "Hotel 2",
             description: "Description 2",
             stars: 4,
-            imageUrl: "http://lorempixel.com/400/200/",
+            imageUrl: DEFAULT_IMAGE,
             cityId: 1,
         },
         {
-            id: "3",
+            id: crypto.randomUUID(),
             name: "Hotel 3",
             description: "Description 3",
             stars: 5,
-            imageUrl: "http://lorempixel.com/400/200/",
+            imageUrl: DEFAULT_IMAGE,
             cityId: 1,
         },
     ];
@@ -75,7 +77,7 @@ export class HotelService {
             }
 
             const id = crypto.randomUUID();
-            const imageUrl = await useRandomHotelImage().catch(() => null);
+            const imageUrl = await useRandomHotelImage();
             const newHotel: IHotel = {
                 ...hotel,
                 id,

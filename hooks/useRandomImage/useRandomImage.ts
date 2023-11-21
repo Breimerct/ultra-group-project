@@ -1,7 +1,10 @@
 import axios from "axios";
 import { IResponseImage } from "./interfaces";
 
-const useRandomHotelImage = async (): Promise<string | null> => {
+export const DEFAULT_IMAGE =
+    "https://www.nbmchealth.com/wp-content/uploads/2018/04/default-placeholder.png";
+
+const useRandomHotelImage = async (): Promise<string> => {
     try {
         const { data } = await axios.get<IResponseImage>(
             "https://api.unsplash.com/photos/random?query=hotels",
@@ -10,7 +13,7 @@ const useRandomHotelImage = async (): Promise<string | null> => {
 
         return data.urls.regular;
     } catch (error) {
-        return null;
+        return DEFAULT_IMAGE;
     }
 };
 
