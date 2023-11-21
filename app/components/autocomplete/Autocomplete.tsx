@@ -1,24 +1,44 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
+import { CloseIcon } from "../Icons";
 
 interface AutocompleteProps {
-    items: string[];
+    items: any[];
+    filterBy: string;
 }
 
-const Autocomplete: React.FC<AutocompleteProps> = ({ items }) => {
+const Autocomplete: React.FC<AutocompleteProps> = ({ items, filterBy }) => {
     const [searchTerm, setSearchTerm] = useState("");
-    const [results, setResults] = useState<string[]>([]);
+    const [results, setResults] = useState<any[]>([]);
+    const [showResults, setShowResults] = useState(false);
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const term = e.target.value;
         setSearchTerm(term);
+    };
 
-        // Lógica de búsqueda
-        const filteredResults = items.filter((item) =>
-            item.toLowerCase().includes(term.toLowerCase()),
+    useEffect(() => {
+        let filteredResults = items.filter((item) =>
+            item[filterBy].toLowerCase().includes(searchTerm.toLowerCase()),
         );
 
+        if (filteredResults.length < 1) {
+            filteredResults = items.slice(0, 10);
+        }
+
         setResults(filteredResults);
+
+        return () => {};
+    }, [searchTerm, items]);
+
+    const handleSelectItem = (item: any) => {
+        setSearchTerm(item[filterBy]);
+        setResults(items.slice(0, 10));
+        setShowResults(false);
+    };
+
+    const handleFocus = () => {
+        setShowResults(true);
     };
 
     const clearSearch = () => {
@@ -26,34 +46,56 @@ const Autocomplete: React.FC<AutocompleteProps> = ({ items }) => {
         setResults([]);
     };
 
+    const handleClickOutside = (event: MouseEvent) => {
+        const autocomplete = document.getElementById("autocomplete");
+
+        if (autocomplete && !autocomplete.contains(event.target as Node)) {
+            setShowResults(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener("click", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
+
     return (
-        <div className="relative w-64">
+        <div id="autocomplete" className="relative">
             <input
                 type="text"
-                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                className="outline-none rounded-md border-2 border-solid border-zinc-400 p-2 w-full"
                 placeholder="Search..."
                 value={searchTerm}
                 onChange={handleSearch}
+                onFocus={handleFocus}
             />
-            {results.length > 0 && (
-                <div className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded">
+            {showResults && (
+                <ul className="absolute z-20 mt-1 w-full bg-white border border-gray-300 rounded max-h-[200px] overflow-y-auto">
                     {results.map((result, index) => (
-                        <div
+                        <li
                             key={index}
-                            className="p-2 cursor-pointer hover:bg-gray-100"
-                            onClick={() => alert(`Selected: ${result}`)}
+                            className="p-2 cursor-pointer hover:bg-gray-100 select-none"
+                            onClick={() => handleSelectItem(result)}
                         >
-                            {result}
-                        </div>
+                            {result[filterBy] ?? "-"}
+                        </li>
                     ))}
-                </div>
+
+                    {results.length === 0 && (
+                        <div className="p-2 select-none">No hay resultados</div>
+                    )}
+                </ul>
             )}
+
             {searchTerm && (
                 <button
                     className="absolute top-0 right-0 p-2 text-gray-500 cursor-pointer hover:text-gray-700"
                     onClick={clearSearch}
                 >
-                    &#10005;
+                    <CloseIcon />
                 </button>
             )}
         </div>

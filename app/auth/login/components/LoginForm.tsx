@@ -1,77 +1,87 @@
 "use client";
-import { ILogin, useAuthStore } from "@/app/store/auth.store";
+import { ILogin } from "@/app/api/auth/auth.service";
+import { useAuthStore } from "@/app/store/auth-store/auth.store";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { ChangeEvent, FC, FormEvent, use, useEffect, useState } from "react";
+import { FC } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import Input from "@/app/components/input/Input";
+import { useRouter } from "next/navigation";
 
 interface IProps {}
 
 const LoginForm: FC<IProps> = () => {
-    const { login, user } = useAuthStore();
-    const [form, setForm] = useState<ILogin>({
+    const router = useRouter();
+    const { login } = useAuthStore();
+    const initialValues: ILogin = {
         email: "",
         password: "",
+    };
+
+    const validationSchema = Yup.object({
+        email: Yup.string()
+            .email("Dirección de Email invalida.")
+            .required("El campo es requerido."),
+        password: Yup.string().required("El campo es requerido."),
     });
 
-    useEffect(() => {
-        if (user) {
-            redirect("/");
-        }
-
-        return () => {};
-    }, [user]);
-
-    const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
-
-    const handleSubmitLogin = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        login(form);
-    };
+    const formik = useFormik({
+        initialValues,
+        validationSchema,
+        onSubmit: (values, { resetForm }) => {
+            login(values);
+            resetForm();
+            router.replace("/");
+        },
+    });
 
     return (
-        <form className="flex flex-col mt-5 gap-5" onSubmit={handleSubmitLogin}>
+        <form
+            className="flex flex-col mt-5 gap-5"
+            onSubmit={formik.handleSubmit}
+        >
             <div>
-                <label className="block">Email</label>
-                <input
-                    type="text"
-                    name="email"
-                    placeholder="enter your email"
-                    className="outline-none rounded-md border-2 border-solid border-zinc-400 p-2 w-full"
-                    value={form.email}
-                    onChange={handleChangeInput}
+                <Input
+                    label="Email"
+                    type="email"
+                    placeholder="Ingrese su email"
+                    isInvalid={formik.touched.email && !!formik.errors.email}
+                    messageError={formik.errors.email}
+                    {...formik.getFieldProps("email")}
                 />
             </div>
 
             <div>
-                <label className="block">password</label>
-                <input
+                <Input
+                    label="Contraseña"
                     type="password"
-                    name="password"
-                    placeholder="enter your password"
-                    className="outline-none rounded-md border-2 border-solid border-zinc-400 p-2 w-full"
-                    value={form.password}
-                    onChange={handleChangeInput}
+                    placeholder="Ingrese su contraseña"
+                    isInvalid={
+                        formik.touched.password && !!formik.errors.password
+                    }
+                    messageError={formik.errors.password}
+                    {...formik.getFieldProps("password")}
                 />
             </div>
 
             <div className="flex justify-end items-center text-emerald-900 font-medium underline">
-                <a className="">forgot your password</a>
+                <a className="">Olvide mi contraseña</a>
             </div>
 
-            <button className="block w-full bg-emerald-800 text-white py-3 hover:bg-emerald-900 hover:shadow-sm hover:shadow-emerald-800 transition-all">
-                login
+            <button
+                type="submit"
+                className="block w-full bg-emerald-800 text-white py-3 hover:bg-emerald-900 hover:shadow-sm hover:shadow-emerald-800 transition-all"
+            >
+                Iniciar sesión
             </button>
 
             <div className="flex justify-center items-center">
-                Don’t have an account?
+                ¿No tienes una cuenta?
                 <Link
                     href="register"
                     className="text-emerald-900 font-medium underline pl-1"
                 >
-                    Sign up
+                    Registrate
                 </Link>
             </div>
         </form>

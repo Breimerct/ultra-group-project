@@ -13,7 +13,7 @@ interface IProps {
 const LoginLayout: FC<IProps> = ({ children }) => {
     return (
         <main
-            className="bg-gray-100 min-h-screen object-cover bg-no-repeat bg-cover bg-center grid grid-cols-1 lg:grid-cols-2 justify-end items-center p-5 md:py-20 md:px-10"
+            className="bg-gray-100 min-h-screen object-cover bg-no-repeat bg-cover bg-center grid grid-cols-1 lg:grid-cols-2 items-center lg:py-20 lg:px-10"
             style={{ backgroundImage: "url(/background-login.webp)" }}
         >
             <div>
