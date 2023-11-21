@@ -24,6 +24,7 @@ const SearchDestinationForm: FC = () => {
     };
 
     const handleInputDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(e.target.value);
         setCheckDate(e.target.value);
     };
 

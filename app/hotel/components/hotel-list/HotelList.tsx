@@ -3,6 +3,8 @@ import { useHotelStore } from "@/app/store/hotel-store/hotel.store";
 import { FC } from "react";
 import SkeletonHotelList from "./SkeletonHotelList";
 import { StartIcon } from "@/app/components/Icons";
+import Link from "next/link";
+import StarRate from "@/app/components/StarRate";
 
 interface IProps {}
 
@@ -42,16 +44,16 @@ const HotelList: FC<IProps> = () => {
                             </div>
 
                             <div>
-                                <p className="text-2xl mt-2 w-full flex justify-end flex-nowrap gap-2 text-yellow-400">
-                                    {Array.from({
-                                        length: hotel.stars ?? 0,
-                                    }).map((_, index) => (
-                                        <StartIcon key={index} />
-                                    ))}
-                                </p>
-                                <button className="mt-2 outline-emerald-800 outline-1 outline text-emerald-800 text-xs py-2 px-4 rounded-md hover:outline-none-none hover:bg-emerald-800 hover:text-white hover:shadow-sm hover:shadow-emerald-900 transition-all ease-in-out">
+                                <StarRate
+                                    size={hotel?.stars ?? 0}
+                                    className="justify-start"
+                                />
+                                <Link
+                                    className="mt-2 outline-emerald-800 outline-1 outline text-emerald-800 text-xs py-2 px-4 rounded-md hover:outline-none-none hover:bg-emerald-800 hover:text-white hover:shadow-sm hover:shadow-emerald-900 transition-all ease-in-out"
+                                    href={`/hotel/${hotel.id}`}
+                                >
                                     Reservar ahora
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     </div>

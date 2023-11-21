@@ -11,15 +11,7 @@ const Header: FC<IProps> = ({ className }) => {
 
     return (
         <header className={classes}>
-            <nav className="flex justify-between items-center py-2 px-4">
-                <figure>
-                    <img
-                        src="/vercel.svg"
-                        alt="Ultra Group"
-                        className="w-40 mx-auto"
-                    />
-                </figure>
-
+            <nav className="flex justify-end items-center py-2 px-4">
                 <ul className="flex justify-center items-center gap-1">
                     <li className="mx-2 px-3 py-1">
                         <Link
@@ -32,7 +24,7 @@ const Header: FC<IProps> = ({ className }) => {
                     <HideComponent invert>
                         <li className="mx-2 px-3 py-1">
                             <Link
-                                href="auth/login"
+                                href="/auth/login"
                                 className="hover:text-emerald-500 transition-all text-current"
                             >
                                 Iniciar sesión
@@ -40,7 +32,7 @@ const Header: FC<IProps> = ({ className }) => {
                         </li>
                         <li className="mx-2 px-3 py-1">
                             <Link
-                                href="auth/register"
+                                href="/auth/register"
                                 className="hover:text-emerald-500 transition-all text-current"
                             >
                                 Registrarse
