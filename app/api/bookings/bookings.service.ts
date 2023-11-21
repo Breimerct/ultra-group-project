@@ -20,7 +20,7 @@ export class BookingService {
         {
             id: "1",
             checkIn: "2021-01-01",
-            checkOut: "2021-01-05",
+            checkOut: "2023-11-21",
             roomId: "1",
             userId: "1",
             companions: [],
