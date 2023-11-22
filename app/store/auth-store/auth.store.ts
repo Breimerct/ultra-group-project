@@ -18,7 +18,7 @@ const initialState: State = {
         name: "Admin User",
         email: "tes@test.com",
         cellphone: "1234567890",
-        avatar: "https://i.pravatar.cc/300",
+        avatar: `https://robohash.org/admin`,
         role: "admin",
         documentNumber: "1234567890",
     },

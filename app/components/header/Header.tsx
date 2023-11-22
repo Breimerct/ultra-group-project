@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FC } from "react";
 import HideComponent from "../hide-components/HideComponent";
+import UserOptions from "../user-options/UserOptions";
 
 interface IProps {
     className?: string;
@@ -11,7 +12,7 @@ const Header: FC<IProps> = ({ className }) => {
 
     return (
         <header className={classes}>
-            <nav className="flex justify-end items-center py-2 px-4">
+            <nav className="flex justify-end items-center py-3 px-5">
                 <ul className="flex justify-center items-center gap-1">
                     <li className="mx-2 px-3 py-1">
                         <Link
@@ -38,6 +39,9 @@ const Header: FC<IProps> = ({ className }) => {
                                 Registrarse
                             </Link>
                         </li>
+                    </HideComponent>
+                    <HideComponent>
+                        <UserOptions />
                     </HideComponent>
                 </ul>
             </nav>

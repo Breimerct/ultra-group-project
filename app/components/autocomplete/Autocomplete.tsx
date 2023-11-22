@@ -89,7 +89,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
                 />
             </div>
             {showResults && (
-                <ul className="absolute z-20 bottom-10 mt-1 w-full bg-white border border-gray-300 rounded max-h-[200px] overflow-y-auto">
+                <ul className="absolute z-20 top-16 mt-1 w-full bg-white border border-gray-300 rounded max-h-[200px] overflow-y-auto">
                     {results.map((result, index) => (
                         <li
                             key={index}
