@@ -10,6 +10,7 @@ type State = {
 type Actions = {
     login: (payload: ILogin) => void;
     register: (payload: IUser) => void;
+    logout: () => void;
 };
 
 const initialState: State = {
@@ -42,6 +43,10 @@ export const useAuthStore = create<State & Actions>((set) => ({
             }
             console.log("LOGIN ERROR: ", error);
         }
+    },
+
+    logout: () => {
+        set({ user: null });
     },
 
     register: async (payload) => {
