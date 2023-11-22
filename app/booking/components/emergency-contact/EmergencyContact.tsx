@@ -4,7 +4,7 @@ import { EditIcon } from "@/app/components/Icons";
 import Input from "@/app/components/input/Input";
 import { useBookingStore } from "@/app/store/booking-store/booking.store";
 import { useFormik } from "formik";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import * as Yup from "yup";
 
 interface IProps {}
@@ -20,7 +20,7 @@ const validationSchema = Yup.object<IEmergencyContact>({
 });
 
 const EmergencyContact: FC<IProps> = () => {
-    const { setBookingDto } = useBookingStore();
+    const { setBookingDto, bookingDto } = useBookingStore();
     const [isEdit, setIsEdit] = useState(true);
 
     const handleEdit = () => {
@@ -34,10 +34,22 @@ const EmergencyContact: FC<IProps> = () => {
         },
         validationSchema,
         onSubmit: (values) => {
-            setBookingDto({ emergencyContact: values });
+            setBookingDto({
+                ...bookingDto,
+                emergencyContact: values,
+            });
             setIsEdit(false);
         },
     });
+
+    useEffect(() => {
+        if (!bookingDto.emergencyContact) {
+            formik.resetForm();
+            setIsEdit(true);
+        }
+
+        return () => {};
+    }, [bookingDto.emergencyContact, formik]);
 
     return (
         <div>

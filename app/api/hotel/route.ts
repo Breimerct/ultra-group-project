@@ -20,20 +20,13 @@ export async function GET(request: Request) {
         }
 
         if (cityId && checkDate) {
-            hotels = await HotelService.filterHotelsByCityAndDate(
-                cityId,
-                checkDate,
-            );
+            hotels = await HotelService.filterHotelsByCityAndDate(cityId, checkDate);
         }
 
         return Response.json(hotels, { status: 200 });
     } catch (error: any) {
-        const message =
-            error instanceof Error || error instanceof Object
-                ? error.message
-                : error;
-        const status =
-            error instanceof Error || error instanceof Object ? 500 : 400;
+        const message = error instanceof Error || error instanceof Object ? error.message : error;
+        const status = error instanceof Error || error instanceof Object ? 500 : 400;
 
         return Response.json({ message }, { status });
     }
@@ -47,12 +40,8 @@ export async function POST(request: Request) {
 
         return Response.json(hotels, { status: 200 });
     } catch (error: any) {
-        const message =
-            error instanceof Error || error instanceof Object
-                ? error.message
-                : error;
-        const status =
-            error instanceof Error || error instanceof Object ? 500 : 400;
+        const message = error instanceof Error || error instanceof Object ? error.message : error;
+        const status = error instanceof Error || error instanceof Object ? 500 : 400;
 
         return Response.json({ message }, { status });
     }
