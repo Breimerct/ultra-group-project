@@ -37,7 +37,7 @@ const Page: FC = () => {
                         <img
                             src={user?.avatar}
                             alt={user?.name}
-                            className="object-cover aspect-square rounded-full h-40 w-40 border-4 border-white"
+                            className="object-cover aspect-square rounded-full h-40 w-40 border-4 border-white bg-white shadow-xl"
                         />
                     </picture>
                     <div className="w-full">

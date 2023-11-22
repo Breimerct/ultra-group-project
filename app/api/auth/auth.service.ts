@@ -28,7 +28,7 @@ export class AuthService {
             password: "admin",
             name: "Admin User",
             cellphone: "1234567890",
-            avatar: "https://i.pravatar.cc/300",
+            avatar: "https://robohash.org/admin",
             id: "1",
             role: "admin",
             documentNumber: "1234567890",
@@ -66,7 +66,7 @@ export class AuthService {
 
             const newUser: IUser = {
                 ...userDto,
-                avatar: "https://i.pravatar.cc/300",
+                avatar: `https://robohash.org/${userDto.name}`,
                 id: crypto.randomUUID(),
                 role: "user",
             };
