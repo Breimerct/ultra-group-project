@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { redirect } from "next/navigation";
 import { useAuthStore } from "@/app/store/auth-store/auth.store";
+import { toast } from "react-toastify";
 
 interface ProtectedRouteProps {
     children: React.ReactNode;
@@ -12,6 +13,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
     useEffect(() => {
         if (!user) {
+            toast("Debe iniciar sesión para acceder a esta página.", {
+                position: "top-center",
+            });
             redirect("/auth/login");
         }
 
