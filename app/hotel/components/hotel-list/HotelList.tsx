@@ -17,16 +17,15 @@ const HotelList: FC<IProps> = () => {
                 {hotels.length <= 0 && isLoadingHotels && <SkeletonHotelList />}
 
                 {hotels.length <= 0 && !isLoadingHotels && (
-                    <p className="text-center text-2xl font-bold">
-                        No hay hoteles disponibles
-                    </p>
+                    <div className="h-full w-full relative">
+                        <p className="absolute top-0 bottom-0 left-0 mt-40 text-neutral-600/40 select-none text-center text-7xl font-bold">
+                            No hay hoteles disponibles
+                        </p>
+                    </div>
                 )}
 
                 {hotels.map((hotel) => (
-                    <div
-                        key={hotel.id}
-                        className="bg-zinc-50 flex flex-col md:flex-row rounded-md shadow-md"
-                    >
+                    <div key={hotel.id} className="bg-zinc-50 flex flex-col md:flex-row rounded-md shadow-md">
                         <picture className="w-full h-60 sm:h-full max-h-[16rem] md:max-w-[16rem]">
                             <img
                                 src={hotel.imageUrl}
@@ -37,9 +36,7 @@ const HotelList: FC<IProps> = () => {
 
                         <div className="p-4 h-full w-full flex flex-col justify-between">
                             <div>
-                                <h1 className="text-4xl font-bold">
-                                    {hotel.name}
-                                </h1>
+                                <h1 className="text-4xl font-bold">{hotel.name}</h1>
                                 <p className="h-full">{hotel.description}</p>
                             </div>
 

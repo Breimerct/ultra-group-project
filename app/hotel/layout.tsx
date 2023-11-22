@@ -11,7 +11,7 @@ const HotelLayout: FC<IProps> = ({ children }) => {
         <>
             <Header className="w-full bg-zinc-100 py-5" />
 
-            <div className="min-h-screen max-w-4xl pt-4 mx-auto px-4">
+            <div className="min-h-full max-w-4xl pt-4 mx-auto px-4">
                 <SearchDestinationForm />
                 <div className="mt-3">{children}</div>
             </div>
