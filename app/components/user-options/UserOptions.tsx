@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import ProtectByRol from "../protect-by-rol/ProtectByRol";
 
 const UserOptions = () => {
-    const { user } = useAuthStore();
+    const { user, logout } = useAuthStore();
     const [isOpen, setIsOpen] = useState(false);
 
     const handleLogout = async () => {
-        // await logout();
+        logout();
         setIsOpen(false);
     };
 
@@ -70,7 +70,10 @@ const UserOptions = () => {
                     </ProtectByRol>
 
                     <li className="px-5 py-2 text-center shadow-md outline-1 outline rounded-md text-emerald-900 outline-emerald-900 cursor-pointer hover:bg-emerald-700  hover:text-white transition-all">
-                        <a className="block w-full text-current">
+                        <a
+                            className="block w-full text-current"
+                            onClick={handleLogout}
+                        >
                             Cerrar sesión
                         </a>
                     </li>
