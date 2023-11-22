@@ -1,13 +1,15 @@
 "use client";
 import React, { use, useEffect, useState } from "react";
 import { CloseIcon } from "../Icons";
-import { on } from "events";
+import Input from "../input/Input";
 
 interface AutocompleteProps {
     items: any[];
     filterBy: string;
     onSelectItem?: (item: any) => void;
     onClearInput?: () => void;
+    placeholder?: string;
+    label: string;
 }
 
 const Autocomplete: React.FC<AutocompleteProps> = ({
@@ -15,6 +17,8 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
     filterBy,
     onSelectItem,
     onClearInput,
+    placeholder,
+    label,
 }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [results, setResults] = useState<any[]>([]);
@@ -74,16 +78,18 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
 
     return (
         <div id="autocomplete" className="relative">
-            <input
-                type="text"
-                className="outline-none rounded-md border-2 border-solid border-zinc-400 p-2 w-full"
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={handleSearch}
-                onFocus={handleFocus}
-            />
+            <div>
+                <Input
+                    label={label}
+                    type="text"
+                    placeholder={placeholder}
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    onFocus={handleFocus}
+                />
+            </div>
             {showResults && (
-                <ul className="absolute z-20 mt-1 w-full bg-white border border-gray-300 rounded max-h-[200px] overflow-y-auto">
+                <ul className="absolute z-20 bottom-10 mt-1 w-full bg-white border border-gray-300 rounded max-h-[200px] overflow-y-auto">
                     {results.map((result, index) => (
                         <li
                             key={index}
@@ -102,7 +108,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
 
             {searchTerm && (
                 <button
-                    className="absolute top-0 right-0 p-2 text-gray-500 cursor-pointer hover:text-gray-700"
+                    className="absolute top-[50%] translate-y-[-20%] right-0 p-2 text-gray-500 cursor-pointer hover:text-gray-700"
                     onClick={clearSearch}
                 >
                     <CloseIcon />

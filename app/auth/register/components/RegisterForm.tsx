@@ -6,9 +6,12 @@ import * as Yup from "yup";
 import Input from "@/app/components/input/Input";
 import { useAuthStore } from "@/app/store/auth-store/auth.store";
 import { IUser } from "@/app/api/auth/auth.service";
+import { useRouter } from "next/navigation";
 
 const RegisterForm: FC = () => {
     const { register } = useAuthStore();
+    const router = useRouter();
+
     const initialValues = {
         name: "",
         email: "",
@@ -48,8 +51,8 @@ const RegisterForm: FC = () => {
             };
 
             register(user);
-
             resetForm();
+            router.push("/");
         },
     });
 

@@ -36,6 +36,7 @@ export const useHotelStore = create<State & Actions>((set) => ({
     },
     getHotelById: async (id) => {
         try {
+            set({ hotel: null });
             const response = await fetch(`/api/hotel/${id}`);
             const hotel = await response.json();
 

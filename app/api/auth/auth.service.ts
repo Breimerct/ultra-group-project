@@ -11,14 +11,14 @@ export interface IUser {
     avatar?: string;
     password?: string;
     role?: string;
-    gender?: Gender;
+    gender?: Gender | string | null;
     documentType?: string;
     documentNumber?: string;
 }
 
 export enum Gender {
-    Female = "female",
-    Male = "Male",
+    Female = "Femenino",
+    Male = "Masculino",
 }
 
 export class AuthService {

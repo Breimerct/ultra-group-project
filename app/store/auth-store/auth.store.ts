@@ -12,8 +12,16 @@ type Actions = {
     register: (payload: IUser) => void;
 };
 
-const initialState = {
-    user: null,
+const initialState: State = {
+    user: {
+        id: "1",
+        name: "Admin User",
+        email: "tes@test.com",
+        cellphone: "1234567890",
+        avatar: "https://i.pravatar.cc/300",
+        role: "admin",
+        documentNumber: "1234567890",
+    },
 };
 
 export const useAuthStore = create<State & Actions>((set) => ({
@@ -40,7 +48,11 @@ export const useAuthStore = create<State & Actions>((set) => ({
         try {
             const { data } = await axios.post("/api/auth/register", payload);
 
-            set({ user: data.user });
+            toast("Usuario registrado correctamente", {
+                type: "success",
+            });
+
+            set({ user: data });
         } catch (error) {
             if (error instanceof AxiosError) {
                 toast(error.response?.data?.message || error.message, {

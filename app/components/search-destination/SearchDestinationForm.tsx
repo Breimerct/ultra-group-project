@@ -7,6 +7,7 @@ import { ICity } from "@/app/api/data/cities";
 import { toast } from "react-toastify";
 import { useHotelStore } from "@/app/store/hotel-store/hotel.store";
 import { useRouter } from "next/navigation";
+import Input from "../input/Input";
 
 const SearchDestinationForm: FC = () => {
     const { Cities, getAllCities } = useCommonStore();
@@ -49,22 +50,18 @@ const SearchDestinationForm: FC = () => {
             onSubmit={handleSubmitSearch}
         >
             <div className="w-full">
-                <label className="text-sm font-medium text-emerald-900">
-                    Destino
-                </label>
                 <Autocomplete
+                    label="Destino"
                     items={Cities}
                     filterBy="name"
                     onSelectItem={handleSelectItem}
                 />
             </div>
             <div className="w-full">
-                <label className="text-sm font-medium text-emerald-900">
-                    Fecha
-                </label>
-                <input
+                <Input
+                    label="Fecha"
                     type="date"
-                    className="outline-none rounded-md border-2 border-solid border-zinc-400 p-2 w-full"
+                    placeholder="Fecha"
                     onChange={handleInputDateChange}
                 />
             </div>

@@ -1,7 +1,5 @@
 import { ICity } from "@/app/api/data/cities";
 import axios from "axios";
-import { type } from "os";
-import { toast } from "react-toastify";
 import { create } from "zustand";
 
 type State = {

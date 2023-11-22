@@ -31,7 +31,7 @@ const LoginForm: FC<IProps> = () => {
         onSubmit: (values, { resetForm }) => {
             login(values);
             resetForm();
-            router.replace("/");
+            router.push("/");
         },
     });
 

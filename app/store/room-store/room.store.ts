@@ -12,8 +12,8 @@ type Actions = {
     getAllRooms: () => Promise<void>;
     getRoomById: (id: string) => Promise<void>;
     getRoomsByHotelAndDate: (
-        hotelId: number | null,
-        checkDate: string,
+        hotelId: string | null,
+        checkDate?: string,
     ) => Promise<void>;
 };
 
@@ -46,13 +46,13 @@ export const useRoomStore = create<State & Actions>((set) => ({
     },
 
     getRoomsByHotelAndDate: async (
-        hotelId: number | null,
-        checkDate: string,
+        hotelId: string | null,
+        checkDate?: string,
     ) => {
         set({ isLoadingRooms: true });
         set({ rooms: [] });
         try {
-            const { data } = await axios.get<IRoom[]>("api/room/hotel", {
+            const { data } = await axios.get<IRoom[]>("/api/room/hotel", {
                 params: {
                     hotelId,
                     checkDate,

@@ -44,10 +44,7 @@ const HotelList: FC<IProps> = () => {
                             </div>
 
                             <div>
-                                <StarRate
-                                    size={hotel?.stars ?? 0}
-                                    className="justify-start"
-                                />
+                                <StarRate size={hotel?.stars ?? 0} />
                                 <Link
                                     className="mt-2 outline-emerald-800 outline-1 outline text-emerald-800 text-xs py-2 px-4 rounded-md hover:outline-none-none hover:bg-emerald-800 hover:text-white hover:shadow-sm hover:shadow-emerald-900 transition-all ease-in-out"
                                     href={`/hotel/${hotel.id}`}

@@ -130,7 +130,7 @@ export class HotelService {
             }
 
             const id = crypto.randomUUID();
-            const imageUrl = await useRandomHotelImage();
+            const imageUrl = (await useRandomHotelImage()) as string;
             const newHotel: IHotel = {
                 ...hotel,
                 id,

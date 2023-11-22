@@ -9,7 +9,11 @@ interface IProps {
 const StarRate: FC<IProps> = ({ className, size = 1 }) => {
     return (
         <p
-            className={`text-2xl mt-2 w-full flex justify-end flex-nowrap gap-2 text-yellow-400`}
+            className={
+                className
+                    ? className
+                    : `text-2xl mt-2 w-full flex justify-end flex-nowrap gap-2 text-yellow-400`
+            }
         >
             {Array.from({
                 length: size,
