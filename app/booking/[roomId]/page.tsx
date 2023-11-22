@@ -7,6 +7,7 @@ import { FC, useEffect, useState } from "react";
 import UserInfo from "../components/user-info/UserInfo";
 import BookingForm from "../components/booking-form/BookingForm";
 import { MinusIcon, PlusIcon } from "@/app/components/Icons";
+import Header from "@/app/components/header/Header";
 
 const Page: FC = () => {
     const params = useParams<{ roomId: string }>();
@@ -29,11 +30,13 @@ const Page: FC = () => {
     return (
         <div>
             <header
-                className="min-h-[20rem] bg-cover bg-center bg-no-repeat relative mb-44"
+                className="min-h-[27rem] bg-cover bg-center bg-no-repeat relative mb-44"
                 style={{ backgroundImage: "url('/background-booking.webp')" }}
             >
-                <div className="absolute top-[60%] left-[50%] translate-x-[-50%] z-10 flex flex-col justify-center min-h-[20rem] max-w-md w-full">
-                    <picture className="flex justify-center items-center">
+                <Header className="w-full bg-transparent text-white" />
+
+                <div className="absolute top-[70%] left-[50%] translate-x-[-50%] z-10 flex flex-col justify-center min-h-[20rem] max-w-md w-full">
+                    <picture className="flex justify-center items-center mb-3">
                         <img
                             src={user?.avatar}
                             alt={user?.name}
@@ -49,8 +52,8 @@ const Page: FC = () => {
                 </div>
             </header>
 
-            <main className="w-full p-10 mx-auto grid grid-cols-2 gap-5 justify-between">
-                <section className="w-full col-span-1 max-w-xl mx-auto flex flex-col justify-start items-center">
+            <main className="w-full p-10 mx-auto grid grid-cols-1 lg:grid-cols-2 gap-5 lg:justify-between">
+                <section className="w-full col-span-1 max-w-xl mx-auto mb-4 lg:mb-auto flex flex-col justify-start items-center">
                     <h3 className="text-2xl font-semibold mb-3">
                         Datos del usuario
                     </h3>

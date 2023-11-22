@@ -14,15 +14,7 @@ type Actions = {
 };
 
 const initialState: State = {
-    user: {
-        id: "1",
-        name: "Admin User",
-        email: "tes@test.com",
-        cellphone: "1234567890",
-        avatar: `https://robohash.org/admin`,
-        role: "admin",
-        documentNumber: "1234567890",
-    },
+    user: null,
 };
 
 export const useAuthStore = create<State & Actions>((set) => ({

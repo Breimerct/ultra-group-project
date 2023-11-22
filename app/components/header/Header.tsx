@@ -17,7 +17,7 @@ const Header: FC<IProps> = ({ className }) => {
                     <li className="mx-2 px-3 py-1">
                         <Link
                             href="/"
-                            className="hover:text-emerald-500 transition-all text-current"
+                            className="hover:text-emerald-700 transition-all text-current"
                         >
                             Inicio
                         </Link>
@@ -26,7 +26,7 @@ const Header: FC<IProps> = ({ className }) => {
                         <li className="mx-2 px-3 py-1">
                             <Link
                                 href="/auth/login"
-                                className="hover:text-emerald-500 transition-all text-current"
+                                className="hover:text-emerald-700 transition-all text-current"
                             >
                                 Iniciar sesión
                             </Link>
@@ -34,7 +34,7 @@ const Header: FC<IProps> = ({ className }) => {
                         <li className="mx-2 px-3 py-1">
                             <Link
                                 href="/auth/register"
-                                className="hover:text-emerald-500 transition-all text-current"
+                                className="hover:text-emerald-700 transition-all text-current"
                             >
                                 Registrarse
                             </Link>

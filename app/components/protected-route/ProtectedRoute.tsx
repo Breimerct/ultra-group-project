@@ -13,9 +13,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
     useEffect(() => {
         if (!user) {
-            toast("Debe iniciar sesión para acceder a esta página.", {
-                position: "top-center",
-            });
+            toast.info("Debe iniciar sesión para acceder a esta página.");
             redirect("/auth/login");
         }
 

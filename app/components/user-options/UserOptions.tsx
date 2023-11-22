@@ -49,7 +49,7 @@ const UserOptions = () => {
                 />
             </picture>
             <button
-                className="hover:text-emerald-500 transition-all text-current"
+                className="hover:text-emerald-700 transition-all text-current"
                 onClick={onOpen}
             >
                 {user?.name}
