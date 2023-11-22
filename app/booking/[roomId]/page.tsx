@@ -8,6 +8,9 @@ import UserInfo from "../components/user-info/UserInfo";
 import BookingForm from "../components/booking-form/BookingForm";
 import { MinusIcon, PlusIcon } from "@/app/components/Icons";
 import Header from "@/app/components/header/Header";
+import EmergencyContact from "../components/emergency-contact/EmergencyContact";
+import { useBookingStore } from "@/app/store/booking-store/booking.store";
+import CheckDateForm from "../components/check-date-form/CheckDateForm";
 
 const Page: FC = () => {
     const params = useParams<{ roomId: string }>();
@@ -44,31 +47,35 @@ const Page: FC = () => {
                         />
                     </picture>
                     <div className="w-full">
-                        <h1 className="text-lg font-bold text-center">
-                            {user?.name}
-                        </h1>
+                        <h1 className="text-lg font-bold text-center">{user?.name}</h1>
                         <p className="text-md text-center">{user?.email}</p>
                     </div>
                 </div>
             </header>
 
             <main className="w-full p-10 mx-auto grid grid-cols-1 lg:grid-cols-2 gap-5 lg:justify-between">
-                <section className="w-full col-span-1 max-w-xl mx-auto mb-4 lg:mb-auto flex flex-col justify-start items-center">
-                    <h3 className="text-2xl font-semibold mb-3">
-                        Datos del usuario
-                    </h3>
-                    <UserInfo user={user} />
+                <section className="w-full col-span-1 max-w-xl mx-auto mb-4 lg:mb-auto flex flex-col justify-start items-center gap-10">
+                    <div className="w-full">
+                        <h3 className="text-2xl font-semibold mb-3">Datos del usuario</h3>
+                        <UserInfo user={user} />
+                    </div>
+
+                    <div className="w-full">
+                        <CheckDateForm />
+                    </div>
+
+                    <div className="w-full">
+                        <EmergencyContact />
+                    </div>
                 </section>
 
                 <section className="w-full col-span-1 max-w-xl mx-auto flex flex-col justify-start items-center">
-                    <div className="flex justify-between w-full items-center mb-3">
-                        <h3 className="text-2xl font-semibold mb-3">
-                            Acompañantes
-                        </h3>
+                    <div className="flex justify-between w-full items-center">
+                        <h3 className="text-2xl font-semibold mb-3">Acompañantes</h3>
 
                         <div className="flex gap-2">
                             <button
-                                className="bg-emerald-800 text-white p-3 rounded-full hover:bg-emerald-900 hover:shadow-sm hover:shadow-emerald-800 transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:shadow-none"
+                                className="bg-emerald-800 text-white p-3 w-10 h-10 grid place-content-center rounded-full hover:bg-emerald-900 hover:shadow-sm hover:shadow-emerald-800 transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:shadow-none"
                                 onClick={removeCompanion}
                                 disabled={numberOfCompanions === 1}
                             >
@@ -76,7 +83,7 @@ const Page: FC = () => {
                             </button>
 
                             <button
-                                className="bg-emerald-800 text-white p-3 rounded-full hover:bg-emerald-900 hover:shadow-sm hover:shadow-emerald-800 transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:shadow-none"
+                                className="bg-emerald-800 text-white p-3 w-10 h-10 grid place-content-center rounded-full hover:bg-emerald-900 hover:shadow-sm hover:shadow-emerald-800 transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:shadow-none"
                                 onClick={addCompanion}
                                 disabled={numberOfCompanions === 3}
                             >
@@ -84,7 +91,7 @@ const Page: FC = () => {
                             </button>
                         </div>
                     </div>
-                    <BookingForm numberOfCompanions={numberOfCompanions} />
+                    <BookingForm numberOfCompanions={numberOfCompanions} user={user} room={room} />
                 </section>
             </main>
         </div>

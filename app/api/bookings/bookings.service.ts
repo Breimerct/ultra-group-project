@@ -10,7 +10,7 @@ export interface IBooking {
     emergencyContact: IEmergencyContact;
 }
 
-interface IEmergencyContact {
+export interface IEmergencyContact {
     name: string;
     cellphone: string;
 }
@@ -63,9 +63,7 @@ export class BookingService {
 
     static getBookingsByUserId(userId: string): Promise<IBooking[]> {
         return new Promise((resolve, reject) => {
-            const bookings = this.bookings.filter(
-                (booking) => booking.userId === userId,
-            );
+            const bookings = this.bookings.filter((booking) => booking.userId === userId);
 
             if (!bookings.length) {
                 reject("No se encuentran reservas para este usuario");

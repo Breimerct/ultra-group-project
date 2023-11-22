@@ -1,4 +1,5 @@
 import { IUser } from "@/app/api/auth/auth.service";
+import Input from "@/app/components/input/Input";
 import { FC } from "react";
 
 interface IProps {
@@ -8,38 +9,25 @@ interface IProps {
 const UserInfo: FC<IProps> = ({ user }) => {
     return (
         <>
-            <div className="grid grid-cols-2 gap-10 w-full">
+            <div className="grid grid-cols-2 gap-5 w-full">
                 <div className="col-span-2">
-                    <label className="text-black/70">Nombre</label>
-                    <p className=" py-2 pl-2 border border-zinc-500/20 text-zinc-600/70 rounded-md">
-                        {user?.name ?? "-"}
-                    </p>
+                    <Input label="Nombre completo" readOnly value={user?.name ?? ""} />
                 </div>
                 <div className="col-span-1">
-                    <label className="text-black/70">Email</label>
-                    <p className=" py-2 pl-2 border border-zinc-500/20 text-zinc-600/70 rounded-md">
-                        {user?.email ?? "-"}
-                    </p>
+                    <Input label="Email" readOnly value={user?.email ?? ""} />
                 </div>
                 <div className="col-span-1">
-                    <label className="text-black/70">Documentación</label>
-                    <p className=" py-2 pl-2 border border-zinc-500/20 text-zinc-600/70 rounded-md">
-                        {`${user?.documentType ?? "-"} ${
-                            user?.documentNumber ?? "-"
-                        }`}
-                    </p>
+                    <Input
+                        label="Documento"
+                        readOnly
+                        value={`${user?.documentType ?? "-"} - ${user?.documentNumber ?? "-"}`}
+                    />
                 </div>
                 <div className="col-span-1">
-                    <label className="text-black/70">Telefono</label>
-                    <p className=" py-2 pl-2 border border-zinc-500/20 text-zinc-600/70 rounded-md">
-                        {user?.cellphone ?? "-"}
-                    </p>
+                    <Input label="Telefono" readOnly value={user?.cellphone ?? ""} />
                 </div>
                 <div className="col-span-1">
-                    <label className="text-black/70">Genero</label>
-                    <p className=" py-2 pl-2 border border-zinc-500/20 text-zinc-600/70 rounded-md">
-                        {user?.gender ?? "-"}
-                    </p>
+                    <Input label="Genero" readOnly value={user?.gender ?? ""} />
                 </div>
             </div>
         </>
