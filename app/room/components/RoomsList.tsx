@@ -21,7 +21,7 @@ const RoomsList: FC<IProps> = ({}) => {
             <section>
                 <h1 className="text-5xl font-bold mt-4 mb-3">RoomsList</h1>
             </section>
-            <section className="grid grid-cols-2 gap-3">
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {rooms?.map((room) => (
                     <RoomsListItem key={room.id} room={room} />
                 ))}
