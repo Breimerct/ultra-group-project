@@ -11,6 +11,7 @@ import * as Yup from "yup";
 import EmergencyContact from "../emergency-contact/EmergencyContact";
 import { toast } from "react-toastify";
 import { useBookingStore } from "@/app/store/booking-store/booking.store";
+import { useRouter } from "next/navigation";
 
 interface IProps {
     numberOfCompanions: number;
@@ -51,6 +52,7 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
     const [companions, setCompanions] = useState<IUser[]>([initialValues]);
     const [prevNumberOfCompanions, setPrevNumberOfCompanions] = useState(numberOfCompanions);
     const { bookingDto, setBookingDto, createBooking } = useBookingStore();
+    const router = useRouter();
 
     const formik = useFormik<IFormValues>({
         initialValues: {
@@ -86,10 +88,9 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
                 roomId: room?.id,
             };
 
-            setBookingDto({ ...dto });
             createBooking(dto);
 
-            console.log("Formulario enviado con éxito", dto);
+            router.push("/hotel");
         },
     });
 

@@ -43,13 +43,13 @@ const EmergencyContact: FC<IProps> = () => {
     });
 
     useEffect(() => {
-        if (!bookingDto.emergencyContact) {
+        if (!bookingDto.emergencyContact?.name || !bookingDto.emergencyContact?.cellphone) {
             formik.resetForm();
             setIsEdit(true);
         }
 
         return () => {};
-    }, [bookingDto.emergencyContact, formik]);
+    }, [bookingDto]);
 
     return (
         <div>
