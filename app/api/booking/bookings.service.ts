@@ -1,4 +1,6 @@
-import { IUser } from "../auth/auth.service";
+import { AuthService, Gender, IUser } from "../auth/auth.service";
+import { HotelService, IHotel } from "../hotel/hotel.service";
+import { IRoom, RoomService } from "../room/room.service";
 
 export interface IBooking {
     id?: string;
@@ -6,13 +8,27 @@ export interface IBooking {
     checkOut: string;
     roomId: string;
     userId: string;
-    companions: IUser[];
+    companions: ICompanion[];
     emergencyContact: IEmergencyContact;
+}
+
+export interface ICompanion {
+    name: string;
+    email: string;
+    cellphone: string;
+    documentType: string;
+    documentNumber: string;
+    gender: Gender | null;
 }
 
 export interface IEmergencyContact {
     name: string;
     cellphone: string;
+}
+
+export interface IBookingDetail extends IBooking {
+    hotel: IHotel;
+    room: IRoom;
 }
 
 export class BookingService {
@@ -58,6 +74,26 @@ export class BookingService {
     static getBookings(): Promise<IBooking[]> {
         return new Promise((resolve) => {
             resolve(this.bookings);
+        });
+    }
+
+    static getBooking(id: string): Promise<IBookingDetail> {
+        return new Promise(async (resolve, reject) => {
+            const booking = this.bookings.find((booking) => booking.id === id);
+
+            if (!booking) {
+                reject("No se encuentra la reserva");
+                return;
+            }
+
+            const room = await RoomService.getRoomById(booking.roomId);
+            const hotel = await HotelService.getHotelById(room.hotelId);
+
+            resolve({
+                ...booking,
+                room,
+                hotel,
+            });
         });
     }
 

@@ -1,6 +1,6 @@
 "use client";
 import { Gender, IUser } from "@/app/api/auth/auth.service";
-import { IEmergencyContact } from "@/app/api/booking/bookings.service";
+import { ICompanion, IEmergencyContact } from "@/app/api/booking/bookings.service";
 import { IRoom } from "@/app/api/room/room.service";
 import Input from "@/app/components/input/Input";
 import Select from "@/app/components/select/Select";
@@ -20,16 +20,16 @@ interface IProps {
 }
 
 interface IFormValues {
-    companions: IUser[];
+    companions: ICompanion[];
 }
 
-const initialValues: IUser = {
+const initialValues: ICompanion = {
     name: "",
     email: "",
     cellphone: "",
     documentType: "",
     documentNumber: "",
-    gender: "",
+    gender: null,
 };
 
 const validationSchema = Yup.object().shape({
@@ -56,13 +56,13 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
 
     const formik = useFormik<IFormValues>({
         initialValues: {
-            companions: companions.map<IUser>((companion) => ({
+            companions: companions.map<ICompanion>((companion) => ({
                 name: companion.name || "",
                 email: companion.email || "",
                 cellphone: companion.cellphone || "",
                 documentType: companion.documentType || "",
                 documentNumber: companion.documentNumber || "",
-                gender: companion.gender || "",
+                gender: (companion.gender as Gender) || null,
             })),
         },
         validationSchema: validationSchema,

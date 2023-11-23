@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { create } from "zustand";
 
-interface IBookingDto extends Partial<IBooking> {}
+export interface IBookingDto extends Partial<IBooking> {}
 
 type State = {
     bookingDto: IBookingDto;
@@ -38,7 +38,7 @@ export const useBookingStore = create<State & Actions>((set) => ({
 
     setBookingDto: (bookingDto: IBookingDto) => set((state) => ({ ...state.bookingDto, bookingDto })),
 
-    createBooking: async (booking: IBookingDto) => {
+    createBooking: async (booking) => {
         try {
             const { data } = await axios.post("/api/booking", booking);
 
