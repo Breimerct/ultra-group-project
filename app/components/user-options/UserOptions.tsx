@@ -55,11 +55,9 @@ const UserOptions = () => {
                 }`}
             >
                 <ul className="flex flex-col text-black gap-5 w-full ">
-                    <ProtectByRol isUser>
-                        <li className="px-5 py-2 text-center shadow-md outline-1 outline rounded-md text-emerald-900 outline-emerald-900 cursor-pointer hover:bg-emerald-700  hover:text-white transition-all">
-                            <a className="block w-full text-current">Reservas</a>
-                        </li>
-                    </ProtectByRol>
+                    <li className="px-5 py-2 text-center shadow-md outline-1 outline rounded-md text-emerald-900 outline-emerald-900 cursor-pointer hover:bg-emerald-700  hover:text-white transition-all">
+                        <a className="block w-full text-current">Reservas</a>
+                    </li>
 
                     <li className="px-5 py-2 text-center shadow-md outline-1 outline rounded-md text-emerald-900 outline-emerald-900 cursor-pointer hover:bg-emerald-700  hover:text-white transition-all">
                         <a className="block w-full text-current" onClick={handleLogout}>
