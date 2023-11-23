@@ -13,33 +13,25 @@ const Header: FC<IProps> = ({ className }) => {
     return (
         <header className={classes}>
             <nav className="flex justify-end items-center py-3 px-5">
-                <ul className="flex justify-center items-center gap-1">
-                    <li className="mx-2 px-3 py-1">
-                        <Link
-                            href="/"
-                            className="hover:text-emerald-700 transition-all text-current"
-                        >
+                <ul className="flex justify-center items-center gap-2">
+                    <li className="hover:bg-emerald-700 px-5 py-2 rounded-md transition-all text-current">
+                        <Link href="/" className="w-full h-full">
                             Inicio
                         </Link>
                     </li>
                     <HideComponent invert>
-                        <li className="mx-2 px-3 py-1">
-                            <Link
-                                href="/auth/login"
-                                className="hover:text-emerald-700 transition-all text-current"
-                            >
+                        <li className="hover:bg-emerald-700 px-5 py-2 rounded-md transition-all text-current">
+                            <Link href="/auth/login" className="w-full h-full">
                                 Iniciar sesión
                             </Link>
                         </li>
-                        <li className="mx-2 px-3 py-1">
-                            <Link
-                                href="/auth/register"
-                                className="hover:text-emerald-700 transition-all text-current"
-                            >
+                        <li className="hover:bg-emerald-700 px-5 py-2 rounded-md transition-all text-current">
+                            <Link href="/auth/register" className="w-full h-full">
                                 Registrarse
                             </Link>
                         </li>
                     </HideComponent>
+
                     <HideComponent>
                         <UserOptions />
                     </HideComponent>

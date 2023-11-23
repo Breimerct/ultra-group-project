@@ -39,7 +39,10 @@ const UserOptions = () => {
 
     return (
         <div id="user-options" className="relative flex justify-center items-center gap-1 h-full">
-            <button className="hover:text-emerald-700 transition-all text-current mr-2 " onClick={onOpen}>
+            <button
+                className="hover:bg-emerald-700 px-5 py-2 rounded-md transition-all text-current mr-2 "
+                onClick={onOpen}
+            >
                 {user?.name}
             </button>
             <picture className="flex justify-center items-center">

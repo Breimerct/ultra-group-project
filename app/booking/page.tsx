@@ -1,11 +1,14 @@
 import { FC } from "react";
+import BookingHeader from "./components/booking-header/BookingHeader";
 
 interface IProps {}
 
 const BookingPage: FC<IProps> = () => {
     return (
         <>
-            <h1 className="text-5xl font-bold">Booking Page</h1>
+            <BookingHeader />
+
+            <main className="container mx-auto px-4">hola mundo</main>
         </>
     );
 };
