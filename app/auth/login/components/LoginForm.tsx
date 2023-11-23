@@ -19,9 +19,7 @@ const LoginForm: FC<IProps> = () => {
     };
 
     const validationSchema = Yup.object({
-        email: Yup.string()
-            .email("Dirección de Email invalida.")
-            .required("El campo es requerido."),
+        email: Yup.string().email("Dirección de Email invalida.").required("El campo es requerido."),
         password: Yup.string().required("El campo es requerido."),
     });
 
@@ -31,15 +29,12 @@ const LoginForm: FC<IProps> = () => {
         onSubmit: (values, { resetForm }) => {
             login(values);
             resetForm();
-            router.back();
+            router.push("/");
         },
     });
 
     return (
-        <form
-            className="flex flex-col mt-5 gap-5"
-            onSubmit={formik.handleSubmit}
-        >
+        <form className="flex flex-col mt-5 gap-5" onSubmit={formik.handleSubmit}>
             <div>
                 <Input
                     label="Email"
@@ -56,9 +51,7 @@ const LoginForm: FC<IProps> = () => {
                     label="Contraseña"
                     type="password"
                     placeholder="Ingrese su contraseña"
-                    isInvalid={
-                        formik.touched.password && !!formik.errors.password
-                    }
+                    isInvalid={formik.touched.password && !!formik.errors.password}
                     messageError={formik.errors.password}
                     {...formik.getFieldProps("password")}
                 />
@@ -77,10 +70,7 @@ const LoginForm: FC<IProps> = () => {
 
             <div className="flex justify-center items-center">
                 ¿No tienes una cuenta?
-                <Link
-                    href="register"
-                    className="text-emerald-900 font-medium underline pl-1"
-                >
+                <Link href="register" className="text-emerald-900 font-medium underline pl-1">
                     Registrate
                 </Link>
             </div>

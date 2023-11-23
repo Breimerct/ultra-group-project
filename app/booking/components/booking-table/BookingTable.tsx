@@ -3,17 +3,17 @@ import { IBooking } from "@/app/api/booking/bookings.service";
 import { EyeSearchIcon } from "@/app/components/Icons";
 import { useAuthStore } from "@/app/store/auth-store/auth.store";
 import { useBookingStore } from "@/app/store/booking-store/booking.store";
-import { useRouter } from "next/navigation";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
+import DetailModal from "../detail-modal/DetailModal";
 
 interface IProps {
     onSeeDetails: (booking: IBooking) => void;
 }
 
 const BookingTable: FC = () => {
+    const [showDetailModal, setShowDetailModal] = useState(false);
     const { findBookings, bookings } = useBookingStore();
     const { user } = useAuthStore();
-    const router = useRouter();
 
     useEffect(() => {
         const userId = user?.role === "admin" ? undefined : user?.id;
@@ -21,7 +21,11 @@ const BookingTable: FC = () => {
     }, []);
 
     const handleSeeDetails = (booking: IBooking) => {
-        console.log(booking);
+        setShowDetailModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowDetailModal(false);
     };
 
     return (
@@ -75,6 +79,8 @@ const BookingTable: FC = () => {
                     ))}
                 </tbody>
             </table>
+
+            <DetailModal isOpen={showDetailModal} onClose={handleCloseModal} />
         </div>
     );
 };
