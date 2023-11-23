@@ -2,6 +2,7 @@
 import { useAuthStore } from "@/app/store/auth-store/auth.store";
 import { useEffect, useState } from "react";
 import ProtectByRol from "../protect-by-rol/ProtectByRol";
+import Link from "next/link";
 
 const UserOptions = () => {
     const { user, logout } = useAuthStore();
@@ -56,7 +57,9 @@ const UserOptions = () => {
             >
                 <ul className="flex flex-col text-black gap-5 w-full ">
                     <li className="px-5 py-2 text-center shadow-md outline-1 outline rounded-md text-emerald-900 outline-emerald-900 cursor-pointer hover:bg-emerald-700  hover:text-white transition-all">
-                        <a className="block w-full text-current">Reservas</a>
+                        <Link href="/booking" className="block w-full text-current">
+                            Reservas
+                        </Link>
                     </li>
 
                     <li className="px-5 py-2 text-center shadow-md outline-1 outline rounded-md text-emerald-900 outline-emerald-900 cursor-pointer hover:bg-emerald-700  hover:text-white transition-all">
