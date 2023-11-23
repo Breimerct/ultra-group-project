@@ -1,6 +1,4 @@
-import useRandomHotelImage, {
-    DEFAULT_IMAGE,
-} from "@/hooks/useRandomImage/useRandomImage";
+import useRandomHotelImage, { DEFAULT_IMAGE } from "@/hooks/useRandomImage/useRandomImage";
 import { HotelService, IHotel } from "../hotel/hotel.service";
 import { BookingService, IBooking } from "../bookings/bookings.service";
 let images = [""];
@@ -51,10 +49,7 @@ export class RoomService {
 
     static createRoom(room: IRoom): Promise<IRoom> {
         return new Promise(async (resolve) => {
-            const imageUrl: string[] = (await useRandomHotelImage(
-                true,
-                Math.random() * (3 - 1) + 1,
-            )) as string[];
+            const imageUrl: string[] = (await useRandomHotelImage(true, Math.random() * (3 - 1) + 1)) as string[];
 
             this.rooms.push({
                 ...room,
@@ -106,13 +101,9 @@ export class RoomService {
         });
     }
 
-    static getAvailableRoomsForHotelAndDate(
-        hotelId: string,
-        checkDate: string,
-    ): Promise<IRoom[]> {
+    static getAvailableRoomsForHotelAndDate(hotelId: string, checkIn: string, checkOut: string): Promise<IRoom[]> {
         return new Promise((resolve, reject) => {
             const hotels: IHotel[] = HotelService.hotels;
-            const bookings: IBooking[] = BookingService.bookings;
             let availableRooms: IRoom[] = [];
 
             const hotel = hotels.find((h) => h.id === hotelId);
@@ -121,20 +112,32 @@ export class RoomService {
                 reject("No se encuentra el hotel");
                 return;
             }
-
-            const reservationsOnDate: string[] = bookings
-                .filter(
-                    (booking) =>
-                        new Date(booking.checkIn) <= new Date(checkDate) &&
-                        new Date(booking.checkOut) >= new Date(checkDate),
-                )
-                .map((booking) => booking.roomId);
-
             availableRooms = this.rooms
                 .filter((room) => room.hotelId === hotel.id)
-                .filter((room) => !reservationsOnDate.includes(room.id || ""));
+                .filter((room) => this.isRoomAvailable(room?.id ?? "", checkIn, checkOut));
 
             resolve(availableRooms);
         });
+    }
+
+    static isRoomAvailable(roomId: string, checkIn: string, checkOut: string): boolean {
+        const roomBookings = BookingService.bookings.filter((booking) => booking.roomId === roomId);
+
+        for (const booking of roomBookings) {
+            const bookingCheckIn = new Date(booking.checkIn);
+            const bookingCheckOut = new Date(booking.checkOut);
+            const checkInDate = new Date(checkIn);
+            const checkOutDate = new Date(checkOut);
+
+            if (
+                (checkInDate >= bookingCheckIn && checkInDate < bookingCheckOut) ||
+                (checkOutDate > bookingCheckIn && checkOutDate <= bookingCheckOut) ||
+                (checkInDate <= bookingCheckIn && checkOutDate >= bookingCheckOut)
+            ) {
+                return false; // La habitación no está disponible en el rango de fechas
+            }
+        }
+
+        return true; // La habitación está disponible en el rango de fechas
     }
 }

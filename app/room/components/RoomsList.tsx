@@ -5,15 +5,16 @@ import { FC, useEffect, useState } from "react";
 import RoomsListItem from "./RoomListItem";
 
 interface IProps {
-    hotelId?: string;
+    checkIn?: string;
+    checkOut?: string;
 }
 
-const RoomsList: FC<IProps> = ({}) => {
+const RoomsList: FC<IProps> = ({ checkIn, checkOut }) => {
     const { hotelId } = useParams() as { hotelId: string };
     const { getRoomsByHotelAndDate, rooms } = useRoomStore();
 
     useEffect(() => {
-        getRoomsByHotelAndDate(hotelId || null);
+        getRoomsByHotelAndDate(hotelId || null, checkIn, checkOut);
     }, []);
 
     return (

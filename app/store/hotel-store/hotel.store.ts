@@ -2,25 +2,35 @@ import { IHotel } from "@/app/api/hotel/hotel.service";
 import axios from "axios";
 import { create } from "zustand";
 
+export interface IFilterSearch {
+    cityId?: number | null;
+    checkIn?: string;
+    checkOut?: string;
+}
+
 type State = {
     hotels: IHotel[];
     isLoadingHotels: boolean;
     hotel: IHotel | null;
+    filterSearch: IFilterSearch;
 };
 
 type Actions = {
     getAllHotels: () => Promise<void>;
     getHotelById: (id: string) => Promise<void>;
-    getHotelsByCityAndDate: (
-        cityId: number | null,
-        checkDate: string,
-    ) => Promise<void>;
+    getHotelsByCityAndDate: (cityId: number | null, checkIn: string, checkOut: string) => Promise<void>;
+    setFilterSearch: (filterSearch: IFilterSearch) => void;
 };
 
 const initialState: State = {
     hotels: [],
     isLoadingHotels: false,
     hotel: null,
+    filterSearch: {
+        cityId: null,
+        checkIn: "",
+        checkOut: "",
+    },
 };
 
 export const useHotelStore = create<State & Actions>((set) => ({
@@ -34,6 +44,7 @@ export const useHotelStore = create<State & Actions>((set) => ({
             console.log(error);
         }
     },
+
     getHotelById: async (id) => {
         try {
             set({ hotel: null });
@@ -46,17 +57,15 @@ export const useHotelStore = create<State & Actions>((set) => ({
         }
     },
 
-    getHotelsByCityAndDate: async (
-        cityId: number | null,
-        checkDate: string,
-    ) => {
+    getHotelsByCityAndDate: async (cityId: number | null, checkIn: string, checkOut: string) => {
         set({ isLoadingHotels: true });
         set({ hotels: [] });
         try {
-            const { data } = await axios.get<IHotel[]>("api/hotel", {
+            const { data } = await axios.get<IHotel[]>("/api/hotel", {
                 params: {
                     cityId,
-                    checkDate,
+                    checkIn,
+                    checkOut,
                 },
             });
 
@@ -66,5 +75,9 @@ export const useHotelStore = create<State & Actions>((set) => ({
         } finally {
             set({ isLoadingHotels: false });
         }
+    },
+
+    setFilterSearch: (filterSearch) => {
+        set({ filterSearch });
     },
 }));

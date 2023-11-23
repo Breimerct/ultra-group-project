@@ -1,8 +1,7 @@
 "use client";
 import { useHotelStore } from "@/app/store/hotel-store/hotel.store";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import SkeletonHotelList from "./SkeletonHotelList";
-import { StartIcon } from "@/app/components/Icons";
 import Link from "next/link";
 import StarRate from "@/app/components/StarRate";
 
@@ -10,6 +9,11 @@ interface IProps {}
 
 const HotelList: FC<IProps> = () => {
     const { hotels, isLoadingHotels } = useHotelStore();
+    const { getAllHotels } = useHotelStore();
+
+    useEffect(() => {
+        getAllHotels();
+    }, []);
 
     return (
         <div>

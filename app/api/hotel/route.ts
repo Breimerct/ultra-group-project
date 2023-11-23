@@ -4,23 +4,24 @@ export async function GET(request: Request) {
     try {
         const params = new URL(request.url).searchParams;
         const cityId = Number(params.get("cityId"));
-        const checkDate = params.get("checkDate");
+        const checkIn = params.get("checkIn");
+        const checkOut = params.get("checkOut");
         let hotels: IHotel[] = [];
 
-        if (!cityId && !checkDate) {
+        if (!cityId && !checkIn && !checkOut) {
             hotels = await HotelService.getHotels();
         }
 
-        if (checkDate && !cityId) {
+        if ((checkOut || checkIn) && !cityId) {
             throw "Falta el parametro cityId";
         }
 
-        if (cityId && !checkDate) {
+        if (cityId && (!checkIn || !checkOut)) {
             hotels = await HotelService.getHotelsByCityId(cityId);
         }
 
-        if (cityId && checkDate) {
-            hotels = await HotelService.filterHotelsByCityAndDate(cityId, checkDate);
+        if (cityId && checkIn && checkOut) {
+            hotels = HotelService.filterHotelsByCityAndAvailability(cityId, checkIn, checkOut);
         }
 
         return Response.json(hotels, { status: 200 });

@@ -69,8 +69,6 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
         onSubmit: (values) => {
             const { emergencyContact, checkIn, checkOut } = bookingDto;
 
-            console.log("Booking DTO LOG: ", bookingDto);
-
             if (!emergencyContact || !emergencyContact.name || !emergencyContact.cellphone) {
                 toast.error("El contacto de emergencia es obligatorio");
                 return;

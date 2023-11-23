@@ -1,6 +1,4 @@
-import useRandomHotelImage, {
-    DEFAULT_IMAGE,
-} from "@/hooks/useRandomImage/useRandomImage";
+import useRandomHotelImage, { DEFAULT_IMAGE } from "@/hooks/useRandomImage/useRandomImage";
 import { IRoom, RoomService } from "../room/room.service";
 import { BookingService, IBooking } from "../bookings/bookings.service";
 
@@ -62,9 +60,7 @@ export class HotelService {
 
     static getHotelsByCityId(cityId: number): Promise<IHotel[]> {
         return new Promise((resolve, reject) => {
-            const hotels = this.hotels.filter(
-                (hotel) => hotel.cityId === cityId,
-            );
+            const hotels = this.hotels.filter((hotel) => hotel.cityId === cityId);
 
             if (!hotels.length) {
                 reject("No se encuentran hoteles para esta ciudad");
@@ -75,49 +71,20 @@ export class HotelService {
         });
     }
 
-    static filterHotelsByCityAndDate(
-        cityId: number,
-        checkDate: string,
-    ): Promise<IHotel[]> {
-        return new Promise((resolve, reject) => {
-            const rooms: IRoom[] = RoomService.rooms;
-            const bookings: IBooking[] = BookingService.bookings;
-
-            const filteredHotels = this.hotels.filter(
-                (hotel) => hotel.cityId === cityId,
+    static filterHotelsByCityAndAvailability(cityId: number, checkIn: string, checkOut: string): IHotel[] {
+        return this.hotels.filter((hotel) => {
+            const hotelRooms = RoomService.rooms.filter((room) => room.hotelId === hotel.id);
+            const hasAvailableRooms = hotelRooms.some((room) =>
+                RoomService.isRoomAvailable(room.id ?? "", checkIn, checkOut),
             );
 
-            if (!filteredHotels.length) {
-                reject("No se encuentran hoteles para esta ciudad");
-                return;
-            }
-
-            const reservationsOnDate: string[] = bookings
-                .filter(
-                    (booking) =>
-                        new Date(booking.checkIn) <= new Date(checkDate) &&
-                        new Date(booking.checkOut) >= new Date(checkDate),
-                )
-                .map((booking) => booking.roomId);
-
-            const availableHotels = filteredHotels.filter((hotel) => {
-                const hotelRooms = rooms.filter(
-                    (room) => room.hotelId === hotel.id,
-                );
-                return hotelRooms.some(
-                    (room) => !reservationsOnDate.includes(room.id || ""),
-                );
-            });
-
-            resolve(availableHotels);
+            return hasAvailableRooms;
         });
     }
 
     static createHotel(hotel: IHotel): Promise<IHotel> {
         return new Promise(async (resolve, reject) => {
-            const existedHotel = this.hotels.some(
-                (item) => item.name.toLowerCase() === hotel.name.toLowerCase(),
-            );
+            const existedHotel = this.hotels.some((item) => item.name.toLowerCase() === hotel.name.toLowerCase());
 
             if (existedHotel) {
                 reject("Este hotel ya existe");

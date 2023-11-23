@@ -19,8 +19,8 @@ export class BookingService {
     static bookings: IBooking[] = [
         {
             id: "1",
-            checkIn: "2021-01-01",
-            checkOut: "2023-11-21",
+            checkIn: "2023-11-23",
+            checkOut: "2023-11-25",
             roomId: "1",
             userId: "1",
             companions: [],

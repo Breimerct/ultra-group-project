@@ -18,16 +18,12 @@ export default function Home() {
                             No lo llames sueño. Llámalo un plan
                         </h1>
                         <p className="text-white text-xl text-center max-w-lg self-center">
-                            Viaja como quieras con{" "}
-                            <span className="text-emerald-500 font-medium">
-                                Ultra Group
-                            </span>
-                            , que te ayuda a descubrir, vivir y viajar a tu
-                            propio ritmo.
+                            Viaja como quieras con <span className="text-emerald-500 font-medium">Ultra Group</span>,
+                            que te ayuda a descubrir, vivir y viajar a tu propio ritmo.
                         </p>
                     </div>
 
-                    <article className="mb-48 w-full">
+                    <article className="mb-48 w-full p-4">
                         <div className="bg-white w-full rounded-md mx-auto p-4">
                             <SearchDestinationForm />
                         </div>

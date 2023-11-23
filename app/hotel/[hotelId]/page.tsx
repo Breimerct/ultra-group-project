@@ -2,16 +2,23 @@
 import StarRate from "@/app/components/StarRate";
 import RoomsList from "@/app/room/components/RoomsList";
 import { useHotelStore } from "@/app/store/hotel-store/hotel.store";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { FC, useEffect } from "react";
 
 const Page: FC = () => {
     const { hotelId } = useParams() as { hotelId: string };
-    const { getHotelById, hotel } = useHotelStore();
+    const { getHotelById, hotel, filterSearch } = useHotelStore();
+    const router = useRouter();
 
     useEffect(() => {
         getHotelById(hotelId as string);
     }, []);
+
+    useEffect(() => {
+        if (!hotelId && (!filterSearch.checkIn || !filterSearch.checkOut)) {
+            router.push("/hotel");
+        }
+    }, [filterSearch]);
 
     return (
         <div className="flex flex-col gap-5">
@@ -29,15 +36,12 @@ const Page: FC = () => {
                         <h1 className="text-5xl font-bold">{hotel?.name}</h1>
                         <p className="mt-2">{hotel?.description}</p>
                     </div>
-                    <StarRate
-                        size={hotel?.stars ?? 0}
-                        className="self-start flex flex-nowrap gap-2 text-yellow-500"
-                    />
+                    <StarRate size={hotel?.stars ?? 0} className="self-start flex flex-nowrap gap-2 text-yellow-500" />
                 </div>
             </section>
 
             <section>
-                <RoomsList hotelId={hotelId} />
+                <RoomsList checkIn={filterSearch.checkIn} checkOut={filterSearch.checkOut} />
             </section>
         </div>
     );
