@@ -1,5 +1,5 @@
 "use client";
-import { IEmergencyContact } from "@/app/api/bookings/bookings.service";
+import { IEmergencyContact } from "@/app/api/booking/bookings.service";
 import { EditIcon } from "@/app/components/Icons";
 import Input from "@/app/components/input/Input";
 import { useBookingStore } from "@/app/store/booking-store/booking.store";

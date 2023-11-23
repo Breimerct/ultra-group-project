@@ -16,8 +16,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="en">
             <body className={inter.className}>
-                <>{children}</>
-                <ToastContainer theme="colored" limit={4} />
+                <>
+                    {children}
+                    <ToastContainer theme="colored" limit={4} />
+                </>
             </body>
         </html>
     );

@@ -1,5 +1,6 @@
 import { FC } from "react";
 import BookingHeader from "./components/booking-header/BookingHeader";
+import BookingTable from "./components/booking-table/BookingTable";
 
 interface IProps {}
 
@@ -8,7 +9,9 @@ const BookingPage: FC<IProps> = () => {
         <>
             <BookingHeader />
 
-            <main className="container mx-auto px-4">hola mundo</main>
+            <main className="container max-w-5xl mx-auto px-4">
+                <BookingTable />
+            </main>
         </>
     );
 };

@@ -1,6 +1,6 @@
 import useRandomHotelImage, { DEFAULT_IMAGE } from "@/hooks/useRandomImage/useRandomImage";
 import { HotelService, IHotel } from "../hotel/hotel.service";
-import { BookingService, IBooking } from "../bookings/bookings.service";
+import { BookingService, IBooking } from "../booking/bookings.service";
 let images = [""];
 
 export interface IRoom {

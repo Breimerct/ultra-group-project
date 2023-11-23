@@ -46,7 +46,7 @@ export class BookingService {
             checkIn: "2021-01-01",
             checkOut: "2021-01-05",
             roomId: "3",
-            userId: "1",
+            userId: "2",
             companions: [],
             emergencyContact: {
                 name: "Emergency Contact",

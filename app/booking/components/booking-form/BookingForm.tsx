@@ -1,6 +1,6 @@
 "use client";
 import { Gender, IUser } from "@/app/api/auth/auth.service";
-import { IEmergencyContact } from "@/app/api/bookings/bookings.service";
+import { IEmergencyContact } from "@/app/api/booking/bookings.service";
 import { IRoom } from "@/app/api/room/room.service";
 import Input from "@/app/components/input/Input";
 import Select from "@/app/components/select/Select";
@@ -88,7 +88,7 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
 
             createBooking(dto);
 
-            router.push("/hotel");
+            router.push("/");
         },
     });
 

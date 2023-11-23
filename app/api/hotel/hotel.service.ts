@@ -1,6 +1,6 @@
 import useRandomHotelImage, { DEFAULT_IMAGE } from "@/hooks/useRandomImage/useRandomImage";
 import { IRoom, RoomService } from "../room/room.service";
-import { BookingService, IBooking } from "../bookings/bookings.service";
+import { BookingService, IBooking } from "../booking/bookings.service";
 
 export interface IHotel {
     id?: string;
@@ -39,9 +39,16 @@ export class HotelService {
         },
     ];
 
-    static getHotels(): Promise<IHotel[]> {
+    static get getHotels(): Promise<IHotel[]> {
         return new Promise((resolve) => {
-            resolve(this.hotels);
+            const hotels = this.hotels.filter((hotel) => {
+                const hotelRooms = RoomService.rooms.filter((room) => room.hotelId === hotel.id);
+
+                if (!hotelRooms.length) return false;
+
+                return true;
+            });
+            resolve(hotels);
         });
     }
 
@@ -72,8 +79,13 @@ export class HotelService {
     }
 
     static filterHotelsByCityAndAvailability(cityId: number, checkIn: string, checkOut: string): IHotel[] {
-        return this.hotels.filter((hotel) => {
+        const hotels = this.hotels.filter((hotel) => hotel.cityId === cityId);
+
+        return hotels.filter((hotel) => {
             const hotelRooms = RoomService.rooms.filter((room) => room.hotelId === hotel.id);
+
+            if (!hotelRooms.length) return false;
+
             const hasAvailableRooms = hotelRooms.some((room) =>
                 RoomService.isRoomAvailable(room.id ?? "", checkIn, checkOut),
             );

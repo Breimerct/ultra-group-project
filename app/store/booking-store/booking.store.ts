@@ -1,4 +1,4 @@
-import { IBooking, IEmergencyContact } from "@/app/api/bookings/bookings.service";
+import { IBooking, IEmergencyContact } from "@/app/api/booking/bookings.service";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { create } from "zustand";
@@ -7,11 +7,14 @@ interface IBookingDto extends Partial<IBooking> {}
 
 type State = {
     bookingDto: IBookingDto;
+    bookings: IBooking[];
+    booking: IBooking | null;
 };
 
 type Actions = {
     setBookingDto: (bookingDto: IBookingDto) => void;
     createBooking: (booking: IBookingDto) => void;
+    findBookings: (userId?: string | null) => void;
 };
 
 const initialState: State = {
@@ -26,6 +29,8 @@ const initialState: State = {
             cellphone: "",
         },
     },
+    bookings: [],
+    booking: null,
 };
 
 export const useBookingStore = create<State & Actions>((set) => ({
@@ -35,7 +40,7 @@ export const useBookingStore = create<State & Actions>((set) => ({
 
     createBooking: async (booking: IBookingDto) => {
         try {
-            const { data } = await axios.post("/api/bookings", booking);
+            const { data } = await axios.post("/api/booking", booking);
 
             toast("Reserva creada correctamente", {
                 type: "success",
@@ -47,6 +52,24 @@ export const useBookingStore = create<State & Actions>((set) => ({
                 toast.error(error.response?.data?.message || error.message);
             }
             console.log("CREATE BOOKING ERROR: ", error);
+        }
+    },
+
+    findBookings: async (userId = null) => {
+        try {
+            const { data } = await axios.get(`/api/booking`, {
+                params: {
+                    userId,
+                },
+            });
+
+            set({ bookings: data });
+        } catch (error: any) {
+            set({ bookings: [] });
+            if (error instanceof AxiosError) {
+                toast.error(error.response?.data?.message || error.message);
+            }
+            console.log("FIND BOOKINGS ERROR: ", error);
         }
     },
 }));
