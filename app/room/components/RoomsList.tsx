@@ -1,12 +1,12 @@
 "use client";
 import { useRoomStore } from "@/app/store/room-store/room.store";
 import { useParams } from "next/navigation";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import RoomsListItem from "./RoomListItem";
 
 interface IProps {
-    checkIn?: string;
-    checkOut?: string;
+    checkIn?: string | null;
+    checkOut?: string | null;
 }
 
 const RoomsList: FC<IProps> = ({ checkIn, checkOut }) => {
@@ -14,7 +14,7 @@ const RoomsList: FC<IProps> = ({ checkIn, checkOut }) => {
     const { getRoomsByHotelAndDate, rooms } = useRoomStore();
 
     useEffect(() => {
-        getRoomsByHotelAndDate(hotelId || null, checkIn, checkOut);
+        getRoomsByHotelAndDate(hotelId || null, checkIn || undefined, checkOut || undefined);
     }, []);
 
     return (

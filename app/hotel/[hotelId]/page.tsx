@@ -22,7 +22,7 @@ const Page: FC = () => {
 
     return (
         <div className="flex flex-col gap-5">
-            <section className="grid grid-cols-1 justify-center md:grid-cols-3 gap-3 mt-4">
+            <section className="grid grid-cols-1 justify-center md:grid-cols-2 gap-3 mt-4">
                 <picture className="col-span-1">
                     <img
                         src={hotel?.imageUrl}
@@ -36,7 +36,7 @@ const Page: FC = () => {
                         <h1 className="text-5xl font-bold">{hotel?.name}</h1>
                         <p className="mt-2">{hotel?.description}</p>
                     </div>
-                    <StarRate size={hotel?.stars ?? 0} className="self-start flex flex-nowrap gap-2 text-yellow-500" />
+                    <StarRate size={hotel?.stars ?? 0} />
                 </div>
             </section>
 
