@@ -29,14 +29,18 @@ const initialState: State = {
 export const useRoomStore = create<State & Actions>((set) => ({
     ...initialState,
     getAllRooms: async () => {
+        set({ rooms: [], isLoadingRooms: true });
         try {
-            const { data } = await axios<IRoom[]>("/api/room");
+            const { data } = await axios<IRoom[]>("/api/room/all");
 
             set({ rooms: data });
         } catch (error) {
             console.log(error);
+        } finally {
+            set({ isLoadingRooms: false });
         }
     },
+
     getRoomById: async (id) => {
         try {
             const response = await fetch(`/api/room/${id}`);

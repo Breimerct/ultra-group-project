@@ -49,13 +49,15 @@ export const useHotelStore = create<State & Actions>((set) => ({
     ...initialState,
 
     getAllHotels: async () => {
-        set({ hotels: [] });
+        set({ hotels: [], isLoadingHotels: true });
         try {
             const { data } = await axios<IHotel[]>("/api/hotel");
 
             set({ hotels: data });
         } catch (error) {
             console.log(error);
+        } finally {
+            set({ isLoadingHotels: false });
         }
     },
 
@@ -96,13 +98,15 @@ export const useHotelStore = create<State & Actions>((set) => ({
     },
 
     getAllHotelsToAdmin: async () => {
+        set({ hotels: [], isLoadingHotels: true });
         try {
-            set({ hotels: [] });
             const { data } = await axios.get<IHotel[]>("/api/hotel/all");
 
             set({ hotels: data });
         } catch (error) {
             console.log(error);
+        } finally {
+            set({ isLoadingHotels: false });
         }
     },
 
