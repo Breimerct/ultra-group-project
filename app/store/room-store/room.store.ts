@@ -1,7 +1,8 @@
 import { IRoom } from "@/app/api/room/room.service";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { create } from "zustand";
 import { useCommonStore } from "../common-store/common.store";
+import { toast } from "react-toastify";
 
 type State = {
     rooms: IRoom[];
@@ -11,13 +12,13 @@ type State = {
 
 type Actions = {
     getAllRooms: () => Promise<void>;
-    // eslint-disable-next-line no-unused-vars
+
     getRoomById: (id: string) => Promise<void>;
-    // eslint-disable-next-line no-unused-vars
+
     getRoomsByHotelAndDate: (hotelId: string | null, checkIn?: string, checkOut?: string) => Promise<void>;
-    // eslint-disable-next-line no-unused-vars
+
     updateRoomById: (id: string, body: Partial<IRoom>) => Promise<void>;
-    // eslint-disable-next-line no-unused-vars
+
     deleteRoomById: (id: string) => Promise<void>;
 };
 
@@ -38,8 +39,12 @@ export const useRoomStore = create<State & Actions>((set) => ({
             const { data } = await axios<IRoom[]>("/api/room/all");
 
             set({ rooms: data });
-        } catch (error) {
-            console.log(error);
+        } catch (error: any) {
+            if (error instanceof AxiosError) {
+                toast(error.response?.data?.message || error.message, {
+                    type: "error",
+                });
+            }
         } finally {
             setGlobalLoading(false);
             set({ isLoadingRooms: false });
@@ -52,8 +57,12 @@ export const useRoomStore = create<State & Actions>((set) => ({
             const room = await response.json();
 
             set({ room });
-        } catch (error) {
-            console.log(error);
+        } catch (error: any) {
+            if (error instanceof AxiosError) {
+                toast(error.response?.data?.message || error.message, {
+                    type: "error",
+                });
+            }
         }
     },
 
@@ -71,7 +80,11 @@ export const useRoomStore = create<State & Actions>((set) => ({
 
             set({ rooms: data });
         } catch (error) {
-            console.log(error);
+            if (error instanceof AxiosError) {
+                toast(error.response?.data?.message || error.message, {
+                    type: "error",
+                });
+            }
         } finally {
             set({ isLoadingRooms: false });
         }
@@ -92,7 +105,11 @@ export const useRoomStore = create<State & Actions>((set) => ({
                 return { rooms: state.rooms };
             });
         } catch (error) {
-            console.log(error);
+            if (error instanceof AxiosError) {
+                toast(error.response?.data?.message || error.message, {
+                    type: "error",
+                });
+            }
         }
     },
 
@@ -104,7 +121,11 @@ export const useRoomStore = create<State & Actions>((set) => ({
                 rooms: state.rooms.filter((room) => room.id !== data.id),
             }));
         } catch (error) {
-            console.log(error);
+            if (error instanceof AxiosError) {
+                toast(error.response?.data?.message || error.message, {
+                    type: "error",
+                });
+            }
         }
     },
 }));

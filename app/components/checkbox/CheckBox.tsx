@@ -19,6 +19,7 @@ const CheckBox: FC<IProps> = ({ label, isInvalid, messageError, ...props }) => {
                     className={`flex flex-nowrap gap-3 items-center cursor-pointer ${classlabelError} ${classLabelReadOnly}`}
                 >
                     <input
+                        readOnly
                         type="checkbox"
                         {...props}
                         className={`h-5 w-5 outline-none rounded-md border-2 border-solid read-only:border-zinc-500/20 read-only:text-zinc-600/70 read-only:pointer-events-none ${classError}`}

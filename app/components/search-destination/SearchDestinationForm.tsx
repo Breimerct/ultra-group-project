@@ -10,7 +10,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Input from "../input/Input";
 
 const SearchDestinationForm: FC = () => {
-    const { Cities, getAllCities } = useCommonStore();
+    const { cities: Cities, getAllCities } = useCommonStore();
     const { getHotelsByCityAndDate, setFilterSearch, filterSearch } = useHotelStore();
     const [city, setCity] = useState<ICity | null>(null);
     const [dareRange, setDateRange] = useState<IRangedDate>({

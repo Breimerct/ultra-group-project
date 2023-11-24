@@ -34,14 +34,14 @@ const Modal: FC<IProps> = ({ isOpen, onClose, children, title }) => {
     return (
         <div>
             {show && (
-                <div className="fixed top-0 z-50 w-screen left-0 overflow-y-auto h-screen flex justify-center items-center transition-all backdrop-blur-[5px]">
+                <div className="fixed top-0 z-50 w-screen left-0 overflow-y-auto h-screen overflow-hidden flex justify-center items-center transition-all backdrop-blur-[5px] rounded-xl">
                     <div
-                        className="block min-w-[10rem] bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all w-full max-w-xl"
+                        className="block relative min-w-[10rem] bg-white rounded-xl text-left shadow-xl transform transition-all w-full max-w-xl"
                         role="dialog"
                         aria-modal="true"
                         aria-labelledby="modal-headline"
                     >
-                        <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 w-full">
+                        <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 w-full rounded-xl">
                             <header className="flex justify-between items-center">
                                 <h3 className="text-2xl font-semibold">{title}</h3>
                                 <button
@@ -52,7 +52,7 @@ const Modal: FC<IProps> = ({ isOpen, onClose, children, title }) => {
                                 </button>
                             </header>
 
-                            <>{children}</>
+                            <div>{children}</div>
                         </div>
                     </div>
                 </div>

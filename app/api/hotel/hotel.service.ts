@@ -7,7 +7,7 @@ export interface IHotel {
     id?: string;
     name: string;
     description?: string | null;
-    stars?: number;
+    stars?: number | null;
     imageUrl: string;
     cityId: number;
     isAvailable: boolean;

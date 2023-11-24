@@ -39,7 +39,6 @@ export const useAuthStore = create<State & Actions>((set) => ({
                     type: "error",
                 });
             }
-            console.log("LOGIN ERROR: ", error);
         } finally {
             setGlobalLoading(false);
         }
@@ -65,7 +64,6 @@ export const useAuthStore = create<State & Actions>((set) => ({
                     type: "error",
                 });
             }
-            console.log("REGISTER ERROR: ", error);
         } finally {
             setGlobalLoading(false);
         }

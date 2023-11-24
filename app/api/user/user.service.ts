@@ -12,9 +12,8 @@ export interface IUser {
 }
 
 export enum Gender {
-    // eslint-disable-next-line no-unused-vars
     Female = "Femenino",
-    // eslint-disable-next-line no-unused-vars
+
     Male = "Masculino",
 }
 

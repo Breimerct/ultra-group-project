@@ -7,9 +7,8 @@ interface IProps {
 }
 
 export enum StartPosition {
-    // eslint-disable-next-line no-unused-vars
     LEFT = "justify-start",
-    // eslint-disable-next-line no-unused-vars
+
     RIGHT = "justify-end",
 }
 

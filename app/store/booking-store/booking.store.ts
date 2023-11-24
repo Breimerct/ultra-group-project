@@ -60,7 +60,6 @@ export const useBookingStore = create<State & Actions>((set) => ({
             if (error instanceof AxiosError) {
                 toast.error(error.response?.data?.message || error.message);
             }
-            console.log("CREATE BOOKING ERROR: ", error);
         } finally {
             setIsLoading(false);
         }
@@ -81,7 +80,6 @@ export const useBookingStore = create<State & Actions>((set) => ({
             if (error instanceof AxiosError) {
                 toast.error(error.response?.data?.message || error.message);
             }
-            console.log("FIND BOOKINGS ERROR: ", error);
         } finally {
             setGlobalLoading(false);
         }
@@ -97,7 +95,6 @@ export const useBookingStore = create<State & Actions>((set) => ({
             if (error instanceof AxiosError) {
                 toast.error(error.response?.data?.message || error.message);
             }
-            console.log("FIND BOOKING DETAIL ERROR: ", error);
         }
     },
 }));

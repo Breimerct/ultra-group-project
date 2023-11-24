@@ -52,7 +52,6 @@ const CheckDateForm: FC<IProps> = () => {
     });
 
     useEffect(() => {
-        console.log(filterSearch);
         if (filterSearch.checkIn && filterSearch.checkOut) {
             setIsEdit(false);
             formik.values.checkIn = filterSearch.checkIn;

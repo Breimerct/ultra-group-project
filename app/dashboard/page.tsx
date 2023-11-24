@@ -4,16 +4,38 @@ import HotelsTable from "./components/hotels/HotelsTable";
 import RoomsTable from "./components/rooms/RoomsTable";
 import { PlusIcon } from "../components/Icons";
 import HotelForm from "./components/hotels/HotelForm";
+import { IHotel } from "../api/hotel/hotel.service";
 
 const DashboardPage: FC = () => {
     const [showHotelForm, setShowHotelForm] = useState(false);
+    const [readOnly, setReadOnly] = useState(false);
+    const [hotelSelected, setHotelSelected] = useState<IHotel | null>(null);
+    const [modalTitle, setModalTitle] = useState("Nuevo Hotel");
 
-    const handleShowHotelForm = () => {
+    const handleShowHotelFormToEdit = (hotel: IHotel) => {
+        setModalTitle("Editar Hotel");
+        setHotelSelected(hotel);
         setShowHotelForm(true);
+        setReadOnly(false);
+    };
+
+    const handleShowHotelFormToView = (hotel: IHotel) => {
+        setModalTitle("");
+        setHotelSelected(hotel);
+        setShowHotelForm(true);
+        setReadOnly(true);
+    };
+
+    const handleShowHotelFormToCreate = () => {
+        setModalTitle("Nuevo Hotel");
+        setShowHotelForm(true);
+        setReadOnly(false);
     };
 
     const handleCloseHotelForm = () => {
         setShowHotelForm(false);
+        setReadOnly(false);
+        setHotelSelected(null);
     };
 
     return (
@@ -25,7 +47,7 @@ const DashboardPage: FC = () => {
                     <div>
                         <button
                             className="bg-emerald-800 mx-auto text-white px-7 py-2 flex justify-center items-center flex-nowrap gap-2 rounded-md hover:bg-emerald-900 hover:shadow-sm hover:shadow-emerald-800 transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:shadow-none"
-                            onClick={handleShowHotelForm}
+                            onClick={handleShowHotelFormToCreate}
                         >
                             <PlusIcon />
                             Nuevo hotel
@@ -34,9 +56,15 @@ const DashboardPage: FC = () => {
                 </div>
 
                 <div>
-                    <HotelsTable />
+                    <HotelsTable onView={handleShowHotelFormToView} onEdit={handleShowHotelFormToEdit} />
                 </div>
-                <HotelForm isOpen={showHotelForm} onClose={handleCloseHotelForm} />
+                <HotelForm
+                    title={modalTitle}
+                    isOpen={showHotelForm}
+                    onClose={handleCloseHotelForm}
+                    readOnly={readOnly}
+                    hotel={hotelSelected}
+                />
             </div>
 
             <div className="w-full bg-zinc-300 shadow-md shadow-zinc-500 p-4 rounded-md">

@@ -3,15 +3,18 @@ import React, { useEffect, useState } from "react";
 import { CloseIcon } from "../Icons";
 import Input from "../input/Input";
 
-interface AutocompleteProps {
+interface AutocompleteProps extends React.HTMLAttributes<any> {
     items: any[];
     filterBy: string;
-    // eslint-disable-next-line no-unused-vars
     onSelectItem?: (item: any) => void;
     onClearInput?: () => void;
+    onChangeInput?: (value: string) => void;
     placeholder?: string;
     label: string;
     preValue?: string;
+    isInvalid?: boolean;
+    messageError?: string;
+    readOnly?: boolean;
 }
 
 const Autocomplete: React.FC<AutocompleteProps> = ({
@@ -19,9 +22,14 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
     filterBy,
     onSelectItem,
     onClearInput,
+    onChangeInput,
     placeholder,
     label,
     preValue = "",
+    isInvalid,
+    messageError = "",
+    readOnly,
+    ...props
 }) => {
     const [searchTerm, setSearchTerm] = useState(preValue);
     const [results, setResults] = useState<any[]>([]);
@@ -29,6 +37,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const term = e.target.value;
+        onChangeInput && onChangeInput(term);
         setSearchTerm(term);
     };
 
@@ -89,12 +98,16 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
         <div id="autocomplete" className="relative">
             <div>
                 <Input
+                    readOnly={readOnly}
                     label={label}
                     type="text"
                     placeholder={placeholder}
                     value={searchTerm}
+                    isInvalid={isInvalid}
+                    messageError={messageError}
                     onChange={handleSearch}
                     onFocus={handleFocus}
+                    {...props}
                 />
             </div>
             {showResults && (
@@ -113,7 +126,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
                 </ul>
             )}
 
-            {searchTerm && (
+            {searchTerm && !readOnly && (
                 <button
                     className="absolute top-[50%] translate-y-[-20%] right-0 p-2 text-gray-500 cursor-pointer hover:text-gray-700"
                     onClick={clearSearch}
