@@ -26,6 +26,10 @@ type Actions = {
     getHotelsByCityAndDate: (cityId: number | null, checkIn: string | null, checkOut: string | null) => Promise<void>;
     // eslint-disable-next-line no-unused-vars
     setFilterSearch: (filterSearch: IFilterSearch) => void;
+    // eslint-disable-next-line no-unused-vars
+    updateHotelById: (id: string, body: Partial<IHotel>) => Promise<void>;
+    // eslint-disable-next-line no-unused-vars
+    deleteHotelById: (id: string) => Promise<void>;
 };
 
 const initialState: State = {
@@ -85,5 +89,35 @@ export const useHotelStore = create<State & Actions>((set) => ({
 
     setFilterSearch: (filterSearch) => {
         set({ filterSearch });
+    },
+
+    updateHotelById: async (id, body) => {
+        try {
+            const { data } = await axios.put<IHotel>(`/api/hotel/${id}`, body);
+
+            set((state) => ({
+                hotels: state.hotels.map((hotel) => {
+                    if (hotel.id === data.id) {
+                        return data;
+                    }
+
+                    return hotel;
+                }),
+            }));
+        } catch (error) {
+            console.log(error);
+        }
+    },
+
+    deleteHotelById: async (id) => {
+        try {
+            const { data } = await axios.delete<IHotel>(`/api/hotel/${id}`);
+
+            set((state) => ({
+                hotels: state.hotels.filter((hotel) => hotel.id !== data.id),
+            }));
+        } catch (error) {
+            console.log(error);
+        }
     },
 }));
