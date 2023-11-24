@@ -1,6 +1,7 @@
 import { IRoom } from "@/app/api/room/room.service";
 import axios from "axios";
 import { create } from "zustand";
+import { useCommonStore } from "../common-store/common.store";
 
 type State = {
     rooms: IRoom[];
@@ -26,9 +27,12 @@ const initialState: State = {
     room: null,
 };
 
+const { setIsLoading: setGlobalLoading } = useCommonStore.getState();
+
 export const useRoomStore = create<State & Actions>((set) => ({
     ...initialState,
     getAllRooms: async () => {
+        setGlobalLoading(true);
         set({ rooms: [], isLoadingRooms: true });
         try {
             const { data } = await axios<IRoom[]>("/api/room/all");
@@ -37,6 +41,7 @@ export const useRoomStore = create<State & Actions>((set) => ({
         } catch (error) {
             console.log(error);
         } finally {
+            setGlobalLoading(false);
             set({ isLoadingRooms: false });
         }
     },

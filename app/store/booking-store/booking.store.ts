@@ -2,6 +2,8 @@ import { IBooking, IBookingDetail, IEmergencyContact } from "@/app/api/booking/b
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { create } from "zustand";
+import { useHotelStore } from "../hotel-store/hotel.store";
+import { useCommonStore } from "../common-store/common.store";
 
 export interface IBookingDto extends Partial<IBooking> {}
 
@@ -9,11 +11,12 @@ type State = {
     bookingDto: IBookingDto;
     bookings: IBooking[];
     booking: IBookingDetail | null;
+    isLoading: boolean;
 };
 
 type Actions = {
     setBookingDto: (bookingDto: IBookingDto) => void;
-    createBooking: (booking: IBookingDto) => void;
+    createBooking: (booking: IBookingDto) => Promise<void>;
     findBookings: (userId?: string | null) => void;
     findBookingDetail: (bookingId: string | null | undefined) => void;
 };
@@ -32,7 +35,10 @@ const initialState: State = {
     },
     bookings: [],
     booking: null,
+    isLoading: false,
 };
+
+const { setIsLoading: setGlobalLoading } = useCommonStore.getState();
 
 export const useBookingStore = create<State & Actions>((set) => ({
     ...initialState,
@@ -40,6 +46,8 @@ export const useBookingStore = create<State & Actions>((set) => ({
     setBookingDto: (bookingDto: IBookingDto) => set((state) => ({ ...state.bookingDto, bookingDto })),
 
     createBooking: async (booking) => {
+        const { setIsLoading } = useCommonStore.getState();
+        setIsLoading(true);
         try {
             await axios.post("/api/booking", booking);
 
@@ -53,10 +61,13 @@ export const useBookingStore = create<State & Actions>((set) => ({
                 toast.error(error.response?.data?.message || error.message);
             }
             console.log("CREATE BOOKING ERROR: ", error);
+        } finally {
+            setIsLoading(false);
         }
     },
 
     findBookings: async (userId = null) => {
+        setGlobalLoading(true);
         try {
             const { data } = await axios.get(`/api/booking`, {
                 params: {
@@ -71,6 +82,8 @@ export const useBookingStore = create<State & Actions>((set) => ({
                 toast.error(error.response?.data?.message || error.message);
             }
             console.log("FIND BOOKINGS ERROR: ", error);
+        } finally {
+            setGlobalLoading(false);
         }
     },
 

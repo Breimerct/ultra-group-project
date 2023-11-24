@@ -1,6 +1,7 @@
 import { IHotel } from "@/app/api/hotel/hotel.service";
 import axios from "axios";
 import { create } from "zustand";
+import { useCommonStore } from "../common-store/common.store";
 
 export interface IRangedDate {
     checkIn?: string | null;
@@ -45,6 +46,8 @@ const initialState: State = {
     },
 };
 
+const { setIsLoading: setGlobalLoading } = useCommonStore.getState();
+
 export const useHotelStore = create<State & Actions>((set) => ({
     ...initialState,
 
@@ -62,6 +65,7 @@ export const useHotelStore = create<State & Actions>((set) => ({
     },
 
     getHotelById: async (id) => {
+        setGlobalLoading(true);
         try {
             set({ hotel: null });
             const response = await fetch(`/api/hotel/${id}`);
@@ -70,11 +74,13 @@ export const useHotelStore = create<State & Actions>((set) => ({
             set({ hotel });
         } catch (error) {
             console.log(error);
+        } finally {
+            setGlobalLoading(false);
         }
     },
 
     getHotelsByCityAndDate: async (cityId = null, checkIn = null, checkOut = null) => {
-        set({ isLoadingHotels: true });
+        setGlobalLoading(true);
         set({ hotels: [] });
         try {
             const { data } = await axios.get<IHotel[]>("/api/hotel", {
@@ -89,7 +95,7 @@ export const useHotelStore = create<State & Actions>((set) => ({
         } catch (error) {
             console.log(error);
         } finally {
-            set({ isLoadingHotels: false });
+            setGlobalLoading(false);
         }
     },
 
@@ -98,6 +104,7 @@ export const useHotelStore = create<State & Actions>((set) => ({
     },
 
     getAllHotelsToAdmin: async () => {
+        setGlobalLoading(true);
         set({ hotels: [], isLoadingHotels: true });
         try {
             const { data } = await axios.get<IHotel[]>("/api/hotel/all");
@@ -106,6 +113,7 @@ export const useHotelStore = create<State & Actions>((set) => ({
         } catch (error) {
             console.log(error);
         } finally {
+            setGlobalLoading(false);
             set({ isLoadingHotels: false });
         }
     },

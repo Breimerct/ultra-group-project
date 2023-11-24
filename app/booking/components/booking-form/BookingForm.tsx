@@ -50,7 +50,7 @@ const validationSchema = Yup.object().shape({
 const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
     const [companions, setCompanions] = useState<IUser[]>([initialValues]);
     const [prevNumberOfCompanions, setPrevNumberOfCompanions] = useState(numberOfCompanions);
-    const { bookingDto, createBooking } = useBookingStore();
+    const { bookingDto, createBooking, isLoading } = useBookingStore();
     const router = useRouter();
 
     const formik = useFormik<IFormValues>({
@@ -61,7 +61,7 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
                 cellphone: companion.cellphone || "",
                 documentType: companion.documentType || "",
                 documentNumber: companion.documentNumber || "",
-                gender: (companion.gender as Gender) || null,
+                gender: (companion.gender as Gender) || "",
             })),
         },
         validationSchema: validationSchema,
@@ -85,9 +85,9 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
                 roomId: room?.id,
             };
 
-            createBooking(dto);
+            createBooking(dto).then(() => router.push("/booking"));
 
-            router.push("/");
+            // !isLoading && router.push("/");
         },
     });
 

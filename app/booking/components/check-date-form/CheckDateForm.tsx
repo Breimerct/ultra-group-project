@@ -2,6 +2,7 @@
 import { EditIcon } from "@/app/components/Icons";
 import Input from "@/app/components/input/Input";
 import { useBookingStore } from "@/app/store/booking-store/booking.store";
+import { useHotelStore } from "@/app/store/hotel-store/hotel.store";
 import { useFormik } from "formik";
 import { FC, useEffect, useState } from "react";
 import * as Yup from "yup";
@@ -28,6 +29,7 @@ const validationSchema = Yup.object({
 const CheckDateForm: FC<IProps> = () => {
     const [isEdit, setIsEdit] = useState(true);
     const { setBookingDto, bookingDto } = useBookingStore();
+    const { filterSearch } = useHotelStore();
 
     const handleEdit = () => {
         setIsEdit((prevValue) => !prevValue);
@@ -48,6 +50,17 @@ const CheckDateForm: FC<IProps> = () => {
             setIsEdit(false);
         },
     });
+
+    useEffect(() => {
+        console.log(filterSearch);
+        if (filterSearch.checkIn && filterSearch.checkOut) {
+            setIsEdit(false);
+            formik.values.checkIn = filterSearch.checkIn;
+            formik.values.checkOut = filterSearch.checkOut;
+        }
+
+        return () => {};
+    }, [filterSearch]);
 
     useEffect(() => {
         if (!bookingDto.checkIn && !bookingDto.checkOut) {

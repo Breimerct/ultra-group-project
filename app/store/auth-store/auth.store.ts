@@ -4,6 +4,7 @@ import axios, { AxiosError } from "axios";
 import { create } from "zustand";
 import { ILogin } from "@/app/api/auth/auth.service";
 import { IUser } from "@/app/api/user/user.service";
+import { useCommonStore } from "../common-store/common.store";
 
 type State = {
     user: IUser | null;
@@ -19,9 +20,12 @@ const initialState: State = {
     user: null,
 };
 
+const { setIsLoading: setGlobalLoading } = useCommonStore.getState();
+
 export const useAuthStore = create<State & Actions>((set) => ({
     ...initialState,
     login: async ({ email, password }) => {
+        setGlobalLoading(true);
         try {
             const { data } = await axios.post("/api/auth/login", {
                 email,
@@ -36,6 +40,8 @@ export const useAuthStore = create<State & Actions>((set) => ({
                 });
             }
             console.log("LOGIN ERROR: ", error);
+        } finally {
+            setGlobalLoading(false);
         }
     },
 
@@ -44,6 +50,7 @@ export const useAuthStore = create<State & Actions>((set) => ({
     },
 
     register: async (payload) => {
+        setGlobalLoading(true);
         try {
             const { data } = await axios.post("/api/auth/register", payload);
 
@@ -59,6 +66,8 @@ export const useAuthStore = create<State & Actions>((set) => ({
                 });
             }
             console.log("REGISTER ERROR: ", error);
+        } finally {
+            setGlobalLoading(false);
         }
     },
 }));
