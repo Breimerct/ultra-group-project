@@ -117,7 +117,7 @@ const HotelsTable: FC<IProps> = ({ onEdit, onView, onRemove }) => {
 
                                         <button
                                             className="bg-red-600 mx-auto text-white p-3 w-10 h-10 grid place-content-center rounded-full hover:bg-red-500 hover:shadow-sm hover:shadow-red-600 transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:shadow-none"
-                                            onClick={() => handleEdit(hotel)}
+                                            onClick={() => handleRemove(hotel)}
                                         >
                                             <TrashIcon />
                                         </button>

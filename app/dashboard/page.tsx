@@ -5,12 +5,14 @@ import RoomsTable from "./components/rooms/RoomsTable";
 import { PlusIcon } from "../components/Icons";
 import HotelForm from "./components/hotels/HotelForm";
 import { IHotel } from "../api/hotel/hotel.service";
+import { useHotelStore } from "../store/hotel-store/hotel.store";
 
 const DashboardPage: FC = () => {
     const [showHotelForm, setShowHotelForm] = useState(false);
     const [readOnly, setReadOnly] = useState(false);
     const [hotelSelected, setHotelSelected] = useState<IHotel | null>(null);
     const [modalTitle, setModalTitle] = useState("Nuevo Hotel");
+    const { deleteHotelById } = useHotelStore();
 
     const handleShowHotelFormToEdit = (hotel: IHotel) => {
         setModalTitle("Editar Hotel");
@@ -38,6 +40,14 @@ const DashboardPage: FC = () => {
         setHotelSelected(null);
     };
 
+    const handleRemoveHotel = (hotel: IHotel) => {
+        const confirm = window.confirm(`¿Está seguro de eliminar el hotel ${hotel.name}?`);
+
+        if (confirm && hotel.id) {
+            deleteHotelById(hotel.id);
+        }
+    };
+
     return (
         <div className="flex flex-col gap-5">
             <div className="w-full bg-zinc-300 shadow-md shadow-zinc-500 p-4 rounded-md">
@@ -56,7 +66,11 @@ const DashboardPage: FC = () => {
                 </div>
 
                 <div>
-                    <HotelsTable onView={handleShowHotelFormToView} onEdit={handleShowHotelFormToEdit} />
+                    <HotelsTable
+                        onView={handleShowHotelFormToView}
+                        onEdit={handleShowHotelFormToEdit}
+                        onRemove={handleRemoveHotel}
+                    />
                 </div>
                 <HotelForm
                     title={modalTitle}
