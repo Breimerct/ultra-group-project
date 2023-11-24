@@ -12,14 +12,11 @@ type State = {
 
 type Actions = {
     getAllRooms: () => Promise<void>;
-
     getRoomById: (id: string) => Promise<void>;
-
     getRoomsByHotelAndDate: (hotelId: string | null, checkIn?: string, checkOut?: string) => Promise<void>;
-
     updateRoomById: (id: string, body: Partial<IRoom>) => Promise<void>;
-
     deleteRoomById: (id: string) => Promise<void>;
+    createRoom: (body: Partial<IRoom>) => Promise<void>;
 };
 
 const initialState: State = {
@@ -41,9 +38,7 @@ export const useRoomStore = create<State & Actions>((set) => ({
             set({ rooms: data });
         } catch (error: any) {
             if (error instanceof AxiosError) {
-                toast(error.response?.data?.message || error.message, {
-                    type: "error",
-                });
+                toast.error(error.response?.data?.message || error.message);
             }
         } finally {
             setGlobalLoading(false);
@@ -59,9 +54,7 @@ export const useRoomStore = create<State & Actions>((set) => ({
             set({ room });
         } catch (error: any) {
             if (error instanceof AxiosError) {
-                toast(error.response?.data?.message || error.message, {
-                    type: "error",
-                });
+                toast.error(error.response?.data?.message || error.message);
             }
         }
     },
@@ -81,9 +74,7 @@ export const useRoomStore = create<State & Actions>((set) => ({
             set({ rooms: data });
         } catch (error) {
             if (error instanceof AxiosError) {
-                toast(error.response?.data?.message || error.message, {
-                    type: "error",
-                });
+                toast.error(error.response?.data?.message || error.message);
             }
         } finally {
             set({ isLoadingRooms: false });
@@ -104,11 +95,11 @@ export const useRoomStore = create<State & Actions>((set) => ({
 
                 return { rooms: state.rooms };
             });
+
+            toast.success("Habitación actualizada correctamente");
         } catch (error) {
             if (error instanceof AxiosError) {
-                toast(error.response?.data?.message || error.message, {
-                    type: "error",
-                });
+                toast.error(error.response?.data?.message || error.message);
             }
         }
     },
@@ -120,11 +111,27 @@ export const useRoomStore = create<State & Actions>((set) => ({
             set((state) => ({
                 rooms: state.rooms.filter((room) => room.id !== data.id),
             }));
+
+            toast.success("Habitación eliminada correctamente");
         } catch (error) {
             if (error instanceof AxiosError) {
-                toast(error.response?.data?.message || error.message, {
-                    type: "error",
-                });
+                toast.error(error.response?.data?.message || error.message);
+            }
+        }
+    },
+
+    createRoom: async (body) => {
+        try {
+            const { data } = await axios.post<IRoom>("/api/room", body);
+
+            set((state) => ({
+                rooms: [...state.rooms, data],
+            }));
+
+            toast.success("Habitación creada correctamente");
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                toast.error(error.response?.data?.message || error.message);
             }
         }
     },

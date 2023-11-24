@@ -52,12 +52,14 @@ export const useHotelStore = create<State & Actions>((set, get) => ({
         try {
             const { data } = await axios.post<IHotel>("/api/hotel", body);
 
-            get().getAllHotelsToAdmin();
+            set((state) => ({
+                hotels: [...state.hotels, data],
+            }));
+
+            toast.success("Hotel creado correctamente");
         } catch (error: any) {
             if (error instanceof AxiosError) {
-                toast(error.response?.data?.message || error.message, {
-                    type: "error",
-                });
+                toast.error(error.response?.data?.message || error.message);
             }
         } finally {
             setGlobalLoading(false);
@@ -72,9 +74,7 @@ export const useHotelStore = create<State & Actions>((set, get) => ({
             set({ hotels: data });
         } catch (error) {
             if (error instanceof AxiosError) {
-                toast(error.response?.data?.message || error.message, {
-                    type: "error",
-                });
+                toast.error(error.response?.data?.message || error.message);
             }
         } finally {
             set({ isLoadingHotels: false });
@@ -91,9 +91,7 @@ export const useHotelStore = create<State & Actions>((set, get) => ({
             set({ hotel });
         } catch (error) {
             if (error instanceof AxiosError) {
-                toast(error.response?.data?.message || error.message, {
-                    type: "error",
-                });
+                toast.error(error.response?.data?.message || error.message);
             }
         } finally {
             setGlobalLoading(false);
@@ -115,9 +113,7 @@ export const useHotelStore = create<State & Actions>((set, get) => ({
             set({ hotels: data });
         } catch (error) {
             if (error instanceof AxiosError) {
-                toast(error.response?.data?.message || error.message, {
-                    type: "error",
-                });
+                toast.error(error.response?.data?.message || error.message);
             }
         } finally {
             setGlobalLoading(false);
@@ -137,9 +133,7 @@ export const useHotelStore = create<State & Actions>((set, get) => ({
             set({ hotels: data });
         } catch (error) {
             if (error instanceof AxiosError) {
-                toast(error.response?.data?.message || error.message, {
-                    type: "error",
-                });
+                toast.error(error.response?.data?.message || error.message);
             }
         } finally {
             setGlobalLoading(false);
@@ -161,11 +155,11 @@ export const useHotelStore = create<State & Actions>((set, get) => ({
                     return hotel;
                 }),
             }));
+
+            toast.success("Hotel actualizado correctamente");
         } catch (error) {
             if (error instanceof AxiosError) {
-                toast(error.response?.data?.message || error.message, {
-                    type: "error",
-                });
+                toast.error(error.response?.data?.message || error.message);
             }
         } finally {
             setGlobalLoading(false);
@@ -179,11 +173,11 @@ export const useHotelStore = create<State & Actions>((set, get) => ({
             set((state) => ({
                 hotels: state.hotels.filter((hotel) => hotel.id !== data.id),
             }));
+
+            toast.success("Hotel eliminado correctamente");
         } catch (error) {
             if (error instanceof AxiosError) {
-                toast(error.response?.data?.message || error.message, {
-                    type: "error",
-                });
+                toast.error(error.response?.data?.message || error.message);
             }
         }
     },
