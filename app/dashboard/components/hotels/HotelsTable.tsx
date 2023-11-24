@@ -1,6 +1,6 @@
 "use client";
 
-import { EditIcon, EyeSearchIcon, LoaderIcon } from "@/app/components/Icons";
+import { EditIcon, EyeSearchIcon, LoaderIcon, TrashIcon } from "@/app/components/Icons";
 import { useHotelStore } from "@/app/store/hotel-store/hotel.store";
 import { FC, useEffect } from "react";
 import StatusBadget from "../StatusBadget";
@@ -9,9 +9,10 @@ import { IHotel } from "@/app/api/hotel/hotel.service";
 interface IProps {
     onEdit?: (hotel: IHotel) => void;
     onView?: (hotel: IHotel) => void;
+    onRemove?: (hotel: IHotel) => void;
 }
 
-const HotelsTable: FC<IProps> = ({ onEdit, onView }) => {
+const HotelsTable: FC<IProps> = ({ onEdit, onView, onRemove }) => {
     const { hotels, getAllHotelsToAdmin, isLoadingHotels } = useHotelStore();
 
     useEffect(() => {
@@ -24,6 +25,10 @@ const HotelsTable: FC<IProps> = ({ onEdit, onView }) => {
 
     const handleView = (hotel: IHotel) => {
         onView && onView(hotel);
+    };
+
+    const handleRemove = (hotel: IHotel) => {
+        onRemove && onRemove(hotel);
     };
 
     return (
@@ -108,6 +113,13 @@ const HotelsTable: FC<IProps> = ({ onEdit, onView }) => {
                                             onClick={() => handleEdit(hotel)}
                                         >
                                             <EditIcon />
+                                        </button>
+
+                                        <button
+                                            className="bg-red-600 mx-auto text-white p-3 w-10 h-10 grid place-content-center rounded-full hover:bg-red-500 hover:shadow-sm hover:shadow-red-600 transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:shadow-none"
+                                            onClick={() => handleEdit(hotel)}
+                                        >
+                                            <TrashIcon />
                                         </button>
 
                                         <button

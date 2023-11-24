@@ -31,7 +31,7 @@ interface IFormValues {
 const HotelForm: FC<IProps> = ({ isOpen, onClose, readOnly, hotel, title = "Nuevo Hotel" }) => {
     const [show, setShow] = useState(isOpen);
     const { cities } = useCommonStore();
-    const { createHotel } = useHotelStore();
+    const { createHotel, updateHotelById } = useHotelStore();
     const [citySelected, setCitySelected] = useState<ICity | null>(null);
 
     const formik = useFormik<IFormValues>({
@@ -55,6 +55,15 @@ const HotelForm: FC<IProps> = ({ isOpen, onClose, readOnly, hotel, title = "Nuev
                 stars: Number(values.stars),
                 cityId: Number(citySelected?.id),
             };
+
+            if (hotel?.id) {
+                updateHotelById(hotel.id, newHotel).then(() => {
+                    formik.resetForm();
+                    onClose && onClose();
+                    setShow(false);
+                });
+                return;
+            }
 
             createHotel(newHotel).then(() => {
                 formik.resetForm();

@@ -148,6 +148,7 @@ export const useHotelStore = create<State & Actions>((set, get) => ({
     },
 
     updateHotelById: async (id, body) => {
+        setGlobalLoading(true);
         try {
             const { data } = await axios.put<IHotel>(`/api/hotel/${id}`, body);
 
@@ -166,6 +167,8 @@ export const useHotelStore = create<State & Actions>((set, get) => ({
                     type: "error",
                 });
             }
+        } finally {
+            setGlobalLoading(false);
         }
     },
 
