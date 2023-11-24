@@ -49,6 +49,14 @@ export class RoomService {
         },
     ];
 
+    static get getActiveRooms(): Promise<IRoom[]> {
+        return new Promise((resolve) => {
+            const rooms = this.rooms.filter((room) => room.isAvailable);
+
+            resolve(rooms);
+        });
+    }
+
     static createRoom(room: IRoom): Promise<IRoom> {
         return new Promise(async (resolve) => {
             const imageUrl: string[] = (await useRandomHotelImage(true, Math.random() * (3 - 1) + 1)) as string[];
@@ -119,7 +127,7 @@ export class RoomService {
 
     static getRoomsByHotelId(hotelId: string): Promise<IRoom[]> {
         return new Promise((resolve, reject) => {
-            const rooms = this.rooms.filter((room) => room.hotelId === hotelId);
+            const rooms = this.rooms.filter((room) => room.hotelId === hotelId && room.isAvailable);
 
             if (!rooms.length) {
                 reject("No se encuentran habitaciones para este hotel");
@@ -142,6 +150,7 @@ export class RoomService {
                 return;
             }
             availableRooms = this.rooms
+                .filter((room) => room.isAvailable)
                 .filter((room) => room.hotelId === hotel.id)
                 .filter((room) => this.isRoomAvailable(room?.id ?? "", checkIn, checkOut));
 

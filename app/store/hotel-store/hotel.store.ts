@@ -30,6 +30,8 @@ type Actions = {
     updateHotelById: (id: string, body: Partial<IHotel>) => Promise<void>;
     // eslint-disable-next-line no-unused-vars
     deleteHotelById: (id: string) => Promise<void>;
+    // eslint-disable-next-line no-unused-vars
+    getAllHotelsToAdmin: () => Promise<void>;
 };
 
 const initialState: State = {
@@ -45,7 +47,9 @@ const initialState: State = {
 
 export const useHotelStore = create<State & Actions>((set) => ({
     ...initialState,
+
     getAllHotels: async () => {
+        set({ hotels: [] });
         try {
             const { data } = await axios<IHotel[]>("/api/hotel");
 
@@ -89,6 +93,17 @@ export const useHotelStore = create<State & Actions>((set) => ({
 
     setFilterSearch: (filterSearch) => {
         set({ filterSearch });
+    },
+
+    getAllHotelsToAdmin: async () => {
+        try {
+            set({ hotels: [] });
+            const { data } = await axios.get<IHotel[]>("/api/hotel/all");
+
+            set({ hotels: data });
+        } catch (error) {
+            console.log(error);
+        }
     },
 
     updateHotelById: async (id, body) => {

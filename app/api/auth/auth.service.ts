@@ -5,6 +5,13 @@ export interface ILogin {
     password: string;
 }
 
+export enum Role {
+    // eslint-disable-next-line no-unused-vars
+    User = "user",
+    // eslint-disable-next-line no-unused-vars
+    Admin = "admin",
+}
+
 export class AuthService {
     static async login({ email, password }: ILogin): Promise<{ user: IUser }> {
         return new Promise((resolve, reject) => {
@@ -33,7 +40,7 @@ export class AuthService {
                 ...userDto,
                 avatar: `https://robohash.org/${userDto.name}`,
                 id: crypto.randomUUID(),
-                role: "user",
+                role: Role.User,
             };
 
             UserService.users.unshift(newUser);

@@ -44,7 +44,7 @@ export class HotelService {
             stars: 5,
             imageUrl: DEFAULT_IMAGE,
             cityId: 210,
-            isAvailable: true,
+            isAvailable: false,
         },
     ];
 
@@ -83,7 +83,7 @@ export class HotelService {
 
     static getHotelsByCityId(cityId: number): Promise<IHotel[]> {
         return new Promise((resolve, reject) => {
-            const hotels = this.hotels.filter((hotel) => hotel.cityId === cityId);
+            const hotels = this.hotels.filter((hotel) => hotel.cityId === cityId && hotel.isAvailable);
 
             if (!hotels.length) {
                 reject("No se encuentran hoteles para esta ciudad");
@@ -95,7 +95,7 @@ export class HotelService {
     }
 
     static filterHotelsByCityAndAvailability(cityId: number, checkIn: string, checkOut: string): IHotel[] {
-        const hotels = this.hotels.filter((hotel) => hotel.cityId === cityId);
+        const hotels = this.hotels.filter((hotel) => hotel.cityId === cityId && hotel.isAvailable);
 
         return hotels.filter((hotel) => {
             const hotelRooms = RoomService.rooms.filter((room) => room.hotelId === hotel.id);
