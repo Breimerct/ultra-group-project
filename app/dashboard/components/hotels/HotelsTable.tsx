@@ -1,6 +1,6 @@
 "use client";
 
-import { EyeSearchIcon, LoaderIcon } from "@/app/components/Icons";
+import { EditIcon, EyeSearchIcon, LoaderIcon } from "@/app/components/Icons";
 import { useHotelStore } from "@/app/store/hotel-store/hotel.store";
 import { FC, useEffect } from "react";
 import StatusBadget from "../StatusBadget";
@@ -88,9 +88,15 @@ const HotelsTable: FC = () => {
                                     }
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4 sticky right-[-1px] bg-white">
-                                    <button className="bg-emerald-800 mx-auto text-white p-3 w-10 h-10 grid place-content-center rounded-full hover:bg-emerald-900 hover:shadow-sm hover:shadow-emerald-800 transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:shadow-none">
-                                        <EyeSearchIcon />
-                                    </button>
+                                    <div className="flex justify-center items-center gap-3">
+                                        <button className="bg-blue-600 mx-auto text-white p-3 w-10 h-10 grid place-content-center rounded-full hover:bg-blue-500 hover:shadow-sm hover:shadow-blue-600 transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:shadow-none">
+                                            <EditIcon />
+                                        </button>
+
+                                        <button className="bg-emerald-800 mx-auto text-white p-3 w-10 h-10 grid place-content-center rounded-full hover:bg-emerald-900 hover:shadow-sm hover:shadow-emerald-800 transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:shadow-none">
+                                            <EyeSearchIcon />
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
