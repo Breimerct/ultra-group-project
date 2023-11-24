@@ -85,9 +85,7 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
                 roomId: room?.id,
             };
 
-            createBooking(dto).then(() => router.push("/booking"));
-
-            // !isLoading && router.push("/");
+            createBooking(dto).then(() => router.push("/"));
         },
     });
 
