@@ -1,7 +1,6 @@
 "use client";
 import { useAuthStore } from "@/app/store/auth-store/auth.store";
 import { useEffect, useState } from "react";
-import ProtectByRol from "../protect-by-rol/ProtectByRol";
 import Link from "next/link";
 
 const UserOptions = () => {
@@ -15,10 +14,6 @@ const UserOptions = () => {
 
     const onOpen = () => {
         setIsOpen(true);
-    };
-
-    const onClose = () => {
-        setIsOpen(false);
     };
 
     const handleClickOutside = (event: MouseEvent) => {
@@ -40,7 +35,7 @@ const UserOptions = () => {
     return (
         <div id="user-options" className="relative flex justify-center items-center gap-1 h-full">
             <button
-                className="hover:bg-emerald-700 px-5 py-2 rounded-md transition-all text-current mr-2 "
+                className="hover:bg-emerald-700 hover:text-white px-5 py-2 rounded-md transition-all text-current mr-2 "
                 onClick={onOpen}
             >
                 {user?.name}

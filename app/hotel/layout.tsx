@@ -9,7 +9,7 @@ interface IProps {
 const HotelLayout: FC<IProps> = ({ children }) => {
     return (
         <>
-            <Header className="w-full bg-zinc-100 py-5" />
+            <Header className="w-full bg-zinc-100 py-5 text-black" />
 
             <div className="min-h-full max-w-4xl pt-4 mx-auto px-4">
                 <SearchDestinationForm />

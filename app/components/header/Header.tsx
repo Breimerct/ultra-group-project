@@ -14,18 +14,18 @@ const Header: FC<IProps> = ({ className }) => {
         <header className={classes}>
             <nav className="flex justify-end items-center py-3 px-5">
                 <ul className="flex justify-center items-center gap-2">
-                    <li className="hover:bg-emerald-700 px-5 py-2 rounded-md transition-all text-current">
+                    <li className="hover:bg-emerald-700 hover:text-white px-5 py-2 rounded-md transition-all text-current">
                         <Link href="/" className="w-full h-full">
                             Inicio
                         </Link>
                     </li>
                     <HideComponent invert>
-                        <li className="hover:bg-emerald-700 px-5 py-2 rounded-md transition-all text-current">
+                        <li className="hover:bg-emerald-700 hover:text-white px-5 py-2 rounded-md transition-all text-current">
                             <Link href="/auth/login" className="w-full h-full">
                                 Iniciar sesión
                             </Link>
                         </li>
-                        <li className="hover:bg-emerald-700 px-5 py-2 rounded-md transition-all text-current">
+                        <li className="hover:bg-emerald-700 hover:text-white px-5 py-2 rounded-md transition-all text-current">
                             <Link href="/auth/register" className="w-full h-full">
                                 Registrarse
                             </Link>
