@@ -5,6 +5,7 @@ import UserInfo from "../user-info/UserInfo";
 import CompanionsTable from "./CompanionsTable";
 import { useBookingStore } from "@/app/store/booking-store/booking.store";
 import ContactEmergency from "./ContactEmergency";
+import HotelInfo from "../hote-info/HotelInfo";
 
 interface IProps {
     isOpen: boolean;
@@ -27,7 +28,7 @@ const DetailModal: FC<IProps> = ({ isOpen, onClose }) => {
     return (
         <div>
             {show && (
-                <div className="fixed inset-0 z-50 overflow-y-auto h-screen grid place-content-center transition-all backdrop-blur-[4px]">
+                <div className="fixed inset-0 z-50 overflow-y-auto h-screen grid place-content-center transition-all backdrop-blur-[5px]">
                     <div
                         className="block align-bottom mx-4 bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all w-full max-w-6xl"
                         role="dialog"
@@ -45,9 +46,15 @@ const DetailModal: FC<IProps> = ({ isOpen, onClose }) => {
                                 </button>
                             </header>
 
-                            <main className="grid grid-cols-1 gap-4 mt-4 max-h-80 overflow-y-auto pr-3">
+                            <main className="grid grid-cols-1 gap-4 max-h-80 overflow-y-auto pr-3">
                                 <div className="col-span-1">
-                                    <h4 className="text-xl font-semibold mb-1">Datos del cliente</h4>
+                                    <h4 className="text-xl font-semibold mb-1">Datos del Hotel</h4>
+
+                                    <HotelInfo hotel={booking?.hotel ?? null} room={booking?.room ?? null} />
+                                </div>
+
+                                <div className="col-span-1">
+                                    <h4 className="text-lg font-semibold mb-1">Datos del cliente</h4>
 
                                     <UserInfo user={booking?.user ?? null} />
                                 </div>

@@ -1,4 +1,4 @@
-import { HotelService, IHotel } from "../hotel/hotel.service";
+import { HotelService, IHotelResponse } from "../hotel/hotel.service";
 import { IRoom, RoomService } from "../room/room.service";
 import { Gender, IUser, UserService } from "../user/user.service";
 
@@ -27,7 +27,7 @@ export interface IEmergencyContact {
 }
 
 export interface IBookingDetail extends IBooking {
-    hotel: IHotel;
+    hotel: IHotelResponse;
     room: IRoom;
     user: IUser;
 }

@@ -1,7 +1,6 @@
 import useRandomHotelImage, { DEFAULT_IMAGE } from "@/hooks/useRandomImage/useRandomImage";
 import { HotelService, IHotel } from "../hotel/hotel.service";
-import { BookingService, IBooking } from "../booking/bookings.service";
-let images = [""];
+import { BookingService } from "../booking/bookings.service";
 
 export interface IRoom {
     id?: string;
@@ -11,7 +10,7 @@ export interface IRoom {
     imageUrls: string[];
     hotelId: string;
     price?: number;
-    isAvailable?: boolean;
+    isAvailable: boolean;
 }
 
 export class RoomService {
@@ -20,7 +19,7 @@ export class RoomService {
             id: "1",
             name: "Room 1",
             description: "Description 1",
-            stars: 3,
+            stars: 5,
             imageUrls: [
                 "https://images.unsplash.com/photo-1671798747347-690f91e569b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MDA2MDkyNjZ8&ixlib=rb-4.0.3&q=80&w=1080",
                 "https://images.unsplash.com/photo-1518537708190-1e8c9c61ea9a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MDA2MTMwOTV8&ixlib=rb-4.0.3&q=80&w=1080",
@@ -28,6 +27,7 @@ export class RoomService {
                 "https://images.unsplash.com/photo-1602582401490-7bef59dfe400?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MDA2MTMwOTV8&ixlib=rb-4.0.3&q=80&w=1080",
             ],
             hotelId: "1",
+            isAvailable: true,
         },
         {
             id: "2",
@@ -36,6 +36,7 @@ export class RoomService {
             stars: 4,
             imageUrls: [DEFAULT_IMAGE],
             hotelId: "1",
+            isAvailable: true,
         },
         {
             id: "3",
@@ -44,6 +45,7 @@ export class RoomService {
             stars: 5,
             imageUrls: [DEFAULT_IMAGE],
             hotelId: "1",
+            isAvailable: false,
         },
     ];
 

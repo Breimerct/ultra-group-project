@@ -1,5 +1,7 @@
-import CITIES from "../cities";
+import CommonService from "../common.service";
 
-export function GET() {
-    return Response.json(CITIES, { status: 200 });
+export async function GET() {
+    const cities = await CommonService.getCities();
+
+    return Response.json(cities, { status: 200 });
 }

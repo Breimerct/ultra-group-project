@@ -1,6 +1,7 @@
 import useRandomHotelImage, { DEFAULT_IMAGE } from "@/hooks/useRandomImage/useRandomImage";
-import { IRoom, RoomService } from "../room/room.service";
-import { BookingService, IBooking } from "../booking/bookings.service";
+import { RoomService } from "../room/room.service";
+import { ICity } from "../data/cities";
+import CommonService from "../data/common.service";
 
 export interface IHotel {
     id?: string;
@@ -9,6 +10,10 @@ export interface IHotel {
     stars?: number;
     imageUrl: string;
     cityId: number;
+}
+
+export interface IHotelResponse extends IHotel {
+    city: ICity;
 }
 
 export class HotelService {
@@ -52,16 +57,21 @@ export class HotelService {
         });
     }
 
-    static getHotelById(hotelId: string): Promise<IHotel> {
-        return new Promise((resolve, reject) => {
-            const hotel = this.hotels.find((hotel) => hotel.id === hotelId);
+    static getHotelById(hotelId: string): Promise<IHotelResponse> {
+        return new Promise(async (resolve, reject) => {
+            const hotelFound = this.hotels.find((hotel) => hotel.id === hotelId);
 
-            if (!hotel) {
+            if (!hotelFound) {
                 reject("No se encuentra el hotel");
                 return;
             }
 
-            resolve(hotel);
+            const city = await CommonService.getCityById(hotelFound.cityId);
+
+            resolve({
+                ...hotelFound,
+                city,
+            });
         });
     }
 
