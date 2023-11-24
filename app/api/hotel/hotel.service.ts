@@ -48,9 +48,11 @@ export class HotelService {
         },
     ];
 
-    static get getHotels(): Promise<IHotel[]> {
+    static get getActiveHotels(): Promise<IHotel[]> {
         return new Promise((resolve) => {
             const hotels = this.hotels.filter((hotel) => {
+                if (!hotel.isAvailable) return false;
+
                 const hotelRooms = RoomService.rooms.filter((room) => room.hotelId === hotel.id);
 
                 if (!hotelRooms.length) return false;
@@ -100,8 +102,8 @@ export class HotelService {
 
             if (!hotelRooms.length) return false;
 
-            const hasAvailableRooms = hotelRooms.some((room) =>
-                RoomService.isRoomAvailable(room.id ?? "", checkIn, checkOut),
+            const hasAvailableRooms = hotelRooms.some(
+                (room) => room.isAvailable && RoomService.isRoomAvailable(room.id ?? "", checkIn, checkOut),
             );
 
             return hasAvailableRooms;
@@ -133,6 +135,43 @@ export class HotelService {
 
             this.hotels.push(newHotel);
             resolve(newHotel);
+        });
+    }
+
+    static updateHotelById(hotelId: string, hotel: IHotel): Promise<IHotel> {
+        return new Promise((resolve, reject) => {
+            const hotelFound = this.hotels.find((item) => item.id === hotelId);
+
+            if (!hotelFound) {
+                reject("No se encuentra el hotel");
+                return;
+            }
+
+            const hotelIndex = this.hotels.findIndex((item) => item.id === hotelId);
+
+            this.hotels[hotelIndex] = {
+                ...hotelFound,
+                ...hotel,
+            };
+
+            resolve(this.hotels[hotelIndex]);
+        });
+    }
+
+    static deleteHotelById(hotelId: string): Promise<IHotel> {
+        return new Promise((resolve, reject) => {
+            const hotelFound = this.hotels.find((item) => item.id === hotelId);
+
+            if (!hotelFound) {
+                reject("No se encuentra el hotel");
+                return;
+            }
+
+            const hotelIndex = this.hotels.findIndex((item) => item.id === hotelId);
+
+            this.hotels.splice(hotelIndex, 1);
+
+            resolve(hotelFound);
         });
     }
 }

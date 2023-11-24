@@ -61,13 +61,40 @@ export class RoomService {
         });
     }
 
-    static updateRoom(room: IRoom): Promise<IRoom> {
-        return new Promise((resolve) => {
-            const index = this.rooms.findIndex((r) => r.id === room.id);
+    static updateRoomById(id: string, room: IRoom): Promise<IRoom> {
+        return new Promise(async (resolve, reject) => {
+            const roomFound = this.rooms.find((room) => room.id === id);
 
-            this.rooms[index] = room;
+            if (!roomFound) {
+                reject("No se encuentra la habitación");
+                return;
+            }
 
-            resolve(room);
+            const roomIndex = this.rooms.findIndex((room) => room.id === id);
+
+            this.rooms[roomIndex] = {
+                ...roomFound,
+                ...room,
+            };
+
+            resolve(this.rooms[roomIndex]);
+        });
+    }
+
+    static deleteRoomById(id: string): Promise<IRoom> {
+        return new Promise(async (resolve, reject) => {
+            const roomFound = this.rooms.find((room) => room.id === id);
+
+            if (!roomFound) {
+                reject("No se encuentra la habitación");
+                return;
+            }
+
+            const roomIndex = this.rooms.findIndex((room) => room.id === id);
+
+            this.rooms.splice(roomIndex, 1);
+
+            resolve(roomFound);
         });
     }
 
@@ -136,10 +163,10 @@ export class RoomService {
                 (checkOutDate > bookingCheckIn && checkOutDate <= bookingCheckOut) ||
                 (checkInDate <= bookingCheckIn && checkOutDate >= bookingCheckOut)
             ) {
-                return false; // La habitación no está disponible en el rango de fechas
+                return false;
             }
         }
 
-        return true; // La habitación está disponible en el rango de fechas
+        return true;
     }
 }

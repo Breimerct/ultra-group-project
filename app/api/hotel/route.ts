@@ -9,7 +9,7 @@ export async function GET(request: Request) {
         let hotels: IHotel[] = [];
 
         if (!cityId && !checkIn && !checkOut) {
-            hotels = await HotelService.getHotels;
+            hotels = await HotelService.getActiveHotels;
         }
 
         if ((checkOut || checkIn) && !cityId) {
