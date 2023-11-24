@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { toast } from "react-toastify";
 import axios, { AxiosError } from "axios";
 import { create } from "zustand";
