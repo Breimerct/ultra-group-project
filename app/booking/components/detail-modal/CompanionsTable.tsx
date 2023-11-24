@@ -1,4 +1,3 @@
-import { IUser } from "@/app/api/auth/auth.service";
 import { ICompanion } from "@/app/api/booking/bookings.service";
 import { FC } from "react";
 
