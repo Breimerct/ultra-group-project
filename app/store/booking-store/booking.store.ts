@@ -1,4 +1,4 @@
-import { IBooking, IEmergencyContact } from "@/app/api/booking/bookings.service";
+import { IBooking, IBookingDetail, IEmergencyContact } from "@/app/api/booking/bookings.service";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { create } from "zustand";
@@ -8,7 +8,7 @@ export interface IBookingDto extends Partial<IBooking> {}
 type State = {
     bookingDto: IBookingDto;
     bookings: IBooking[];
-    booking: IBooking | null;
+    booking: IBookingDetail | null;
 };
 
 type Actions = {

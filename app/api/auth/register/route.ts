@@ -1,4 +1,5 @@
-import { AuthService, IUser } from "../auth.service";
+import { IUser } from "../../user/user.service";
+import { AuthService } from "../auth.service";
 
 export async function POST(request: Request) {
     try {
@@ -7,11 +8,8 @@ export async function POST(request: Request) {
         return Response.json(user, { status: 200 });
     } catch (error: any) {
         const message =
-            error instanceof Error || error instanceof Object
-                ? error["message"] ?? "-"
-                : "Error desconocido";
-        const status =
-            error instanceof Error || error instanceof Object ? 400 : 500;
+            error instanceof Error || error instanceof Object ? error["message"] ?? "-" : "Error desconocido";
+        const status = error instanceof Error || error instanceof Object ? 400 : 500;
 
         return Response.json({ message }, { status });
     }

@@ -56,7 +56,7 @@ const DetailModal: FC<IProps> = ({ isOpen, onClose }) => {
                             <div className="col-span-1">
                                 <h4 className="text-xl font-semibold mb-1">Datos del cliente</h4>
 
-                                <UserInfo user={user} />
+                                <UserInfo user={booking?.user ?? null} />
                             </div>
 
                             <hr className="mb-4 mt-6" />
