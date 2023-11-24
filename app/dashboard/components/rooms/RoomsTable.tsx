@@ -2,9 +2,16 @@
 import { useRoomStore } from "@/app/store/room-store/room.store";
 import { FC, useEffect } from "react";
 import StatusBadget from "../StatusBadget";
-import { EditIcon, EyeSearchIcon, LoaderIcon } from "@/app/components/Icons";
+import { EditIcon, EyeSearchIcon, LoaderIcon, TrashIcon } from "@/app/components/Icons";
+import { IRoom } from "@/app/api/room/room.service";
 
-const RoomsTable: FC = () => {
+interface IProps {
+    onEdit?: (room: IRoom) => void;
+    onView?: (room: IRoom) => void;
+    onRemove?: (room: IRoom) => void;
+}
+
+const RoomsTable: FC<IProps> = ({ onEdit, onRemove, onView }) => {
     const { rooms, getAllRooms, isLoadingRooms } = useRoomStore();
 
     useEffect(() => {
@@ -12,6 +19,18 @@ const RoomsTable: FC = () => {
 
         return () => {};
     }, []);
+
+    const handleRemove = (room: IRoom) => {
+        onRemove && onRemove(room);
+    };
+
+    const handleEdit = (room: IRoom) => {
+        onEdit && onEdit(room);
+    };
+
+    const handleView = (room: IRoom) => {
+        onView && onView(room);
+    };
 
     return (
         <>
@@ -92,11 +111,24 @@ const RoomsTable: FC = () => {
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4 sticky right-[-1px] bg-white">
                                     <div className="flex justify-center items-center gap-3">
-                                        <button className="bg-blue-600 mx-auto text-white p-3 w-10 h-10 grid place-content-center rounded-full hover:bg-blue-500 hover:shadow-sm hover:shadow-blue-600 transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:shadow-none">
+                                        <button
+                                            className="bg-blue-600 mx-auto text-white p-3 w-10 h-10 grid place-content-center rounded-full hover:bg-blue-500 hover:shadow-sm hover:shadow-blue-600 transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:shadow-none"
+                                            onClick={() => handleEdit(room)}
+                                        >
                                             <EditIcon />
                                         </button>
 
-                                        <button className="bg-emerald-800 mx-auto text-white p-3 w-10 h-10 grid place-content-center rounded-full hover:bg-emerald-900 hover:shadow-sm hover:shadow-emerald-800 transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:shadow-none">
+                                        <button
+                                            className="bg-red-600 mx-auto text-white p-3 w-10 h-10 grid place-content-center rounded-full hover:bg-red-500 hover:shadow-sm hover:shadow-red-600 transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:shadow-none"
+                                            onClick={() => handleRemove(room)}
+                                        >
+                                            <TrashIcon />
+                                        </button>
+
+                                        <button
+                                            className="bg-emerald-800 mx-auto text-white p-3 w-10 h-10 grid place-content-center rounded-full hover:bg-emerald-900 hover:shadow-sm hover:shadow-emerald-800 transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:shadow-none"
+                                            onClick={() => handleView(room)}
+                                        >
                                             <EyeSearchIcon />
                                         </button>
                                     </div>
