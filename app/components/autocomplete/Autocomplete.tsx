@@ -46,15 +46,8 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
 
     useEffect(() => {
         if (preValue) {
-            const item = items.find((item) => item[filterBy] === preValue);
-
-            if (item) {
-                setSearchTerm(item[filterBy]);
-                handleSelectItem(item);
-            }
+            setSearchTerm(preValue);
         }
-
-        console.log("preValue", preValue);
 
         return () => {};
     }, [preValue]);
