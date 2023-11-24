@@ -39,7 +39,16 @@ export class BookingService {
             checkOut: "2023-11-25",
             roomId: "1",
             userId: "1",
-            companions: [],
+            companions: [
+                {
+                    name: "Companion 1",
+                    email: "test1@test.com",
+                    cellphone: "1234567890",
+                    documentType: "CC",
+                    documentNumber: "1234567890",
+                    gender: Gender.Female,
+                },
+            ],
             emergencyContact: {
                 name: "Emergency Contact",
                 cellphone: "1234567890",
@@ -51,7 +60,16 @@ export class BookingService {
             checkOut: "2021-01-05",
             roomId: "2",
             userId: "1",
-            companions: [],
+            companions: [
+                {
+                    name: "Companion 1",
+                    email: "test2@test.com",
+                    cellphone: "1234567890",
+                    documentType: "TI",
+                    documentNumber: "1234567890",
+                    gender: Gender.Male,
+                },
+            ],
             emergencyContact: {
                 name: "Emergency Contact",
                 cellphone: "1234567890",
@@ -63,7 +81,16 @@ export class BookingService {
             checkOut: "2021-01-05",
             roomId: "3",
             userId: "2",
-            companions: [],
+            companions: [
+                {
+                    name: "Companion 1",
+                    email: "test2@test.com",
+                    cellphone: "1234567890",
+                    documentType: "DNI",
+                    documentNumber: "1234567890",
+                    gender: Gender.Male,
+                },
+            ],
             emergencyContact: {
                 name: "Emergency Contact",
                 cellphone: "1234567890",

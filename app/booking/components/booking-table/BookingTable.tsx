@@ -6,13 +6,9 @@ import { useBookingStore } from "@/app/store/booking-store/booking.store";
 import { FC, useEffect, useState } from "react";
 import DetailModal from "../detail-modal/DetailModal";
 
-interface IProps {
-    onSeeDetails: (booking: IBooking) => void;
-}
-
 const BookingTable: FC = () => {
     const [showDetailModal, setShowDetailModal] = useState(false);
-    const { findBookings, bookings } = useBookingStore();
+    const { findBookings, bookings, findBookingDetail } = useBookingStore();
     const { user } = useAuthStore();
 
     useEffect(() => {
@@ -21,6 +17,7 @@ const BookingTable: FC = () => {
     }, []);
 
     const handleSeeDetails = (booking: IBooking) => {
+        findBookingDetail(booking.id);
         setShowDetailModal(true);
     };
 

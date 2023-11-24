@@ -15,6 +15,7 @@ type Actions = {
     setBookingDto: (bookingDto: IBookingDto) => void;
     createBooking: (booking: IBookingDto) => void;
     findBookings: (userId?: string | null) => void;
+    findBookingDetail: (bookingId: string | null | undefined) => void;
 };
 
 const initialState: State = {
@@ -40,7 +41,7 @@ export const useBookingStore = create<State & Actions>((set) => ({
 
     createBooking: async (booking) => {
         try {
-            const { data } = await axios.post("/api/booking", booking);
+            await axios.post("/api/booking", booking);
 
             toast("Reserva creada correctamente", {
                 type: "success",
@@ -70,6 +71,20 @@ export const useBookingStore = create<State & Actions>((set) => ({
                 toast.error(error.response?.data?.message || error.message);
             }
             console.log("FIND BOOKINGS ERROR: ", error);
+        }
+    },
+
+    findBookingDetail: async (bookingId) => {
+        try {
+            const { data } = await axios.get(`/api/booking/detail/${bookingId}`);
+
+            set({ booking: data });
+        } catch (error: any) {
+            set({ booking: null });
+            if (error instanceof AxiosError) {
+                toast.error(error.response?.data?.message || error.message);
+            }
+            console.log("FIND BOOKING DETAIL ERROR: ", error);
         }
     },
 }));

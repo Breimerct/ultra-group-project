@@ -1,8 +1,9 @@
 import { IUser } from "@/app/api/auth/auth.service";
+import { ICompanion } from "@/app/api/booking/bookings.service";
 import { FC } from "react";
 
 interface IProps {
-    companions: IUser[];
+    companions: ICompanion[];
 }
 
 const CompanionsTable: FC<IProps> = ({ companions }) => {
@@ -18,6 +19,9 @@ const CompanionsTable: FC<IProps> = ({ companions }) => {
                     </th>
                     <th scope="col" className="px-6 py-4">
                         Email
+                    </th>
+                    <th scope="col" className="px-6 py-4">
+                        Telefono
                     </th>
                     <th scope="col" className="px-6 py-4">
                         Documentación
@@ -40,6 +44,7 @@ const CompanionsTable: FC<IProps> = ({ companions }) => {
                         <td className="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
                         <td className="whitespace-nowrap px-6 py-4">{companion.name}</td>
                         <td className="whitespace-nowrap px-6 py-4">{companion.email}</td>
+                        <td className="whitespace-nowrap px-6 py-4">{companion.cellphone}</td>
                         <td className="whitespace-nowrap px-6 py-4">
                             {`${companion.documentType} - ${companion.documentNumber}`}
                         </td>

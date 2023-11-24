@@ -7,6 +7,7 @@ import { useAuthStore } from "@/app/store/auth-store/auth.store";
 import CompanionsTable from "./CompanionsTable";
 import { IBooking } from "@/app/api/booking/bookings.service";
 import { useBookingStore } from "@/app/store/booking-store/booking.store";
+import ContactEmergency from "./ContactEmergency";
 
 interface IProps {
     isOpen: boolean;
@@ -35,7 +36,7 @@ const DetailModal: FC<IProps> = ({ isOpen, onClose }) => {
                 } fixed inset-0 z-50 overflow-y-auto h-screen place-content-center transition-all backdrop-blur-[4px]`}
             >
                 <div
-                    className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl w-full max-w-4xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+                    className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle max-w-4xl w-full"
                     role="dialog"
                     aria-modal="true"
                     aria-labelledby="modal-headline"
@@ -51,14 +52,25 @@ const DetailModal: FC<IProps> = ({ isOpen, onClose }) => {
                             </button>
                         </header>
 
-                        <main className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                            <div className="col-span-2">
+                        <main className="grid grid-cols-1 gap-4 mt-4 max-h-80 overflow-y-auto scroll-mr-4">
+                            <div className="col-span-1">
                                 <h4 className="text-xl font-semibold mb-1">Datos del cliente</h4>
 
                                 <UserInfo user={user} />
                             </div>
 
-                            <div className="col-span-2">
+                            <hr className="mb-4 mt-6" />
+
+                            <div className="col-span-1">
+                                <h4 className="text-lg font-semibold mb-1">Contacto de Emergencia</h4>
+
+                                <ContactEmergency emergencyContact={booking?.emergencyContact} />
+                            </div>
+
+                            <hr className="mb-4 mt-6" />
+
+                            <div className="col-span-1">
+                                <h4 className="text-lg font-semibold mb-1">Acompañantes</h4>
                                 <CompanionsTable companions={(booking && booking.companions) || []} />
                             </div>
                         </main>
