@@ -1,7 +1,8 @@
 import { toast } from "react-toastify";
 import axios, { AxiosError } from "axios";
 import { create } from "zustand";
-import { ILogin, IUser } from "@/app/api/auth/auth.service";
+import { ILogin } from "@/app/api/auth/auth.service";
+import { IUser } from "@/app/api/user/user.service";
 
 type State = {
     user: IUser | null;

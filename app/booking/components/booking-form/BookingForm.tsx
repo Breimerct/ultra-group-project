@@ -1,5 +1,4 @@
 "use client";
-import { Gender, IUser } from "@/app/api/auth/auth.service";
 import { ICompanion, IEmergencyContact } from "@/app/api/booking/bookings.service";
 import { IRoom } from "@/app/api/room/room.service";
 import Input from "@/app/components/input/Input";
@@ -12,6 +11,7 @@ import EmergencyContact from "../emergency-contact/EmergencyContact";
 import { toast } from "react-toastify";
 import { useBookingStore } from "@/app/store/booking-store/booking.store";
 import { useRouter } from "next/navigation";
+import { Gender, IUser } from "@/app/api/user/user.service";
 
 interface IProps {
     numberOfCompanions: number;

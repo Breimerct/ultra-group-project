@@ -1,6 +1,6 @@
-import { AuthService, Gender, IUser } from "../auth/auth.service";
 import { HotelService, IHotel } from "../hotel/hotel.service";
 import { IRoom, RoomService } from "../room/room.service";
+import { Gender, IUser, UserService } from "../user/user.service";
 
 export interface IBooking {
     id?: string;
@@ -29,6 +29,7 @@ export interface IEmergencyContact {
 export interface IBookingDetail extends IBooking {
     hotel: IHotel;
     room: IRoom;
+    user: IUser;
 }
 
 export class BookingService {
@@ -104,7 +105,7 @@ export class BookingService {
         });
     }
 
-    static getBooking(id: string): Promise<IBookingDetail> {
+    static getBookingDetail(id: string): Promise<IBookingDetail> {
         return new Promise(async (resolve, reject) => {
             const booking = this.bookings.find((booking) => booking.id === id);
 
@@ -115,9 +116,11 @@ export class BookingService {
 
             const room = await RoomService.getRoomById(booking.roomId);
             const hotel = await HotelService.getHotelById(room.hotelId);
+            const user = await UserService.findOne(booking.userId);
 
             resolve({
                 ...booking,
+                user,
                 room,
                 hotel,
             });

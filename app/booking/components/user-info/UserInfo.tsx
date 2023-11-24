@@ -1,4 +1,4 @@
-import { IUser } from "@/app/api/auth/auth.service";
+import { IUser } from "@/app/api/user/user.service";
 import Input from "@/app/components/input/Input";
 import { FC } from "react";
 

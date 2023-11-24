@@ -5,8 +5,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Input from "@/app/components/input/Input";
 import { useAuthStore } from "@/app/store/auth-store/auth.store";
-import { IUser } from "@/app/api/auth/auth.service";
 import { useRouter } from "next/navigation";
+import { IUser } from "@/app/api/user/user.service";
 
 const RegisterForm: FC = () => {
     const { register } = useAuthStore();
@@ -24,19 +24,12 @@ const RegisterForm: FC = () => {
     const validationSchema = Yup.object({
         name: Yup.string().required("El campo es requerido."),
         cellphone: Yup.string().required("El campo es requerido."),
-        email: Yup.string()
-            .email("Dirección de Email invalida.")
-            .required("El campo es requerido."),
-        password: Yup.string()
-            .min(8, "Minimo debe tener 8 caracteres o más.")
-            .required("El campo es requerido."),
+        email: Yup.string().email("Dirección de Email invalida.").required("El campo es requerido."),
+        password: Yup.string().min(8, "Minimo debe tener 8 caracteres o más.").required("El campo es requerido."),
         confirmPassword: Yup.string()
             .oneOf([Yup.ref("password")], "Las contraseñas no coinciden.")
             .required("El campo es requerido."),
-        terms: Yup.boolean().oneOf(
-            [true],
-            "Debe aceptar los terminos y condiciones.",
-        ),
+        terms: Yup.boolean().oneOf([true], "Debe aceptar los terminos y condiciones."),
     });
 
     const formik = useFormik({
@@ -57,10 +50,7 @@ const RegisterForm: FC = () => {
     });
 
     return (
-        <form
-            className="grid grid-cols-2 mt-5 gap-3"
-            onSubmit={formik.handleSubmit}
-        >
+        <form className="grid grid-cols-2 mt-5 gap-3" onSubmit={formik.handleSubmit}>
             <div className="col-span-2">
                 <Input
                     label="Nombre completo"
@@ -89,9 +79,7 @@ const RegisterForm: FC = () => {
                     label="Número de telefono"
                     type="text"
                     placeholder="ingresa tu número celular"
-                    isInvalid={
-                        formik.touched.cellphone && !!formik.errors.cellphone
-                    }
+                    isInvalid={formik.touched.cellphone && !!formik.errors.cellphone}
                     messageError={formik.errors.cellphone}
                     {...formik.getFieldProps("cellphone")}
                 />
@@ -102,9 +90,7 @@ const RegisterForm: FC = () => {
                     label="Contraseña"
                     type="password"
                     placeholder="ingrese sucontraseña"
-                    isInvalid={
-                        formik.touched.password && !!formik.errors.password
-                    }
+                    isInvalid={formik.touched.password && !!formik.errors.password}
                     messageError={formik.errors.password}
                     {...formik.getFieldProps("password")}
                 />
@@ -115,10 +101,7 @@ const RegisterForm: FC = () => {
                     label="Confirmar contraseña"
                     type="password"
                     placeholder="confirme su contraseña"
-                    isInvalid={
-                        formik.touched.confirmPassword &&
-                        !!formik.errors.confirmPassword
-                    }
+                    isInvalid={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
                     messageError={formik.errors.confirmPassword}
                     {...formik.getFieldProps("confirmPassword")}
                 />
@@ -133,18 +116,13 @@ const RegisterForm: FC = () => {
                         {...formik.getFieldProps("terms")}
                     />
                     Estoy de acuerdo con todos los
-                    <span className="text-emerald-900 font-medium underline mx-1">
-                        Terminos
-                    </span>
-                    y
+                    <span className="text-emerald-900 font-medium underline mx-1">Terminos</span>y
                     <span className="text-emerald-900 font-medium underline ml-1 inline-block">
                         Políticas de privacidad
                     </span>
                 </label>
                 {formik.touched.terms && !!formik.errors.terms && (
-                    <span className="text-red-500 text-xs">
-                        {formik.errors.terms}
-                    </span>
+                    <span className="text-red-500 text-xs">{formik.errors.terms}</span>
                 )}
             </div>
 
@@ -157,10 +135,7 @@ const RegisterForm: FC = () => {
 
             <div className="flex justify-center items-center col-span-2 mt-2">
                 ¿Ya tienes una cuenta?
-                <Link
-                    href="login"
-                    className="text-emerald-900 font-medium underline pl-1"
-                >
+                <Link href="login" className="text-emerald-900 font-medium underline pl-1">
                     Inicia sesión
                 </Link>
             </div>
