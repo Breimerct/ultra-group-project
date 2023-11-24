@@ -10,8 +10,14 @@ type State = {
 
 type Actions = {
     getAllRooms: () => Promise<void>;
+    // eslint-disable-next-line no-unused-vars
     getRoomById: (id: string) => Promise<void>;
+    // eslint-disable-next-line no-unused-vars
     getRoomsByHotelAndDate: (hotelId: string | null, checkIn?: string, checkOut?: string) => Promise<void>;
+    // eslint-disable-next-line no-unused-vars
+    updateRoomById: (id: string, body: Partial<IRoom>) => Promise<void>;
+    // eslint-disable-next-line no-unused-vars
+    deleteRoomById: (id: string) => Promise<void>;
 };
 
 const initialState: State = {
@@ -59,6 +65,37 @@ export const useRoomStore = create<State & Actions>((set) => ({
             console.log(error);
         } finally {
             set({ isLoadingRooms: false });
+        }
+    },
+
+    updateRoomById: async (id, body) => {
+        try {
+            const { data } = await axios.put<IRoom>(`/api/room/${id}`, body);
+
+            set((state) => {
+                const roomIndex = state.rooms.findIndex((room) => room.id === id);
+
+                state.rooms[roomIndex] = {
+                    ...state.rooms[roomIndex],
+                    ...data,
+                };
+
+                return { rooms: state.rooms };
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    },
+
+    deleteRoomById: async (id) => {
+        try {
+            const { data } = await axios.delete<IRoom>(`/api/room/${id}`);
+
+            set((state) => ({
+                rooms: state.rooms.filter((room) => room.id !== data.id),
+            }));
+        } catch (error) {
+            console.log(error);
         }
     },
 }));
