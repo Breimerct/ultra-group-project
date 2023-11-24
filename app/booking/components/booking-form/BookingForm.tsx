@@ -1,13 +1,12 @@
 "use client";
-import { ICompanion, IEmergencyContact } from "@/app/api/booking/bookings.service";
+import { ICompanion } from "@/app/api/booking/bookings.service";
 import { IRoom } from "@/app/api/room/room.service";
 import Input from "@/app/components/input/Input";
 import Select from "@/app/components/select/Select";
 import { DOCUMENTS_TYPE } from "@/const/mocks";
-import { Formik, useFormik } from "formik";
-import { FC, use, useEffect, useState } from "react";
+import { useFormik } from "formik";
+import { FC, useEffect, useState } from "react";
 import * as Yup from "yup";
-import EmergencyContact from "../emergency-contact/EmergencyContact";
 import { toast } from "react-toastify";
 import { useBookingStore } from "@/app/store/booking-store/booking.store";
 import { useRouter } from "next/navigation";
@@ -51,7 +50,7 @@ const validationSchema = Yup.object().shape({
 const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
     const [companions, setCompanions] = useState<IUser[]>([initialValues]);
     const [prevNumberOfCompanions, setPrevNumberOfCompanions] = useState(numberOfCompanions);
-    const { bookingDto, setBookingDto, createBooking } = useBookingStore();
+    const { bookingDto, createBooking } = useBookingStore();
     const router = useRouter();
 
     const formik = useFormik<IFormValues>({

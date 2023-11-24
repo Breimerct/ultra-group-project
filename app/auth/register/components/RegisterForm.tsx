@@ -6,7 +6,9 @@ import * as Yup from "yup";
 import Input from "@/app/components/input/Input";
 import { useAuthStore } from "@/app/store/auth-store/auth.store";
 import { useRouter } from "next/navigation";
-import { IUser } from "@/app/api/user/user.service";
+import { Gender, IUser } from "@/app/api/user/user.service";
+import Select from "@/app/components/select/Select";
+import { DOCUMENTS_TYPE } from "@/const/mocks";
 
 const RegisterForm: FC = () => {
     const { register } = useAuthStore();
@@ -19,6 +21,9 @@ const RegisterForm: FC = () => {
         password: "",
         confirmPassword: "",
         terms: false,
+        gender: "",
+        documentType: "",
+        documentNumber: "",
     };
 
     const validationSchema = Yup.object({
@@ -30,6 +35,9 @@ const RegisterForm: FC = () => {
             .oneOf([Yup.ref("password")], "Las contraseñas no coinciden.")
             .required("El campo es requerido."),
         terms: Yup.boolean().oneOf([true], "Debe aceptar los terminos y condiciones."),
+        gender: Yup.string().required("El genero es obligatorio"),
+        documentType: Yup.string().required("El tipo de documento es obligatorio"),
+        documentNumber: Yup.string().required("El numero de documento es obligatorio"),
     });
 
     const formik = useFormik({
@@ -41,6 +49,9 @@ const RegisterForm: FC = () => {
                 email: values.email,
                 cellphone: values.cellphone,
                 password: values.password,
+                gender: values.gender,
+                documentType: values.documentType,
+                documentNumber: values.documentNumber,
             };
 
             register(user);
@@ -51,7 +62,7 @@ const RegisterForm: FC = () => {
 
     return (
         <form className="grid grid-cols-2 mt-5 gap-3" onSubmit={formik.handleSubmit}>
-            <div className="col-span-2">
+            <div className="col-span-1">
                 <Input
                     label="Nombre completo"
                     type="text"
@@ -63,7 +74,7 @@ const RegisterForm: FC = () => {
                 />
             </div>
 
-            <div>
+            <div className="col-span-1">
                 <Input
                     label="Email"
                     type="email"
@@ -74,7 +85,7 @@ const RegisterForm: FC = () => {
                 />
             </div>
 
-            <div>
+            <div className="col-span-1">
                 <Input
                     label="Número de telefono"
                     type="text"
@@ -82,6 +93,48 @@ const RegisterForm: FC = () => {
                     isInvalid={formik.touched.cellphone && !!formik.errors.cellphone}
                     messageError={formik.errors.cellphone}
                     {...formik.getFieldProps("cellphone")}
+                />
+            </div>
+
+            <div className="col-span-1">
+                <Select
+                    label="Genero"
+                    isInvalid={formik.touched.gender && !!formik.errors.gender}
+                    messageError={formik.errors.gender}
+                    {...formik.getFieldProps("gender")}
+                >
+                    <option value="">Genero</option>
+                    <option value={Gender.Male}>Masculino</option>
+                    <option value={Gender.Male}>Femenino</option>
+                </Select>
+            </div>
+
+            <div className="col-span-1">
+                <Select
+                    label="Tipo de documento"
+                    isInvalid={formik.touched.documentType && !!formik.errors.documentType}
+                    messageError={formik.errors.documentType}
+                    {...formik.getFieldProps("documentType")}
+                >
+                    <>
+                        <option value="">Tipo de documento</option>
+                        {DOCUMENTS_TYPE.map((document, index) => (
+                            <option key={index} value={document.id}>
+                                {document.name}
+                            </option>
+                        ))}
+                    </>
+                </Select>
+            </div>
+
+            <div className="col-span-1">
+                <Input
+                    label="Numero de documento"
+                    type="text"
+                    isInvalid={formik.touched.documentNumber && !!formik.errors.documentNumber}
+                    messageError={formik.errors.documentNumber}
+                    placeholder="Ingrese su documento"
+                    {...formik.getFieldProps("documentNumber")}
                 />
             </div>
 
