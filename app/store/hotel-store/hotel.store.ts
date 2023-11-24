@@ -2,10 +2,13 @@ import { IHotel } from "@/app/api/hotel/hotel.service";
 import axios from "axios";
 import { create } from "zustand";
 
-export interface IFilterSearch {
+export interface IRangedDate {
+    checkIn?: string | null;
+    checkOut?: string | null;
+}
+
+export interface IFilterSearch extends IRangedDate {
     cityId?: number | null;
-    checkIn?: string;
-    checkOut?: string;
 }
 
 type State = {
@@ -17,8 +20,11 @@ type State = {
 
 type Actions = {
     getAllHotels: () => Promise<void>;
+    // eslint-disable-next-line no-unused-vars
     getHotelById: (id: string) => Promise<void>;
-    getHotelsByCityAndDate: (cityId: number | null, checkIn: string, checkOut: string) => Promise<void>;
+    // eslint-disable-next-line no-unused-vars
+    getHotelsByCityAndDate: (cityId: number | null, checkIn: string | null, checkOut: string | null) => Promise<void>;
+    // eslint-disable-next-line no-unused-vars
     setFilterSearch: (filterSearch: IFilterSearch) => void;
 };
 
@@ -57,7 +63,7 @@ export const useHotelStore = create<State & Actions>((set) => ({
         }
     },
 
-    getHotelsByCityAndDate: async (cityId: number | null, checkIn: string, checkOut: string) => {
+    getHotelsByCityAndDate: async (cityId = null, checkIn = null, checkOut = null) => {
         set({ isLoadingHotels: true });
         set({ hotels: [] });
         try {

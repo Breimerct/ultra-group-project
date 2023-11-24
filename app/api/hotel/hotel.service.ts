@@ -10,6 +10,7 @@ export interface IHotel {
     stars?: number;
     imageUrl: string;
     cityId: number;
+    isAvailable: boolean;
 }
 
 export interface IHotelResponse extends IHotel {
@@ -25,6 +26,7 @@ export class HotelService {
             stars: 3,
             imageUrl: DEFAULT_IMAGE,
             cityId: 210,
+            isAvailable: true,
         },
         {
             id: "2",
@@ -33,6 +35,7 @@ export class HotelService {
             stars: 4,
             imageUrl: DEFAULT_IMAGE,
             cityId: 144,
+            isAvailable: true,
         },
         {
             id: "3",
@@ -41,6 +44,7 @@ export class HotelService {
             stars: 5,
             imageUrl: DEFAULT_IMAGE,
             cityId: 210,
+            isAvailable: true,
         },
     ];
 

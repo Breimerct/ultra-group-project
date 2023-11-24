@@ -35,7 +35,7 @@ export class RoomService {
             description: "Description 2",
             stars: 4,
             imageUrls: [DEFAULT_IMAGE],
-            hotelId: "1",
+            hotelId: "2",
             isAvailable: true,
         },
         {

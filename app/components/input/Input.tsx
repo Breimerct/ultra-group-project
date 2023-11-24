@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, InputHTMLAttributes, use, useEffect } from "react";
+import React, { FC, InputHTMLAttributes } from "react";
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
     label: string;
@@ -7,7 +7,7 @@ interface IProps extends InputHTMLAttributes<HTMLInputElement> {
     messageError?: string;
 }
 
-const Input: FC<IProps> = ({ label, className, isInvalid, messageError, ...props }) => {
+const Input: FC<IProps> = ({ label, isInvalid, messageError, ...props }) => {
     const classError = isInvalid ? "border-red-500 text-red-500 placeholder:text-red-500" : "border-zinc-400";
     const classlabelError = isInvalid ? "text-red-500" : null;
     const classLabelReadOnly = props.readOnly ? "text-zinc-600/70" : null;

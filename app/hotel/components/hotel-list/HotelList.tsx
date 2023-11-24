@@ -8,12 +8,14 @@ import StarRate from "@/app/components/StarRate";
 interface IProps {}
 
 const HotelList: FC<IProps> = () => {
-    const { hotels, isLoadingHotels } = useHotelStore();
+    const { hotels, isLoadingHotels, filterSearch } = useHotelStore();
     const { getAllHotels } = useHotelStore();
 
     useEffect(() => {
-        getAllHotels();
-    }, []);
+        if (!filterSearch?.checkIn && !filterSearch?.checkOut && !filterSearch?.cityId) {
+            getAllHotels();
+        }
+    }, [filterSearch]);
 
     return (
         <div>

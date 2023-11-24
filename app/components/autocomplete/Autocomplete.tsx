@@ -1,15 +1,17 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CloseIcon } from "../Icons";
 import Input from "../input/Input";
 
 interface AutocompleteProps {
     items: any[];
     filterBy: string;
+    // eslint-disable-next-line no-unused-vars
     onSelectItem?: (item: any) => void;
     onClearInput?: () => void;
     placeholder?: string;
     label: string;
+    preValue?: string;
 }
 
 const Autocomplete: React.FC<AutocompleteProps> = ({
@@ -19,8 +21,9 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
     onClearInput,
     placeholder,
     label,
+    preValue = "",
 }) => {
-    const [searchTerm, setSearchTerm] = useState("");
+    const [searchTerm, setSearchTerm] = useState(preValue);
     const [results, setResults] = useState<any[]>([]);
     const [showResults, setShowResults] = useState(false);
 
@@ -30,9 +33,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
     };
 
     useEffect(() => {
-        let filteredResults = items.filter((item) =>
-            item[filterBy].toLowerCase().includes(searchTerm.toLowerCase()),
-        );
+        let filteredResults = items.filter((item) => item[filterBy].toLowerCase().includes(searchTerm.toLowerCase()));
 
         if (filteredResults.length < 1) {
             filteredResults = items.slice(0, 10);
@@ -42,6 +43,21 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
 
         return () => {};
     }, [searchTerm, items]);
+
+    useEffect(() => {
+        if (preValue) {
+            const item = items.find((item) => item[filterBy] === preValue);
+
+            if (item) {
+                setSearchTerm(item[filterBy]);
+                handleSelectItem(item);
+            }
+        }
+
+        console.log("preValue", preValue);
+
+        return () => {};
+    }, [preValue]);
 
     const handleSelectItem = (item: any) => {
         setSearchTerm(item[filterBy]);
@@ -100,9 +116,7 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
                         </li>
                     ))}
 
-                    {results.length === 0 && (
-                        <div className="p-2 select-none">No hay resultados</div>
-                    )}
+                    {results.length === 0 && <div className="p-2 select-none">No hay resultados</div>}
                 </ul>
             )}
 

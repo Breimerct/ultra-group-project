@@ -5,29 +5,47 @@ import Autocomplete from "../autocomplete/Autocomplete";
 import { useCommonStore } from "@/app/store/common-store/common.store";
 import { ICity } from "@/app/api/data/cities";
 import { toast } from "react-toastify";
-import { useHotelStore } from "@/app/store/hotel-store/hotel.store";
-import { useRouter } from "next/navigation";
+import { IRangedDate, useHotelStore } from "@/app/store/hotel-store/hotel.store";
+import { useRouter, usePathname } from "next/navigation";
 import Input from "../input/Input";
 
 const SearchDestinationForm: FC = () => {
     const { Cities, getAllCities } = useCommonStore();
-    const { getHotelsByCityAndDate, setFilterSearch } = useHotelStore();
+    const { getHotelsByCityAndDate, setFilterSearch, filterSearch } = useHotelStore();
     const [city, setCity] = useState<ICity | null>(null);
-    const [dareRange, setDateRange] = useState<{ checkIn: string; checkOut: string }>({ checkIn: "", checkOut: "" });
+    const [dareRange, setDateRange] = useState<IRangedDate>({
+        checkIn: "",
+        checkOut: "",
+    });
+    const [preValue, setPreValue] = useState<string>("");
     const router = useRouter();
+    const pathName = usePathname();
 
     useEffect(() => {
         getAllCities();
     }, []);
 
+    useEffect(() => {
+        if (pathName !== "/hotel") return () => {};
+        if (!filterSearch?.checkIn && !filterSearch?.checkOut && !filterSearch?.cityId) return () => {};
+
+        const city = Cities.find((city) => city.id === filterSearch.cityId);
+
+        if (!city) return () => {};
+
+        setCity(city);
+        setPreValue(city?.name || "");
+        setDateRange({ checkIn: filterSearch.checkIn, checkOut: filterSearch.checkOut });
+    }, [pathName]);
+
     const handleSelectItem = (item: any) => {
         setCity(item as ICity);
-        setFilterSearch({ ...dareRange, cityId: item.id });
+        setFilterSearch({ ...filterSearch, cityId: item.id });
     };
 
     const handleInputDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setDateRange({ ...dareRange, [e.target.name]: e.target.value });
-        setFilterSearch({ ...dareRange, [e.target.name]: e.target.value });
+        setFilterSearch({ ...filterSearch, [e.target.name]: e.target.value });
     };
 
     const handleSubmitSearch = async (event: FormEvent<HTMLFormElement>) => {
@@ -40,9 +58,10 @@ const SearchDestinationForm: FC = () => {
             return;
         }
 
-        await getHotelsByCityAndDate(city?.id || null, dareRange.checkIn, dareRange.checkOut);
+        await getHotelsByCityAndDate(city?.id || null, dareRange.checkIn || null, dareRange.checkOut || null);
 
-        router.push("/hotel");
+        setFilterSearch({ ...dareRange, cityId: city?.id || null });
+        pathName !== "/hotel" && router.push("/hotel");
     };
 
     return (
@@ -51,7 +70,13 @@ const SearchDestinationForm: FC = () => {
             onSubmit={handleSubmitSearch}
         >
             <div className="w-full col-span-5">
-                <Autocomplete label="Destino" items={Cities} filterBy="name" onSelectItem={handleSelectItem} />
+                <Autocomplete
+                    label="Destino"
+                    items={Cities}
+                    filterBy="name"
+                    preValue={preValue}
+                    onSelectItem={handleSelectItem}
+                />
             </div>
 
             <div className="w-full col-span-5 md:col-span-2 lg:col-span-2">
@@ -60,7 +85,7 @@ const SearchDestinationForm: FC = () => {
                     name="checkIn"
                     type="date"
                     min={new Date().toISOString().split("T")[0]}
-                    placeholder="Fecha"
+                    value={dareRange?.checkIn ?? ""}
                     onChange={handleInputDateChange}
                 />
             </div>
@@ -70,8 +95,8 @@ const SearchDestinationForm: FC = () => {
                     label="Fecha de salida"
                     name="checkOut"
                     type="date"
-                    placeholder="Fecha"
                     min={dareRange.checkIn ? dareRange.checkIn : new Date().toISOString().split("T")[0]}
+                    value={dareRange?.checkOut ?? ""}
                     onChange={handleInputDateChange}
                 />
             </div>
