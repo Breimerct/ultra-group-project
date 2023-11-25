@@ -73,7 +73,9 @@ const CheckDateForm: FC<IProps> = () => {
     return (
         <>
             <div className="flex justify-between items-center">
-                <h3 className="text-2xl font-semibold mb-3">Contacto de emergencia</h3>
+                <h3 className="text-2xl font-semibold mb-3">
+                    {isEdit ? "Selecciona las fechas de tu estadía" : "Fechas seleccionadas"}
+                </h3>
                 <button
                     className="mr-4 text-emerald-800 bg-zinc-300 p-2 rounded-full disabled:text-zinc-700/60 disabled:bg-slate-300/40 disabled:cursor-not-allowed disabled:shadow-none hover:scale-105 hover:shadow-md hover:shadow-zinc-500 transition-all"
                     disabled={isEdit}
