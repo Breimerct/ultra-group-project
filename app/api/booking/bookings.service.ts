@@ -147,7 +147,7 @@ export class BookingService {
                 id: crypto.randomUUID(),
             };
 
-            this.bookings.unshift(newBooking);
+            this.bookings.push(newBooking);
 
             resolve(newBooking);
         });

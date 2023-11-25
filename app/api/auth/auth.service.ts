@@ -42,7 +42,7 @@ export class AuthService {
                 role: Role.User,
             };
 
-            UserService.users.unshift(newUser);
+            UserService.create(newUser);
 
             resolve(newUser);
         });

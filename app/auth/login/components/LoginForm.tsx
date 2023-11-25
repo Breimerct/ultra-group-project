@@ -27,9 +27,12 @@ const LoginForm: FC<IProps> = () => {
         initialValues,
         validationSchema,
         onSubmit: (values, { resetForm }) => {
-            login(values);
-            resetForm();
-            router.push("/");
+            login(values).then((res) => {
+                if (res) {
+                    resetForm();
+                    router.push("/");
+                }
+            });
         },
     });
 

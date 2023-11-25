@@ -4,6 +4,7 @@ import { FC, useEffect } from "react";
 import StatusBadget from "../StatusBadget";
 import { EditIcon, EyeSearchIcon, LoaderIcon, TrashIcon } from "@/app/components/Icons";
 import { IRoom } from "@/app/api/room/room.service";
+import { DEFAULT_IMAGE } from "@/hooks/useRandomImage/useRandomImage";
 
 interface IProps {
     onEdit?: (room: IRoom) => void;
@@ -96,7 +97,11 @@ const RoomsTable: FC<IProps> = ({ onEdit, onRemove, onView }) => {
                                 <td className="whitespace-nowrap px-6 py-4">
                                     <picture className="flex justify-center items-center">
                                         <img
-                                            src={room.imageUrls[0]}
+                                            src={
+                                                room?.imageUrls && room?.imageUrls.length > 0
+                                                    ? room.imageUrls[0]
+                                                    : DEFAULT_IMAGE
+                                            }
                                             alt={room.name}
                                             className="w-16 h-16 rounded-full"
                                         />

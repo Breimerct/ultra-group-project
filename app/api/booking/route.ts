@@ -1,4 +1,7 @@
+import { generateTemplate } from "@/helpers/util";
+import { UserService } from "../user/user.service";
 import { BookingService, IBooking } from "./bookings.service";
+import nodemailer from "nodemailer";
 
 export async function GET(request: Request) {
     try {
@@ -24,6 +27,35 @@ export async function POST(request: Request) {
     try {
         const newBooking = (await request.json()) as IBooking;
         const booking = await BookingService.createBooking(newBooking);
+        const user = await UserService.findOne(booking.userId);
+
+        nodemailer.createTestAccount((err: any, account: any) => {
+            let transporter = nodemailer.createTransport({
+                host: "smtp.ethereal.email",
+                port: 587,
+                secure: false,
+                auth: {
+                    user: account.user,
+                    pass: account.pass,
+                },
+            });
+
+            let mailOptions = {
+                from: '"Fred Foo 👻"',
+                to: user.email,
+                text: "Hello world?",
+                html: generateTemplate({ name: user.name, checkIn: booking.checkIn, checkOut: booking.checkOut }),
+            };
+
+            transporter.sendMail(mailOptions, (error: any, info: any) => {
+                if (error) {
+                    return console.log(error);
+                }
+                console.log("Message sent: %s", info.messageId);
+                console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+            });
+        });
+
         return Response.json(booking, { status: 200 });
     } catch (error: any) {
         const message = error instanceof Error || error instanceof Object ? error.message : error;

@@ -54,9 +54,12 @@ const RegisterForm: FC = () => {
                 documentNumber: values.documentNumber,
             };
 
-            register(user);
-            resetForm();
-            router.push("/");
+            register(user).then((res) => {
+                if (res) {
+                    resetForm();
+                    router.push("/");
+                }
+            });
         },
     });
 

@@ -62,7 +62,9 @@ export class RoomService {
 
     static createRoom(room: IRoom): Promise<IRoom> {
         return new Promise(async (resolve) => {
-            const imageUrl: string[] = (await useRandomHotelImage(true, Math.random() * (3 - 1) + 1)) as string[];
+            const imageUrl: string[] = (await useRandomHotelImage(true, 3)) as string[];
+
+            console.log(imageUrl);
 
             this.rooms.push({
                 ...room,

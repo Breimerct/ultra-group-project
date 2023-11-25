@@ -11,8 +11,8 @@ type State = {
 };
 
 type Actions = {
-    login: (payload: ILogin) => void;
-    register: (payload: IUser) => void;
+    login: (payload: ILogin) => Promise<boolean>;
+    register: (payload: IUser) => Promise<boolean>;
     logout: () => void;
 };
 
@@ -33,12 +33,14 @@ export const useAuthStore = create<State & Actions>((set) => ({
             });
 
             set({ user: data.user });
+            return true;
         } catch (error) {
             if (error instanceof AxiosError) {
                 toast(error.response?.data?.message || error.message, {
                     type: "error",
                 });
             }
+            return false;
         } finally {
             setGlobalLoading(false);
         }
@@ -58,12 +60,14 @@ export const useAuthStore = create<State & Actions>((set) => ({
             });
 
             set({ user: data });
+            return true;
         } catch (error) {
             if (error instanceof AxiosError) {
                 toast(error.response?.data?.message || error.message, {
                     type: "error",
                 });
             }
+            return false;
         } finally {
             setGlobalLoading(false);
         }

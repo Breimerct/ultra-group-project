@@ -8,6 +8,7 @@ import Modal from "@/app/components/modal/Modal";
 import TextArea from "@/app/components/textarea/TextArea";
 import { useHotelStore } from "@/app/store/hotel-store/hotel.store";
 import { useRoomStore } from "@/app/store/room-store/room.store";
+import { DEFAULT_IMAGE } from "@/hooks/useRandomImage/useRandomImage";
 import { useFormik } from "formik";
 import { FC, useEffect, useState } from "react";
 import * as Yup from "yup";
@@ -118,7 +119,11 @@ const RoomForm: FC<IProps> = ({ isOpen, room, onClose, title = "Nueva Habitació
             <div className="w-full relative">
                 {!!room && (
                     <picture className="rounded-full w-32 h-32 overflow-hidden border-[5px] border-white absolute z-[60] top-[-140px] left-[50%] translate-x-[-50%]">
-                        <img src={room.imageUrls[0]} alt={room.name} className="w-full h-full object-cover" />
+                        <img
+                            src={!!room?.imageUrls && room.imageUrls.length >= 1 ? room.imageUrls[0] : DEFAULT_IMAGE}
+                            alt={room.name}
+                            className="w-full h-full object-cover"
+                        />
                     </picture>
                 )}
 
