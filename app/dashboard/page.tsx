@@ -6,13 +6,19 @@ import { PlusIcon } from "../components/Icons";
 import HotelForm from "./components/hotels/HotelForm";
 import { IHotel } from "../api/hotel/hotel.service";
 import { useHotelStore } from "../store/hotel-store/hotel.store";
+import { useRoomStore } from "../store/room-store/room.store";
+import { IRoom } from "../api/room/room.service";
+import RoomForm from "./components/rooms/RoomForm";
 
 const DashboardPage: FC = () => {
     const [showHotelForm, setShowHotelForm] = useState(false);
+    const [showRoomForm, setShowRoomForm] = useState(false);
     const [readOnly, setReadOnly] = useState(false);
     const [hotelSelected, setHotelSelected] = useState<IHotel | null>(null);
+    const [roomSelected, setRoomSelected] = useState<IRoom | null>(null);
     const [modalTitle, setModalTitle] = useState("Nuevo Hotel");
     const { deleteHotelById } = useHotelStore();
+    const { deleteRoomById } = useRoomStore();
 
     const handleShowHotelFormToEdit = (hotel: IHotel) => {
         setModalTitle("Editar Hotel");
@@ -46,6 +52,40 @@ const DashboardPage: FC = () => {
         if (confirm && hotel.id) {
             deleteHotelById(hotel.id);
         }
+    };
+
+    const handleCreateNewRoom = () => {
+        setModalTitle("Nueva Habitación");
+        setShowRoomForm(true);
+        setReadOnly(false);
+    };
+
+    const handleRemoveRoom = (room: IRoom) => {
+        const confirm = window.confirm(`¿Está seguro de eliminar la habitación ${room.name}?`);
+
+        if (confirm && room.id) {
+            deleteRoomById(room.id);
+        }
+    };
+
+    const handleEditRoom = (room: IRoom) => {
+        setModalTitle("Editar Habitación");
+        setRoomSelected(room);
+        setShowRoomForm(true);
+        setReadOnly(false);
+    };
+
+    const handleViewRoom = (room: IRoom) => {
+        setModalTitle("");
+        setRoomSelected(room);
+        setShowRoomForm(true);
+        setReadOnly(true);
+    };
+
+    const handleCloseRoomForm = () => {
+        setShowRoomForm(false);
+        setReadOnly(false);
+        setRoomSelected(null);
     };
 
     return (
@@ -86,7 +126,10 @@ const DashboardPage: FC = () => {
                     <h2 className="text-3xl font-bold">Habitaciones</h2>
 
                     <div>
-                        <button className="bg-emerald-800 mx-auto text-white px-7 py-2 flex justify-center items-center flex-nowrap gap-2 rounded-md hover:bg-emerald-900 hover:shadow-sm hover:shadow-emerald-800 transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:shadow-none">
+                        <button
+                            className="bg-emerald-800 mx-auto text-white px-7 py-2 flex justify-center items-center flex-nowrap gap-2 rounded-md hover:bg-emerald-900 hover:shadow-sm hover:shadow-emerald-800 transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:shadow-none"
+                            onClick={handleCreateNewRoom}
+                        >
                             <PlusIcon />
                             Nueva Habitación
                         </button>
@@ -94,8 +137,16 @@ const DashboardPage: FC = () => {
                 </div>
 
                 <div>
-                    <RoomsTable />
+                    <RoomsTable onRemove={handleRemoveRoom} onEdit={handleEditRoom} onView={handleViewRoom} />
                 </div>
+
+                <RoomForm
+                    readOnly={readOnly}
+                    room={roomSelected}
+                    isOpen={showRoomForm}
+                    title={modalTitle}
+                    onClose={handleCloseRoomForm}
+                />
             </div>
         </div>
     );

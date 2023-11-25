@@ -82,6 +82,7 @@ export const useRoomStore = create<State & Actions>((set) => ({
     },
 
     updateRoomById: async (id, body) => {
+        setGlobalLoading(true);
         try {
             const { data } = await axios.put<IRoom>(`/api/room/${id}`, body);
 
@@ -101,10 +102,13 @@ export const useRoomStore = create<State & Actions>((set) => ({
             if (error instanceof AxiosError) {
                 toast.error(error.response?.data?.message || error.message);
             }
+        } finally {
+            setGlobalLoading(false);
         }
     },
 
     deleteRoomById: async (id) => {
+        setGlobalLoading(true);
         try {
             const { data } = await axios.delete<IRoom>(`/api/room/${id}`);
 
@@ -117,10 +121,13 @@ export const useRoomStore = create<State & Actions>((set) => ({
             if (error instanceof AxiosError) {
                 toast.error(error.response?.data?.message || error.message);
             }
+        } finally {
+            setGlobalLoading(false);
         }
     },
 
     createRoom: async (body) => {
+        setGlobalLoading(true);
         try {
             const { data } = await axios.post<IRoom>("/api/room", body);
 
@@ -133,6 +140,8 @@ export const useRoomStore = create<State & Actions>((set) => ({
             if (error instanceof AxiosError) {
                 toast.error(error.response?.data?.message || error.message);
             }
+        } finally {
+            setGlobalLoading(false);
         }
     },
 }));

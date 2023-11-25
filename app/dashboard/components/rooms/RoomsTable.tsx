@@ -48,6 +48,9 @@ const RoomsTable: FC<IProps> = ({ onEdit, onRemove, onView }) => {
                                 Nombre
                             </th>
                             <th scope="col" className="px-6 py-4">
+                                Precio
+                            </th>
+                            <th scope="col" className="px-6 py-4">
                                 Descripción
                             </th>
                             <th scope="col" className="px-6 py-4">
@@ -65,7 +68,7 @@ const RoomsTable: FC<IProps> = ({ onEdit, onRemove, onView }) => {
                         {isLoadingRooms && rooms.length == 0 && (
                             <tr className="border-b dark:border-neutral-500 text-center bg-gray-500/20">
                                 <td
-                                    colSpan={7}
+                                    colSpan={8}
                                     className="whitespace-nowrap px-6 py-4 font-bold text-3xl md:text-5xl text-black/50"
                                 >
                                     <div className="flex flex-nowrap gap-2 justify-center items-center">
@@ -80,7 +83,7 @@ const RoomsTable: FC<IProps> = ({ onEdit, onRemove, onView }) => {
                         {!isLoadingRooms && rooms.length == 0 && (
                             <tr className="border-b dark:border-neutral-500 text-center bg-gray-500/20">
                                 <td
-                                    colSpan={7}
+                                    colSpan={8}
                                     className="whitespace-nowrap px-6 py-4 font-bold text-3xl md:text-5xl text-black/50"
                                 >
                                     No hay hoteles
@@ -100,6 +103,7 @@ const RoomsTable: FC<IProps> = ({ onEdit, onRemove, onView }) => {
                                     </picture>
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4">{room.name}</td>
+                                <td className="whitespace-nowrap px-6 py-4">{room.price}</td>
                                 <td className="whitespace-nowrap px-6 py-4">{room.description}</td>
                                 <td className="whitespace-nowrap px-6 py-4">{room.stars}</td>
                                 <td className="whitespace-nowrap px-6 py-4">

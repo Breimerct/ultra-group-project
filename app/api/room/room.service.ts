@@ -28,6 +28,7 @@ export class RoomService {
             ],
             hotelId: "1",
             isAvailable: true,
+            price: 100,
         },
         {
             id: "2",
@@ -37,6 +38,7 @@ export class RoomService {
             imageUrls: [DEFAULT_IMAGE],
             hotelId: "2",
             isAvailable: true,
+            price: 200,
         },
         {
             id: "3",
@@ -46,6 +48,7 @@ export class RoomService {
             imageUrls: [DEFAULT_IMAGE],
             hotelId: "1",
             isAvailable: false,
+            price: 300,
         },
     ];
 

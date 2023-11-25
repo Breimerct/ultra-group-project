@@ -44,7 +44,7 @@ const HotelForm: FC<IProps> = ({ isOpen, onClose, readOnly, hotel, title = "Nuev
         },
         validationSchema: Yup.object({
             name: Yup.string().required("El nombre es requerido"),
-            stars: Yup.string().required("Las estrellas son requeridas"),
+            stars: Yup.string().required("Las estrellas son requeridas").max(5, "Las estrellas deben ser menor a 5"),
             city: Yup.string().required("La ciudad es requerida"),
             description: Yup.string().required("La descripción es requerida"),
             isAvailable: Yup.boolean(),
