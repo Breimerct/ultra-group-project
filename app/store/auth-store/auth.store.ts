@@ -30,8 +30,6 @@ export const useAuthStore = create<State & Actions>((set) => ({
                 password,
             });
 
-            console.log(data);
-
             setUser(data);
             return true;
         } catch (error) {
