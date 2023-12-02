@@ -39,7 +39,6 @@ export const generateTemplate = ({ name, checkIn, checkOut }: IHtmlTemplate) => 
               <p>Has realizado una nueva reserva con las siguientes fechas:</p>
               <p>Fecha de Check-in: ${checkIn}</p>
               <p>Fecha de Check-out: ${checkOut}</p>
-              <!-- Puedes agregar más información según tus necesidades -->
             </div>
           </div>
         </body>

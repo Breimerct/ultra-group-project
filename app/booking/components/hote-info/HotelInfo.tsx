@@ -33,7 +33,7 @@ const HotelInfo: FC<IHotelInfoProps> = ({ hotel, room }) => {
                     </div>
 
                     <div>
-                        <StarRate size={hotel?.stars} startPosition={StartPosition.LEFT} />
+                        <StarRate size={hotel?.stars ?? 0} startPosition={StartPosition.LEFT} />
                     </div>
                 </div>
 
