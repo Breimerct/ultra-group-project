@@ -5,10 +5,9 @@ import { create } from "zustand";
 import { ILogin } from "@/app/api/auth/auth.service";
 import { IUser } from "@/app/api/user/user.service";
 import { useCommonStore } from "../common-store/common.store";
+import { useUserStore } from "../user-store/user.store";
 
-type State = {
-    user: IUser | null;
-};
+type State = {};
 
 type Actions = {
     login: (payload: ILogin) => Promise<boolean>;
@@ -16,11 +15,10 @@ type Actions = {
     logout: () => void;
 };
 
-const initialState: State = {
-    user: null,
-};
+const initialState: State = {};
 
 const { setIsLoading: setGlobalLoading } = useCommonStore.getState();
+const { setUser } = useUserStore.getState();
 
 export const useAuthStore = create<State & Actions>((set) => ({
     ...initialState,
@@ -32,7 +30,7 @@ export const useAuthStore = create<State & Actions>((set) => ({
                 password,
             });
 
-            set({ user: data.user });
+            setUser(data);
             return true;
         } catch (error) {
             if (error instanceof AxiosError) {
@@ -47,7 +45,7 @@ export const useAuthStore = create<State & Actions>((set) => ({
     },
 
     logout: () => {
-        set({ user: null });
+        setUser(null);
     },
 
     register: async (payload) => {
@@ -59,7 +57,7 @@ export const useAuthStore = create<State & Actions>((set) => ({
                 type: "success",
             });
 
-            set({ user: data });
+            setUser(data);
             return true;
         } catch (error) {
             if (error instanceof AxiosError) {

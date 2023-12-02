@@ -84,4 +84,24 @@ export class UserService {
             resolve(user);
         });
     }
+
+    static update(id: string, user: IUser): Promise<IUser> {
+        return new Promise((resolve, reject) => {
+            const userFound = UserService.users.find((u) => u.id === id);
+
+            if (!userFound) {
+                reject({ message: "Usuario no encontrado" });
+                return;
+            }
+
+            const userIndex = UserService.users.findIndex((u) => u.id === id);
+
+            UserService.users[userIndex] = {
+                ...userFound,
+                ...user,
+            };
+
+            resolve(UserService.users[userIndex]);
+        });
+    }
 }
