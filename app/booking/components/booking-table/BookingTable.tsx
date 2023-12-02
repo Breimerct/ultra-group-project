@@ -17,8 +17,8 @@ const BookingTable: FC = () => {
     }, []);
 
     const handleSeeDetails = (booking: IBooking) => {
-        findBookingDetail(booking.id);
-        setShowDetailModal(true);
+        findBookingDetail(booking.id).then(() => setShowDetailModal(true));
+        // setShowDetailModal(true);
     };
 
     const handleCloseModal = () => {

@@ -18,7 +18,7 @@ type Actions = {
     setBookingDto: (bookingDto: IBookingDto) => void;
     createBooking: (booking: IBookingDto) => Promise<void>;
     findBookings: (userId?: string | null) => void;
-    findBookingDetail: (bookingId: string | null | undefined) => void;
+    findBookingDetail: (bookingId: string | null | undefined) => Promise<void>;
 };
 
 const initialState: State = {
@@ -86,6 +86,7 @@ export const useBookingStore = create<State & Actions>((set) => ({
     },
 
     findBookingDetail: async (bookingId) => {
+        setGlobalLoading(true);
         try {
             const { data } = await axios.get(`/api/booking/detail/${bookingId}`);
 
@@ -95,6 +96,8 @@ export const useBookingStore = create<State & Actions>((set) => ({
             if (error instanceof AxiosError) {
                 toast.error(error.response?.data?.message || error.message);
             }
+        } finally {
+            setGlobalLoading(false);
         }
     },
 }));
