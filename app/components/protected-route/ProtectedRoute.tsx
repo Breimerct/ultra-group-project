@@ -1,15 +1,15 @@
 "use client";
 import React, { useEffect } from "react";
 import { redirect } from "next/navigation";
-import { useAuthStore } from "@/app/store/auth-store/auth.store";
 import { toast } from "react-toastify";
+import { useUserStore } from "@/app/store/user-store/user.store";
 
 interface ProtectedRouteProps {
     children: React.ReactNode;
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-    const { user } = useAuthStore();
+    const { user } = useUserStore();
 
     useEffect(() => {
         if (!user) {

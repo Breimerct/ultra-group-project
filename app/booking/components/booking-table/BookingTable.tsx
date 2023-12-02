@@ -1,15 +1,15 @@
 "use client";
 import { IBooking } from "@/app/api/booking/bookings.service";
 import { EyeSearchIcon } from "@/app/components/Icons";
-import { useAuthStore } from "@/app/store/auth-store/auth.store";
 import { useBookingStore } from "@/app/store/booking-store/booking.store";
 import { FC, useEffect, useState } from "react";
 import DetailModal from "../detail-modal/DetailModal";
+import { useUserStore } from "@/app/store/user-store/user.store";
 
 const BookingTable: FC = () => {
     const [showDetailModal, setShowDetailModal] = useState(false);
     const { findBookings, bookings, findBookingDetail } = useBookingStore();
-    const { user } = useAuthStore();
+    const { user } = useUserStore();
 
     useEffect(() => {
         const userId = user?.role === "admin" ? undefined : user?.id;

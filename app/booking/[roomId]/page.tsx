@@ -1,6 +1,4 @@
 "use client";
-import { useAuthStore } from "@/app/store/auth-store/auth.store";
-import { useHotelStore } from "@/app/store/hotel-store/hotel.store";
 import { useRoomStore } from "@/app/store/room-store/room.store";
 import { useParams } from "next/navigation";
 import { FC, useEffect, useState } from "react";
@@ -9,13 +7,13 @@ import BookingForm from "../components/booking-form/BookingForm";
 import { MinusIcon, PlusIcon } from "@/app/components/Icons";
 import Header from "@/app/components/header/Header";
 import EmergencyContact from "../components/emergency-contact/EmergencyContact";
-import { useBookingStore } from "@/app/store/booking-store/booking.store";
 import CheckDateForm from "../components/check-date-form/CheckDateForm";
+import { useUserStore } from "@/app/store/user-store/user.store";
 
 const Page: FC = () => {
     const params = useParams<{ roomId: string }>();
     const { getRoomById, room } = useRoomStore();
-    const { user } = useAuthStore();
+    const { user } = useUserStore();
     const [numberOfCompanions, setNumberOfCompanions] = useState(1);
 
     const addCompanion = () => {

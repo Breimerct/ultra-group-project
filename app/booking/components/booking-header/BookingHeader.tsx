@@ -1,10 +1,10 @@
 "use client";
 import Header from "@/app/components/header/Header";
-import { useAuthStore } from "@/app/store/auth-store/auth.store";
+import { useUserStore } from "@/app/store/user-store/user.store";
 import { FC, use } from "react";
 
 const BookingHeader: FC = () => {
-    const { user } = useAuthStore();
+    const { user } = useUserStore();
 
     return (
         <header

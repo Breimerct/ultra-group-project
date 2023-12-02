@@ -1,14 +1,14 @@
 "use client";
-import { useAuthStore } from "@/app/store/auth-store/auth.store";
 import Header from "../header/Header";
 import { FC } from "react";
+import { useUserStore } from "@/app/store/user-store/user.store";
 
 interface Props {
     background: string;
 }
 
 const ProfileHeader: FC<Props> = ({ background }) => {
-    const { user } = useAuthStore();
+    const { user } = useUserStore();
 
     return (
         <header

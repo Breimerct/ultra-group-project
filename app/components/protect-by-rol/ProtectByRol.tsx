@@ -1,9 +1,9 @@
 "use client";
 import { Role } from "@/app/api/auth/auth.service";
-import { useAuthStore } from "@/app/store/auth-store/auth.store";
 import { FC, ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { toast } from "react-toastify";
+import { useUserStore } from "@/app/store/user-store/user.store";
 
 interface IProps {
     children: ReactNode;
@@ -11,7 +11,7 @@ interface IProps {
 }
 
 const ProtectByRol: FC<IProps> = ({ children, isUser = false }) => {
-    const { user } = useAuthStore();
+    const { user } = useUserStore();
 
     if (!user) {
         return null;

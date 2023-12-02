@@ -2,9 +2,11 @@
 import { useAuthStore } from "@/app/store/auth-store/auth.store";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useUserStore } from "@/app/store/user-store/user.store";
 
 const UserOptions = () => {
-    const { user, logout } = useAuthStore();
+    const { logout } = useAuthStore();
+    const { user } = useUserStore();
     const [isOpen, setIsOpen] = useState(false);
 
     const handleLogout = async () => {

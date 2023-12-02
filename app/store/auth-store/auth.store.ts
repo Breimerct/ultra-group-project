@@ -25,10 +25,12 @@ export const useAuthStore = create<State & Actions>((set) => ({
     login: async ({ email, password }) => {
         setGlobalLoading(true);
         try {
-            const { data } = await axios.post("/api/auth/login", {
+            const { data } = await axios.post<IUser>("/api/auth/login", {
                 email,
                 password,
             });
+
+            console.log(data);
 
             setUser(data);
             return true;

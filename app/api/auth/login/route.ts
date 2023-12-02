@@ -5,7 +5,7 @@ export async function POST(request: Request) {
         const { email, password } = await request.json();
         const { user } = await AuthService.login({ email, password });
 
-        return Response.json({ user }, { status: 200 });
+        return Response.json(user, { status: 200 });
     } catch (error) {
         return Response.json(error, { status: 401 });
     }
