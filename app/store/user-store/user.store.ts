@@ -30,6 +30,7 @@ export const useUserStore = create<Store>((set) => ({
         try {
             const { data } = await axios.put<IUser>(`/api/user/${id}`, user);
 
+            toast.success("usuario actualizado");
             set({ user: data });
         } catch (error: any) {
             if (error instanceof AxiosError) {
@@ -48,6 +49,7 @@ export const useUserStore = create<Store>((set) => ({
                 newPassword,
             });
 
+            toast.success("contraseña actualizada");
             set({ user: data });
         } catch (error: any) {
             if (error instanceof AxiosError) {
