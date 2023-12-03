@@ -1,8 +1,9 @@
-import { UserService } from "./user.service";
+import { UserService } from "../user.service";
 
-export async function PUT(request: Request, params: { id: string }) {
+export async function PUT(request: Request, response: { params: { id: string } }) {
     try {
-        const { id } = params;
+        console.log("PUT /user/:id", response.params.id);
+        const { id } = response.params;
         const body = await request.json();
 
         const user = await UserService.update(id, body);

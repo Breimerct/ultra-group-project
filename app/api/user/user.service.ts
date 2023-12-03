@@ -46,8 +46,9 @@ export class UserService {
     ];
 
     static async findOne(id: string): Promise<IUser> {
+        console.log("findOne", id);
         return new Promise((resolve, reject) => {
-            const user = UserService.users.find((u) => u.id === id);
+            const user = this.users.find((u) => u.id === id);
 
             if (!user) {
                 reject({ message: "Usuario no encontrado" });
@@ -60,7 +61,7 @@ export class UserService {
 
     static async findByEmail(email: string): Promise<IUser> {
         return new Promise((resolve, reject) => {
-            const user = UserService.users.find((u) => u.email === email);
+            const user = this.users.find((u) => u.email === email);
 
             if (!user) {
                 reject({ message: "Usuario no encontrado" });
@@ -73,35 +74,37 @@ export class UserService {
 
     static async getAll(): Promise<IUser[]> {
         return new Promise((resolve) => {
-            resolve(UserService.users);
+            resolve(this.users);
         });
     }
 
     static create(user: IUser): Promise<IUser> {
+        console.log("create", user);
         return new Promise((resolve) => {
-            UserService.users.push(user);
+            this.users.push(user);
 
             resolve(user);
         });
     }
 
     static update(id: string, user: IUser): Promise<IUser> {
+        // console.log(id, user);
         return new Promise((resolve, reject) => {
-            const userFound = UserService.users.find((u) => u.id === id);
+            const userFound = this.users.find((u) => u.id === id);
 
             if (!userFound) {
                 reject({ message: "Usuario no encontrado" });
                 return;
             }
 
-            const userIndex = UserService.users.findIndex((u) => u.id === id);
+            const userIndex = this.users.findIndex((u) => u.id === id);
 
-            UserService.users[userIndex] = {
+            this.users[userIndex] = {
                 ...userFound,
                 ...user,
             };
 
-            resolve(UserService.users[userIndex]);
+            resolve(this.users[userIndex]);
         });
     }
 }
