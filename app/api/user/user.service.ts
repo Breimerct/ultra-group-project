@@ -123,7 +123,7 @@ export class UserService {
 
             users[userIndex] = {
                 ...userFound,
-                password: currentPassword,
+                password: newPassword,
             };
 
             resolve(users[userIndex]);

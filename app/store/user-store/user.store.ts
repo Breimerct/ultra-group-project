@@ -11,6 +11,7 @@ type State = {
 type Actions = {
     setUser: (user: IUser | null) => void;
     updateUser: (id: string, user: Partial<IUser>) => Promise<void>;
+    updateUserPassword: (id: string, currentPassword: string, newPassword: string) => Promise<void>;
 };
 
 type Store = State & Actions;
@@ -28,6 +29,24 @@ export const useUserStore = create<Store>((set) => ({
         setGlobalIsLoading(true);
         try {
             const { data } = await axios.put<IUser>(`/api/user/${id}`, user);
+
+            set({ user: data });
+        } catch (error: any) {
+            if (error instanceof AxiosError) {
+                toast.error(error.response?.data?.message || error.message);
+            }
+        } finally {
+            setGlobalIsLoading(false);
+        }
+    },
+
+    updateUserPassword: async (id, currentPassword, newPassword) => {
+        setGlobalIsLoading(true);
+        try {
+            const { data } = await axios.patch<IUser>(`/api/user/${id}`, {
+                currentPassword,
+                newPassword,
+            });
 
             set({ user: data });
         } catch (error: any) {

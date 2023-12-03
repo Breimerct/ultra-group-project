@@ -20,7 +20,11 @@ export async function PATCH(request: Request, response: { params: { id: string }
         const { id } = response.params;
         const body = await request.json();
 
-        const user = await UserService.update(id, body);
+        if (!body.currentPassword || !body.newPassword) {
+            throw new Error("Faltan campos requeridos");
+        }
+
+        const user = await UserService.updatePassword(id, body.currentPassword, body.newPassword);
         return Response.json(user, { status: 200 });
     } catch (error: any) {
         const message = error instanceof Error || error instanceof Object ? error.message : error;
