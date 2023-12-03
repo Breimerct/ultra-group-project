@@ -10,8 +10,6 @@ const ProfilePage: FC = () => {
             <ProfileHeader background="/background-profile-page.webp" />
 
             <main className="w-full p-10 mx-auto grid grid-cols-1 lg:grid-cols-2 gap-5">
-                <h1 className="col-span-2 text-2xl font-semibold mb-3">Datos del usuario</h1>
-
                 <section className="col-span-1 w-full bg-white rounded-lg shadow-md p-5">
                     <ProfileUserInfo />
                 </section>

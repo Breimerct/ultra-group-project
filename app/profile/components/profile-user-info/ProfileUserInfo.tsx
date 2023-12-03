@@ -83,7 +83,7 @@ const ProfileUserInfo: FC = () => {
     return (
         <>
             <div className="flex flex-nowrap justify-between">
-                <h1>ProfileUserInfo</h1>
+                <h1 className="col-span-2 text-2xl font-semibold mb-3">Datos del usuario</h1>
                 <button
                     className="mr-4 text-emerald-800 bg-zinc-300 p-2 rounded-full disabled:text-zinc-700/60 disabled:bg-slate-300/40 disabled:cursor-not-allowed disabled:shadow-none hover:scale-105 hover:shadow-md hover:shadow-zinc-500 transition-all"
                     disabled={!readOnly}
