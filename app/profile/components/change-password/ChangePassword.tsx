@@ -8,7 +8,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const ChangePassword: FC = () => {
-    const { updateUser } = useUserStore();
+    const { user, updateUserPassword } = useUserStore();
     const [readOnly, setReadOnly] = useState(true);
 
     const handleEdit = () => {
@@ -25,7 +25,7 @@ const ChangePassword: FC = () => {
         currentPassword: Yup.string().required("El campo es requerido."),
         newPassword: Yup.string().min(8, "Minimo debe tener 8 caracteres o más.").required("El campo es requerido."),
         confirmPassword: Yup.string()
-            .oneOf([Yup.ref("password")], "Las contraseñas no coinciden.")
+            .oneOf([Yup.ref("newPassword")], "Las contraseñas no coinciden.")
             .required("El campo es requerido."),
     });
 
@@ -37,6 +37,10 @@ const ChangePassword: FC = () => {
                 currentPassword: values.currentPassword,
                 newPassword: values.newPassword,
             };
+
+            if (!user?.id) return;
+
+            updateUserPassword(user?.id, newPassword.currentPassword, newPassword.newPassword);
         },
     });
 
