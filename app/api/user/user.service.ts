@@ -104,4 +104,29 @@ export class UserService {
             resolve(users[userIndex]);
         });
     }
+
+    static updatePassword(id: string, currentPassword: string, newPassword: string): Promise<IUser> {
+        return new Promise((resolve, reject) => {
+            const userFound = users.find((u) => u.id === id);
+
+            if (!userFound) {
+                reject({ message: "Usuario no encontrado" });
+                return;
+            }
+
+            if (userFound.password !== currentPassword) {
+                reject({ message: "La contraseña actual no coincide" });
+                return;
+            }
+
+            const userIndex = users.findIndex((u) => u.id === id);
+
+            users[userIndex] = {
+                ...userFound,
+                password: currentPassword,
+            };
+
+            resolve(users[userIndex]);
+        });
+    }
 }
