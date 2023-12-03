@@ -56,8 +56,8 @@ const RegisterForm: FC = () => {
 
             register(user).then((res) => {
                 if (res) {
-                    // resetForm();
-                    // router.push("/");
+                    resetForm();
+                    router.push("/");
                 }
             });
         },
