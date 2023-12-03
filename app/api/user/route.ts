@@ -1,6 +1,6 @@
 import { UserService } from "./user.service";
 
-export function GET() {
-    const users = UserService.users;
+export async function GET() {
+    const users = await UserService.getAll();
     return Response.json(users, { status: 200 });
 }

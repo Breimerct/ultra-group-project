@@ -17,38 +17,37 @@ export enum Gender {
     Male = "Masculino",
 }
 
-export class UserService {
-    static users: IUser[] = [
-        {
-            email: "admin@admin.ad",
-            password: "admin",
-            name: "Admin User",
-            cellphone: "1234567890",
-            avatar: "https://robohash.org/admin",
-            id: "1",
-            role: "admin",
-            documentNumber: "1234567890",
-            documentType: "CC",
-            gender: Gender.Male,
-        },
-        {
-            email: "breimerct@gmail.com",
-            password: "user",
-            name: "Breimer Correa",
-            cellphone: "1234567890",
-            avatar: "https://robohash.org/breimerct",
-            id: "2",
-            role: "user",
-            documentNumber: "1234567890",
-            documentType: "CC",
-            gender: Gender.Male,
-        },
-    ];
+const users: IUser[] = [
+    {
+        email: "admin@admin.ad",
+        password: "admin",
+        name: "Admin User",
+        cellphone: "1234567890",
+        avatar: "https://robohash.org/admin",
+        id: "1",
+        role: "admin",
+        documentNumber: "1234567890",
+        documentType: "CC",
+        gender: Gender.Male,
+    },
+    {
+        email: "breimerct@gmail.com",
+        password: "user",
+        name: "Breimer Correa",
+        cellphone: "1234567890",
+        avatar: "https://robohash.org/breimerct",
+        id: "2",
+        role: "user",
+        documentNumber: "1234567890",
+        documentType: "CC",
+        gender: Gender.Male,
+    },
+];
 
+export class UserService {
     static async findOne(id: string): Promise<IUser> {
-        console.log("findOne", id);
         return new Promise((resolve, reject) => {
-            const user = this.users.find((u) => u.id === id);
+            const user = users.find((u) => u.id === id);
 
             if (!user) {
                 reject({ message: "Usuario no encontrado" });
@@ -61,7 +60,7 @@ export class UserService {
 
     static async findByEmail(email: string): Promise<IUser> {
         return new Promise((resolve, reject) => {
-            const user = this.users.find((u) => u.email === email);
+            const user = users.find((u) => u.email === email);
 
             if (!user) {
                 reject({ message: "Usuario no encontrado" });
@@ -74,37 +73,35 @@ export class UserService {
 
     static async getAll(): Promise<IUser[]> {
         return new Promise((resolve) => {
-            resolve(this.users);
+            resolve(users);
         });
     }
 
     static create(user: IUser): Promise<IUser> {
-        console.log("create", user);
         return new Promise((resolve) => {
-            this.users.push(user);
+            users.push(user);
 
             resolve(user);
         });
     }
 
     static update(id: string, user: IUser): Promise<IUser> {
-        // console.log(id, user);
         return new Promise((resolve, reject) => {
-            const userFound = this.users.find((u) => u.id === id);
+            const userFound = users.find((u) => u.id === id);
 
             if (!userFound) {
                 reject({ message: "Usuario no encontrado" });
                 return;
             }
 
-            const userIndex = this.users.findIndex((u) => u.id === id);
+            const userIndex = users.findIndex((u) => u.id === id);
 
-            this.users[userIndex] = {
+            users[userIndex] = {
                 ...userFound,
                 ...user,
             };
 
-            resolve(this.users[userIndex]);
+            resolve(users[userIndex]);
         });
     }
 }

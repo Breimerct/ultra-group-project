@@ -13,8 +13,8 @@ export enum Role {
 
 export class AuthService {
     static async login({ email, password }: ILogin): Promise<{ user: IUser }> {
-        return new Promise((resolve, reject) => {
-            const user = UserService.users.find((u) => u.email === email && u.password === password);
+        return new Promise(async (resolve, reject) => {
+            const user = (await UserService.getAll()).find((u) => u.email === email && u.password === password);
 
             if (!user) {
                 reject({ message: "Credenciales invalidas" });
@@ -26,9 +26,9 @@ export class AuthService {
     }
 
     static async register(userDto: IUser): Promise<IUser> {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             const { email } = userDto;
-            const user = UserService.users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+            const user = (await UserService.getAll()).find((u) => u.email.toLowerCase() === email.toLowerCase());
 
             if (user) {
                 reject({ message: "Usuario ya existe" });
