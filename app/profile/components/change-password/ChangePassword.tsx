@@ -23,7 +23,9 @@ const ChangePassword: FC = () => {
 
     const validationSchema = Yup.object({
         currentPassword: Yup.string().required("El campo es requerido."),
-        newPassword: Yup.string().min(8, "Minimo debe tener 8 caracteres o más.").required("El campo es requerido."),
+        newPassword: Yup.string()
+            .min(8, "Minimo debe tener 8 caracteres o más.")
+            .required("El campo es requerido."),
         confirmPassword: Yup.string()
             .oneOf([Yup.ref("newPassword")], "Las contraseñas no coinciden.")
             .required("El campo es requerido."),
@@ -40,7 +42,14 @@ const ChangePassword: FC = () => {
 
             if (!user?.id) return;
 
-            updateUserPassword(user?.id, newPassword.currentPassword, newPassword.newPassword);
+            updateUserPassword(
+                user?.id,
+                newPassword.currentPassword,
+                newPassword.newPassword,
+            ).then(() => {
+                setReadOnly(true);
+                formik.resetForm();
+            });
         },
     });
 
@@ -68,7 +77,10 @@ const ChangePassword: FC = () => {
                         label="Contraseña actual"
                         type="password"
                         readOnly={readOnly}
-                        isInvalid={formik.touched.currentPassword && !!formik.errors.currentPassword}
+                        isInvalid={
+                            formik.touched.currentPassword &&
+                            !!formik.errors.currentPassword
+                        }
                         messageError={formik.errors.currentPassword}
                         {...formik.getFieldProps("currentPassword")}
                     />
@@ -79,7 +91,9 @@ const ChangePassword: FC = () => {
                         label="Contraseña nueva"
                         type="password"
                         readOnly={readOnly}
-                        isInvalid={formik.touched.newPassword && !!formik.errors.newPassword}
+                        isInvalid={
+                            formik.touched.newPassword && !!formik.errors.newPassword
+                        }
                         messageError={formik.errors.newPassword}
                         {...formik.getFieldProps("newPassword")}
                     />
@@ -90,7 +104,10 @@ const ChangePassword: FC = () => {
                         label="Confirmar contraseña"
                         type="password"
                         readOnly={readOnly}
-                        isInvalid={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
+                        isInvalid={
+                            formik.touched.confirmPassword &&
+                            !!formik.errors.confirmPassword
+                        }
                         messageError={formik.errors.confirmPassword}
                         {...formik.getFieldProps("confirmPassword")}
                     />
