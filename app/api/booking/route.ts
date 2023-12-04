@@ -16,7 +16,8 @@ export async function GET(request: Request) {
         const bookings = await BookingService.getBookings();
         return Response.json(bookings, { status: 200 });
     } catch (error: any) {
-        const message = error instanceof Error || error instanceof Object ? error.message : error;
+        const message =
+            error instanceof Error || error instanceof Object ? error.message : error;
         const status = error instanceof Error || error instanceof Object ? 500 : 400;
 
         return Response.json({ message }, { status });
@@ -44,7 +45,11 @@ export async function POST(request: Request) {
                 from: '"Fred Foo 👻"',
                 to: user.email,
                 text: "Hello world?",
-                html: generateTemplate({ name: user.name, checkIn: booking.checkIn, checkOut: booking.checkOut }),
+                html: generateTemplate({
+                    name: user.name,
+                    checkIn: booking.checkIn,
+                    checkOut: booking.checkOut,
+                }),
             };
 
             transporter.sendMail(mailOptions, (error: any, info: any) => {
@@ -58,7 +63,8 @@ export async function POST(request: Request) {
 
         return Response.json(booking, { status: 200 });
     } catch (error: any) {
-        const message = error instanceof Error || error instanceof Object ? error.message : error;
+        const message =
+            error instanceof Error || error instanceof Object ? error.message : error;
         const status = error instanceof Error || error instanceof Object ? 500 : 400;
 
         return Response.json({ message }, { status });

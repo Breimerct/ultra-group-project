@@ -1,5 +1,6 @@
 import { HotelService } from "../hotel.service";
 
-export function GET() {
-    return Response.json(HotelService.hotels, { status: 200 });
+export async function GET() {
+    const hotels = await HotelService.getHotels();
+    return Response.json(hotels, { status: 200 });
 }
