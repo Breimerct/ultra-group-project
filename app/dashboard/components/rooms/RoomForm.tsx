@@ -1,11 +1,14 @@
 "use client";
+import { ICategoryRoom } from "@/app/api/data/common.service";
 import { IHotel } from "@/app/api/hotel/hotel.service";
-import { IRoom } from "@/app/api/room/room.service";
+import { IRoom, IRoomDetail } from "@/app/api/room/room.service";
 import Autocomplete from "@/app/components/autocomplete/Autocomplete";
 import CheckBox from "@/app/components/checkbox/CheckBox";
 import Input from "@/app/components/input/Input";
 import Modal from "@/app/components/modal/Modal";
+import Select from "@/app/components/select/Select";
 import TextArea from "@/app/components/textarea/TextArea";
+import { useCommonStore } from "@/app/store/common-store/common.store";
 import { useHotelStore } from "@/app/store/hotel-store/hotel.store";
 import { useRoomStore } from "@/app/store/room-store/room.store";
 import { DEFAULT_IMAGE } from "@/hooks/useRandomImage/useRandomImage";
@@ -21,24 +24,40 @@ interface IProps {
     readOnly?: boolean;
 }
 
-const validateSchema = Yup.object().shape({
-    name: Yup.string().required("El nombre es requerido"),
+const validateSchema = Yup.object({
+    nameRoom: Yup.string().required("El nombre es requerido"),
     description: Yup.string().required("La descripción es requerida"),
-    stars: Yup.number().required("Las estrellas son requeridas").max(5, "Las estrellas deben ser menor a 5"),
-    price: Yup.number().required("El precio es requerido").min(0, "El precio debe ser mayor a 0"),
-    isAvailable: Yup.boolean().required("La disponibilidad es requerida"),
+    stars: Yup.number()
+        .required("Las estrellas son requeridas")
+        .max(5, "Las estrellas deben ser menor a 5"),
+    price: Yup.number()
+        .required("El precio es requerido")
+        .min(0, "El precio debe ser mayor a 0"),
+    isAvailable: Yup.boolean(),
     hotel: Yup.string().required("El hotel es requerido"),
+    categoryId: Yup.string().required("La categoría es requerida"),
 });
 
-const RoomForm: FC<IProps> = ({ isOpen, room, onClose, title = "Nueva Habitación", readOnly }) => {
+const RoomForm: FC<IProps> = ({
+    isOpen,
+    room,
+    onClose,
+    title = "Nueva Habitación",
+    readOnly,
+}) => {
     const { hotels } = useHotelStore();
     const { updateRoomById, createRoom } = useRoomStore();
     const [show, setShow] = useState(isOpen);
     const [hotelSelected, setHotelSelected] = useState<IHotel | null>(null);
+    const { categories, getAllCategories } = useCommonStore();
 
     useEffect(() => {
         setShow(isOpen);
     }, [isOpen]);
+
+    useEffect(() => {
+        getAllCategories();
+    }, []);
 
     const handleOnclose = () => {
         formik.resetForm();
@@ -49,16 +68,18 @@ const RoomForm: FC<IProps> = ({ isOpen, room, onClose, title = "Nueva Habitació
     const formik = useFormik({
         validationSchema: validateSchema,
         initialValues: {
-            name: "",
+            nameRoom: "",
             description: "",
             stars: "",
             price: "",
             isAvailable: false,
             hotel: "",
+            categoryId: "",
         },
         onSubmit: (values) => {
             const newRoom = {
                 ...values,
+                name: values.nameRoom,
                 stars: Number(values.stars),
                 price: Number(values.price),
                 hotelId: hotelSelected?.id || "",
@@ -81,12 +102,13 @@ const RoomForm: FC<IProps> = ({ isOpen, room, onClose, title = "Nueva Habitació
 
         setHotelSelected(hotels.find((hotel) => hotel.id === room?.hotelId) || null);
 
-        formik.values.name = room?.name || "";
+        formik.values.nameRoom = room?.name || "";
         formik.values.description = room?.description || "";
-        formik.values.stars = String(room?.stars || "0");
-        formik.values.price = String(room?.price || "0");
+        formik.values.stars = String(room?.stars || "");
+        formik.values.price = String(room?.price || "");
         formik.values.isAvailable = !!room?.isAvailable;
         formik.values.hotel = hotelName || "";
+        formik.values.categoryId = room?.categoryId || "";
     }, [room]);
 
     const handleChangeInput = (value: string) => {
@@ -120,7 +142,11 @@ const RoomForm: FC<IProps> = ({ isOpen, room, onClose, title = "Nueva Habitació
                 {!!room && (
                     <picture className="rounded-full w-32 h-32 overflow-hidden border-[5px] border-white absolute z-[60] top-[-140px] left-[50%] translate-x-[-50%]">
                         <img
-                            src={!!room?.imageUrls && room.imageUrls.length >= 1 ? room.imageUrls[0] : DEFAULT_IMAGE}
+                            src={
+                                !!room?.imageUrls && room.imageUrls.length >= 1
+                                    ? room.imageUrls[0]
+                                    : DEFAULT_IMAGE
+                            }
                             alt={room.name}
                             className="w-full h-full object-cover"
                         />
@@ -133,7 +159,11 @@ const RoomForm: FC<IProps> = ({ isOpen, room, onClose, title = "Nueva Habitació
                             readOnly={readOnly}
                             label="Nombre"
                             placeholder="Nombre de la habitación"
-                            {...formik.getFieldProps("name")}
+                            isInvalid={
+                                formik.touched.nameRoom && !!formik.errors.nameRoom
+                            }
+                            messageError={formik.errors.nameRoom}
+                            {...formik.getFieldProps("nameRoom")}
                         />
                     </div>
 
@@ -149,11 +179,32 @@ const RoomForm: FC<IProps> = ({ isOpen, room, onClose, title = "Nueva Habitació
                     </div>
 
                     <div className="col-span-2">
+                        <Select
+                            label="Categoria"
+                            readOnly={readOnly}
+                            isInvalid={
+                                formik.touched.categoryId && !!formik.errors.categoryId
+                            }
+                            messageError={formik.errors.categoryId}
+                            {...formik.getFieldProps("categoryId")}
+                        >
+                            <option value="">Seleccione una categoría</option>
+                            {categories.map((category) => (
+                                <option key={category.id} value={category.id}>
+                                    {category.category}
+                                </option>
+                            ))}
+                        </Select>
+                    </div>
+
+                    <div className="col-span-2">
                         <TextArea
                             readOnly={readOnly}
                             label="Descripción"
                             placeholder="Descripción de la habitación"
-                            isInvalid={formik.touched.description && !!formik.errors.description}
+                            isInvalid={
+                                formik.touched.description && !!formik.errors.description
+                            }
                             messageError={formik.errors.description}
                             {...formik.getFieldProps("description")}
                         />
@@ -192,7 +243,9 @@ const RoomForm: FC<IProps> = ({ isOpen, room, onClose, title = "Nueva Habitació
                             readOnly={readOnly}
                             label="Disponible"
                             checked={formik.values.isAvailable}
-                            isInvalid={formik.touched.isAvailable && !!formik.errors.isAvailable}
+                            isInvalid={
+                                formik.touched.isAvailable && !!formik.errors.isAvailable
+                            }
                             messageError={formik.errors.isAvailable}
                             {...formik.getFieldProps("isAvailable")}
                         />

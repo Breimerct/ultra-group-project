@@ -1,15 +1,15 @@
 import CITIES from "./cities";
 
 export interface ICategoryRoom {
-    id: number;
+    id: string;
     category: string;
     tax: number;
 }
 
 const categories: ICategoryRoom[] = [
-    { id: 1, category: "Individual", tax: 0.1 },
-    { id: 2, category: "Doble", tax: 0.15 },
-    { id: 3, category: "Suite", tax: 0.2 },
+    { id: "1", category: "Individual", tax: 0.1 },
+    { id: "2", category: "Doble", tax: 0.15 },
+    { id: "3", category: "Suite", tax: 0.2 },
 ];
 
 export default class CommonService {
@@ -27,7 +27,7 @@ export default class CommonService {
         });
     }
 
-    static getCategoryById(categoryId: number): Promise<any> {
+    static getCategoryById(categoryId: string): Promise<any> {
         return new Promise((resolve, reject) => {
             const categoryFound = categories.find(
                 (category) => category.id === categoryId,

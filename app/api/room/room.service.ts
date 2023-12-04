@@ -12,7 +12,7 @@ export interface IRoom {
     stars?: number;
     imageUrls: string[];
     hotelId: string;
-    categoryId?: number;
+    categoryId: string;
     price?: number;
     isAvailable: boolean;
 }
@@ -34,7 +34,7 @@ const rooms: IRoom[] = [
             "https://images.unsplash.com/photo-1602582401490-7bef59dfe400?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MDA2MTMwOTV8&ixlib=rb-4.0.3&q=80&w=1080",
         ],
         hotelId: "1",
-        categoryId: 1,
+        categoryId: "1",
         isAvailable: true,
         price: 100,
     },
@@ -45,7 +45,7 @@ const rooms: IRoom[] = [
         stars: 4,
         imageUrls: [DEFAULT_IMAGE],
         hotelId: "2",
-        categoryId: 1,
+        categoryId: "1",
         isAvailable: true,
         price: 200,
     },
@@ -56,7 +56,7 @@ const rooms: IRoom[] = [
         stars: 5,
         imageUrls: [DEFAULT_IMAGE],
         hotelId: "1",
-        categoryId: 2,
+        categoryId: "2",
         isAvailable: false,
         price: 300,
     },
@@ -127,7 +127,7 @@ export class RoomService {
             Promise.all(
                 rooms.map(async (room) => {
                     const category = await CommonService.getCategoryById(
-                        room.categoryId ?? 0,
+                        room.categoryId ?? "",
                     );
 
                     return {
@@ -151,7 +151,7 @@ export class RoomService {
             }
 
             const category = await CommonService.getCategoryById(
-                roomData.categoryId ?? 0,
+                roomData.categoryId ?? "",
             );
 
             resolve({
@@ -175,7 +175,7 @@ export class RoomService {
             Promise.all(
                 roomsData.map(async (room) => {
                     const category = await CommonService.getCategoryById(
-                        room.categoryId ?? 0,
+                        room.categoryId ?? "",
                     );
 
                     return {

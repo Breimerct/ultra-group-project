@@ -36,6 +36,7 @@ const DashboardPage: FC = () => {
 
     const handleShowHotelFormToCreate = () => {
         setModalTitle("Nuevo Hotel");
+        setHotelSelected(null);
         setShowHotelForm(true);
         setReadOnly(false);
     };
@@ -47,7 +48,9 @@ const DashboardPage: FC = () => {
     };
 
     const handleRemoveHotel = (hotel: IHotel) => {
-        const confirm = window.confirm(`¿Está seguro de eliminar el hotel ${hotel.name}?`);
+        const confirm = window.confirm(
+            `¿Está seguro de eliminar el hotel ${hotel.name}?`,
+        );
 
         if (confirm && hotel.id) {
             deleteHotelById(hotel.id);
@@ -56,12 +59,15 @@ const DashboardPage: FC = () => {
 
     const handleCreateNewRoom = () => {
         setModalTitle("Nueva Habitación");
+        setRoomSelected(null);
         setShowRoomForm(true);
         setReadOnly(false);
     };
 
     const handleRemoveRoom = (room: IRoom) => {
-        const confirm = window.confirm(`¿Está seguro de eliminar la habitación ${room.name}?`);
+        const confirm = window.confirm(
+            `¿Está seguro de eliminar la habitación ${room.name}?`,
+        );
 
         if (confirm && room.id) {
             deleteRoomById(room.id);
@@ -137,7 +143,11 @@ const DashboardPage: FC = () => {
                 </div>
 
                 <div>
-                    <RoomsTable onRemove={handleRemoveRoom} onEdit={handleEditRoom} onView={handleViewRoom} />
+                    <RoomsTable
+                        onRemove={handleRemoveRoom}
+                        onEdit={handleEditRoom}
+                        onView={handleViewRoom}
+                    />
                 </div>
 
                 <RoomForm
