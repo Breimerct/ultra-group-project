@@ -1,10 +1,10 @@
 "use client";
-import { IRoom } from "@/app/api/room/room.service";
+import { IRoom, IRoomDetail } from "@/app/api/room/room.service";
 import Link from "next/link";
 import { FC, useState } from "react";
 
 interface IProps {
-    room: IRoom;
+    room: IRoomDetail;
 }
 
 const RoomsListItem: FC<IProps> = ({ room }) => {
@@ -21,6 +21,17 @@ const RoomsListItem: FC<IProps> = ({ room }) => {
         }).format(price);
     };
 
+    // otener impuesto y el total del precio con impuestos
+    const getPriceWithTax = (price: number, tax: number) => {
+        const taxPrice = price * tax;
+        const total = price + taxPrice;
+
+        return {
+            taxPrice: formatPrice(taxPrice),
+            total: formatPrice(total),
+        };
+    };
+
     return (
         <div className="bg-zinc-200 rounded-md overflow-hidden">
             <picture className="flex justify-between items-center">
@@ -30,11 +41,44 @@ const RoomsListItem: FC<IProps> = ({ room }) => {
                     className="object-cover w-full h-full max-h-[20rem] aspect-square"
                 />
             </picture>
-            <div className="p-5">
-                <h1 className="text-3xl font-bold">{room.name}</h1>
-                <p>{room.description}</p>
-                <p> {formatPrice(room.price ?? 0)} </p>
-            </div>
+
+            <section className="flex flex-col gap-3 mt-3">
+                <div className="px-5">
+                    <h1 className="text-3xl font-bold">{room.name}</h1>
+                    <p>{room.description}</p>{" "}
+                </div>
+
+                <div className="px-5">
+                    <label className="block text-sm font-medium text-gray-700">
+                        Categoría
+                    </label>
+                    <p>{room.category.category}</p>
+                </div>
+
+                <div className="flex gap-3 px-5">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                            Precio inicial
+                        </label>
+                        <p> {formatPrice(room.price ?? 0)} </p>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                            Impuesto
+                        </label>
+                        <p>{room.category.tax * 100}%</p>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                            Precio total
+                        </label>
+                        <p>{getPriceWithTax(room.price ?? 0, room.category.tax).total}</p>
+                    </div>
+                </div>
+            </section>
+
             <div className="flex justify-center gap-2 m-5">
                 {room.imageUrls.map((url, index) => (
                     <picture

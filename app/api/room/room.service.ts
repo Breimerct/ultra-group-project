@@ -3,6 +3,7 @@ import useRandomHotelImage, {
 } from "@/hooks/useRandomImage/useRandomImage";
 import { HotelService, IHotel } from "../hotel/hotel.service";
 import { BookingService } from "../booking/bookings.service";
+import CommonService, { ICategoryRoom } from "../data/common.service";
 
 export interface IRoom {
     id?: string;
@@ -11,8 +12,13 @@ export interface IRoom {
     stars?: number;
     imageUrls: string[];
     hotelId: string;
+    categoryId?: number;
     price?: number;
     isAvailable: boolean;
+}
+
+export interface IRoomDetail extends IRoom {
+    category: ICategoryRoom;
 }
 
 const rooms: IRoom[] = [
@@ -28,6 +34,7 @@ const rooms: IRoom[] = [
             "https://images.unsplash.com/photo-1602582401490-7bef59dfe400?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MDA2MTMwOTV8&ixlib=rb-4.0.3&q=80&w=1080",
         ],
         hotelId: "1",
+        categoryId: 1,
         isAvailable: true,
         price: 100,
     },
@@ -38,6 +45,7 @@ const rooms: IRoom[] = [
         stars: 4,
         imageUrls: [DEFAULT_IMAGE],
         hotelId: "2",
+        categoryId: 1,
         isAvailable: true,
         price: 200,
     },
@@ -48,6 +56,7 @@ const rooms: IRoom[] = [
         stars: 5,
         imageUrls: [DEFAULT_IMAGE],
         hotelId: "1",
+        categoryId: 2,
         isAvailable: false,
         price: 300,
     },
@@ -113,14 +122,27 @@ export class RoomService {
         });
     }
 
-    static getRooms(): Promise<IRoom[]> {
+    static getRooms(): Promise<IRoomDetail[]> {
         return new Promise((resolve) => {
-            resolve(rooms);
+            Promise.all(
+                rooms.map(async (room) => {
+                    const category = await CommonService.getCategoryById(
+                        room.categoryId ?? 0,
+                    );
+
+                    return {
+                        ...room,
+                        category,
+                    };
+                }),
+            ).then((roomsData) => {
+                resolve(roomsData);
+            });
         });
     }
 
-    static getRoomById(id: string): Promise<IRoom> {
-        return new Promise((resolve, reject) => {
+    static getRoomById(id: string): Promise<IRoomDetail> {
+        return new Promise(async (resolve, reject) => {
             const roomData = rooms.find((room) => room.id === id);
 
             if (!roomData) {
@@ -128,11 +150,18 @@ export class RoomService {
                 return;
             }
 
-            resolve(roomData);
+            const category = await CommonService.getCategoryById(
+                roomData.categoryId ?? 0,
+            );
+
+            resolve({
+                ...roomData,
+                category,
+            });
         });
     }
 
-    static getRoomsByHotelId(hotelId: string): Promise<IRoom[]> {
+    static getRoomsByHotelId(hotelId: string): Promise<IRoomDetail[]> {
         return new Promise((resolve, reject) => {
             const roomsData = rooms.filter(
                 (room) => room.hotelId === hotelId && room.isAvailable,
@@ -143,7 +172,20 @@ export class RoomService {
                 return;
             }
 
-            resolve(roomsData);
+            Promise.all(
+                roomsData.map(async (room) => {
+                    const category = await CommonService.getCategoryById(
+                        room.categoryId ?? 0,
+                    );
+
+                    return {
+                        ...room,
+                        category,
+                    };
+                }),
+            ).then((rooms) => {
+                resolve(rooms);
+            });
         });
     }
 

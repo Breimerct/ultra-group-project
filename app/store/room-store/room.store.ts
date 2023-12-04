@@ -1,11 +1,11 @@
-import { IRoom } from "@/app/api/room/room.service";
+import { IRoom, IRoomDetail } from "@/app/api/room/room.service";
 import axios, { AxiosError } from "axios";
 import { create } from "zustand";
 import { useCommonStore } from "../common-store/common.store";
 import { toast } from "react-toastify";
 
 type State = {
-    rooms: IRoom[];
+    rooms: IRoomDetail[];
     isLoadingRooms: boolean;
     room: IRoom | null;
 };
@@ -13,7 +13,11 @@ type State = {
 type Actions = {
     getAllRooms: () => Promise<void>;
     getRoomById: (id: string) => Promise<void>;
-    getRoomsByHotelAndDate: (hotelId: string | null, checkIn?: string, checkOut?: string) => Promise<void>;
+    getRoomsByHotelAndDate: (
+        hotelId: string | null,
+        checkIn?: string,
+        checkOut?: string,
+    ) => Promise<void>;
     updateRoomById: (id: string, body: Partial<IRoom>) => Promise<void>;
     deleteRoomById: (id: string) => Promise<void>;
     createRoom: (body: Partial<IRoom>) => Promise<void>;
@@ -33,7 +37,7 @@ export const useRoomStore = create<State & Actions>((set) => ({
         setGlobalLoading(true);
         set({ rooms: [], isLoadingRooms: true });
         try {
-            const { data } = await axios<IRoom[]>("/api/room/all");
+            const { data } = await axios<IRoomDetail[]>("/api/room/all");
 
             set({ rooms: data });
         } catch (error: any) {
@@ -63,7 +67,7 @@ export const useRoomStore = create<State & Actions>((set) => ({
         set({ isLoadingRooms: true });
         set({ rooms: [] });
         try {
-            const { data } = await axios.get<IRoom[]>("/api/room/hotel", {
+            const { data } = await axios.get<IRoomDetail[]>("/api/room/hotel", {
                 params: {
                     hotelId,
                     checkIn,
@@ -129,7 +133,7 @@ export const useRoomStore = create<State & Actions>((set) => ({
     createRoom: async (body) => {
         setGlobalLoading(true);
         try {
-            const { data } = await axios.post<IRoom>("/api/room", body);
+            const { data } = await axios.post<IRoomDetail>("/api/room", body);
 
             set((state) => ({
                 rooms: [...state.rooms, data],
