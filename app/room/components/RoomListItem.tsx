@@ -21,7 +21,6 @@ const RoomsListItem: FC<IProps> = ({ room }) => {
         }).format(price);
     };
 
-    // otener impuesto y el total del precio con impuestos
     const getPriceWithTax = (price: number, tax: number) => {
         const taxPrice = price * tax;
         const total = price + taxPrice;
