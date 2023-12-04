@@ -193,7 +193,7 @@ export class RoomService {
         hotelId: string,
         checkIn: string,
         checkOut: string,
-    ): Promise<IRoom[]> {
+    ): Promise<IRoomDetail[]> {
         return new Promise(async (resolve, reject) => {
             const hotels: IHotel[] = await HotelService.getHotels();
             let availableRooms: IRoom[] = [];
@@ -211,7 +211,20 @@ export class RoomService {
                     this.isRoomAvailable(room?.id ?? "", checkIn, checkOut),
                 );
 
-            resolve(availableRooms);
+            Promise.all(
+                availableRooms.map(async (room) => {
+                    const category = await CommonService.getCategoryById(
+                        room.categoryId ?? "",
+                    );
+
+                    return {
+                        ...room,
+                        category,
+                    };
+                }),
+            ).then((rooms) => {
+                resolve(rooms);
+            });
         });
     }
 
