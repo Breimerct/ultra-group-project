@@ -30,7 +30,9 @@ const ProfileUserInfo: FC = () => {
     const validationSchema = Yup.object({
         name: Yup.string().required("El campo es requerido."),
         cellphone: Yup.string().required("El campo es requerido."),
-        email: Yup.string().email("Dirección de Email invalida.").required("El campo es requerido."),
+        email: Yup.string()
+            .email("Dirección de Email invalida.")
+            .required("El campo es requerido."),
         gender: Yup.string().required("El genero es obligatorio"),
         documentType: Yup.string().required("El tipo de documento es obligatorio"),
         documentNumber: Yup.string().required("El numero de documento es obligatorio"),
@@ -64,7 +66,9 @@ const ProfileUserInfo: FC = () => {
         formik.setFieldValue("documentType", user?.documentType?.toLowerCase() || "");
         formik.setFieldValue("documentNumber", user?.documentNumber || "");
 
-        const document = DOCUMENTS_TYPE.find((document) => document.id === user?.documentType?.toLowerCase());
+        const document = DOCUMENTS_TYPE.find(
+            (document) => document.id === user?.documentType?.toLowerCase(),
+        );
         setDocumentType(document?.name || "");
 
         console.log(formik.values);
@@ -83,7 +87,9 @@ const ProfileUserInfo: FC = () => {
     return (
         <>
             <div className="flex flex-nowrap justify-between">
-                <h1 className="col-span-2 text-2xl font-semibold mb-3">Datos del usuario</h1>
+                <h1 className="col-span-2 text-2xl font-semibold mb-3">
+                    Datos del usuario
+                </h1>
                 <button
                     className="mr-4 text-emerald-800 bg-zinc-300 p-2 rounded-full disabled:text-zinc-700/60 disabled:bg-slate-300/40 disabled:cursor-not-allowed disabled:shadow-none hover:scale-105 hover:shadow-md hover:shadow-zinc-500 transition-all"
                     disabled={!readOnly}
@@ -93,7 +99,10 @@ const ProfileUserInfo: FC = () => {
                 </button>
             </div>
 
-            <form className="grid grid-cols-1 md:grid-cols-2 gap-3" onSubmit={formik.handleSubmit}>
+            <form
+                className="grid grid-cols-1 lg:grid-cols-2 gap-3"
+                onSubmit={formik.handleSubmit}
+            >
                 <div className="col-span-1">
                     <Input
                         label="Nombre"
@@ -128,49 +137,48 @@ const ProfileUserInfo: FC = () => {
                 </div>
 
                 <div className="col-span-1">
-                    {readOnly ? (
-                        <Input label="Tipo de documento" value={formik.values.gender} readOnly={true} />
-                    ) : (
-                        <Select
-                            label="Genero"
-                            isInvalid={formik.touched.gender && !!formik.errors.gender}
-                            messageError={formik.errors.gender}
-                            {...formik.getFieldProps("gender")}
-                        >
-                            <option value="">Genero</option>
-                            <option value={Gender.Male}>Masculino</option>
-                            <option value={Gender.Male}>Femenino</option>
-                        </Select>
-                    )}
+                    <Select
+                        label="Genero"
+                        readOnly={readOnly}
+                        isInvalid={formik.touched.gender && !!formik.errors.gender}
+                        messageError={formik.errors.gender}
+                        {...formik.getFieldProps("gender")}
+                    >
+                        <option value="">Genero</option>
+                        <option value={Gender.Male}>Masculino</option>
+                        <option value={Gender.Male}>Femenino</option>
+                    </Select>
                 </div>
 
                 <div className="col-span-1">
-                    {readOnly ? (
-                        <Input label="Tipo de documento" value={documentType} readOnly={true} />
-                    ) : (
-                        <Select
-                            label="Tipo de documento"
-                            isInvalid={formik.touched.documentType && !!formik.errors.documentType}
-                            messageError={formik.errors.documentType}
-                            {...formik.getFieldProps("documentType")}
-                        >
-                            <>
-                                <option value="">Tipo de documento</option>
-                                {DOCUMENTS_TYPE.map((document, index) => (
-                                    <option key={index} value={document.id}>
-                                        {document.name}
-                                    </option>
-                                ))}
-                            </>
-                        </Select>
-                    )}
+                    <Select
+                        label="Tipo de documento"
+                        readOnly={readOnly}
+                        isInvalid={
+                            formik.touched.documentType && !!formik.errors.documentType
+                        }
+                        messageError={formik.errors.documentType}
+                        {...formik.getFieldProps("documentType")}
+                    >
+                        <>
+                            <option value="">Tipo de documento</option>
+                            {DOCUMENTS_TYPE.map((document, index) => (
+                                <option key={index} value={document.id}>
+                                    {document.name}
+                                </option>
+                            ))}
+                        </>
+                    </Select>
                 </div>
 
                 <div className="col-span-1">
                     <Input
                         label="Numero de documento"
                         readOnly={readOnly}
-                        isInvalid={formik.touched.documentNumber && !!formik.errors.documentNumber}
+                        isInvalid={
+                            formik.touched.documentNumber &&
+                            !!formik.errors.documentNumber
+                        }
                         messageError={formik.errors.documentNumber}
                         placeholder="Ingrese su documento"
                         {...formik.getFieldProps("documentNumber")}
