@@ -1,4 +1,4 @@
-import CITIES from "../app/api/data/cities";
+import CITIES from "@api/data/cities";
 
 export interface ICategoryRoom {
     id: string;

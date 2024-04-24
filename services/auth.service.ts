@@ -1,4 +1,4 @@
-import { IUser, UserService } from "../user/user.service";
+import { IUser, UserService } from "./user.service";
 
 export interface ILogin {
     email: string;
@@ -14,7 +14,9 @@ export enum Role {
 export class AuthService {
     static async login({ email, password }: ILogin): Promise<{ user: IUser }> {
         return new Promise(async (resolve, reject) => {
-            const user = (await UserService.getAll()).find((u) => u.email === email && u.password === password);
+            const user = (await UserService.getAll()).find(
+                (u) => u.email === email && u.password === password,
+            );
 
             if (!user) {
                 reject({ message: "Credenciales invalidas" });
@@ -28,7 +30,9 @@ export class AuthService {
     static async register(userDto: IUser): Promise<IUser> {
         return new Promise(async (resolve, reject) => {
             const { email } = userDto;
-            const user = (await UserService.getAll()).find((u) => u.email.toLowerCase() === email.toLowerCase());
+            const user = (await UserService.getAll()).find(
+                (u) => u.email.toLowerCase() === email.toLowerCase(),
+            );
 
             if (user) {
                 reject({ message: "Usuario ya existe" });

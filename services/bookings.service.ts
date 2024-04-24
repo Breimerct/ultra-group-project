@@ -1,6 +1,6 @@
-import { HotelService, IHotelResponse } from "../hotel/hotel.service";
-import { IRoom, RoomService } from "../room/room.service";
-import { Gender, IUser, UserService } from "../user/user.service";
+import { HotelService, IHotelResponse } from "./hotel.service";
+import { IRoom, RoomService } from "./room.service";
+import { Gender, IUser, UserService } from "./user.service";
 
 export interface IBooking {
     id?: string;

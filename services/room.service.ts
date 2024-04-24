@@ -1,9 +1,9 @@
 import useRandomHotelImage, {
     DEFAULT_IMAGE,
 } from "@/hooks/useRandomImage/useRandomImage";
-import { HotelService, IHotel } from "../hotel/hotel.service";
-import { BookingService } from "../booking/bookings.service";
-import CommonService, { ICategoryRoom } from "../data/common.service";
+import { HotelService, IHotel } from "./hotel.service";
+import { BookingService } from "./bookings.service";
+import CommonService, { ICategoryRoom } from "./common.service";
 
 export interface IRoom {
     id?: string;

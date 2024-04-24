@@ -1,9 +1,9 @@
 import useRandomHotelImage, {
     DEFAULT_IMAGE,
 } from "@/hooks/useRandomImage/useRandomImage";
-import { RoomService } from "../room/room.service";
-import { ICity } from "../app/api/data/cities";
-import CommonService from "../data/common.service";
+import { RoomService } from "./room.service";
+import CommonService from "./common.service";
+import { ICity } from "@api/data/cities";
 
 export interface IHotel {
     id?: string;
