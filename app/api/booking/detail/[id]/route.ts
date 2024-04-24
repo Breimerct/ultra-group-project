@@ -1,4 +1,4 @@
-import { BookingService } from "../../../../../services/bookings.service";
+import { BookingService } from "@services/bookings.service";
 
 export async function GET(request: Request, response: { params: { id: string } }) {
     try {

@@ -1,4 +1,4 @@
-import CommonService from "../../../../services/common.service";
+import CommonService from "@services/common.service";
 
 export async function GET() {
     const categories = await CommonService.getCategories();

@@ -1,4 +1,4 @@
-import { RoomService } from "../../../services/room.service";
+import { RoomService } from "@services/room.service";
 
 export async function POST(request: Request) {
     try {

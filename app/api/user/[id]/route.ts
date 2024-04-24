@@ -1,4 +1,4 @@
-import { UserService } from "../../../../services/user.service";
+import { UserService } from "@services/user.service";
 
 export async function PUT(request: Request, response: { params: { id: string } }) {
     try {

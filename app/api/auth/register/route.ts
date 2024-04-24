@@ -1,5 +1,5 @@
-import { IUser } from "../../../../services/user.service";
-import { AuthService } from "../../../../services/auth.service";
+import { IUser } from "@services/user.service";
+import { AuthService } from "@services/auth.service";
 
 export async function POST(request: Request) {
     try {

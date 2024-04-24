@@ -1,4 +1,4 @@
-import { AuthService } from "../../../../services/auth.service";
+import { AuthService } from "@services/auth.service";
 
 export async function POST(request: Request) {
     try {

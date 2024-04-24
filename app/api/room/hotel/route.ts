@@ -1,4 +1,4 @@
-import { IRoom, RoomService } from "../../../../services/room.service";
+import { IRoom, RoomService } from "@services/room.service";
 
 export async function GET(request: Request) {
     try {
