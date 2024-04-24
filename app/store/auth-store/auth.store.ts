@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
-import { toast } from "react-toastify";
-import axios, { AxiosError } from "axios";
 import { create } from "zustand";
-import { ILogin } from "@/app/api/auth/auth.service";
-import { IUser } from "@/app/api/user/user.service";
+import axios, { AxiosError } from "axios";
+import { toast } from "react-toastify";
+import { ILogin } from "@services/auth.service";
+import { IUser } from "@services/user.service";
 import { useCommonStore } from "../common-store/common.store";
 import { useUserStore } from "../user-store/user.store";
 

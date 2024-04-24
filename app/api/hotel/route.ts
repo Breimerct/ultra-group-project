@@ -1,4 +1,4 @@
-import { HotelService, IHotel } from "./hotel.service";
+import { HotelService, IHotel } from "../../../services/hotel.service";
 
 export async function GET(request: Request) {
     try {
@@ -21,12 +21,17 @@ export async function GET(request: Request) {
         }
 
         if (cityId && checkIn && checkOut) {
-            hotels = HotelService.filterHotelsByCityAndAvailability(cityId, checkIn, checkOut);
+            hotels = HotelService.filterHotelsByCityAndAvailability(
+                cityId,
+                checkIn,
+                checkOut,
+            );
         }
 
         return Response.json(hotels, { status: 200 });
     } catch (error: any) {
-        const message = error instanceof Error || error instanceof Object ? error.message : error;
+        const message =
+            error instanceof Error || error instanceof Object ? error.message : error;
         const status = error instanceof Error || error instanceof Object ? 500 : 400;
 
         return Response.json({ message }, { status });
@@ -41,7 +46,8 @@ export async function POST(request: Request) {
 
         return Response.json(hotels, { status: 200 });
     } catch (error: any) {
-        const message = error instanceof Error || error instanceof Object ? error.message : error;
+        const message =
+            error instanceof Error || error instanceof Object ? error.message : error;
         const status = error instanceof Error || error instanceof Object ? 500 : 400;
 
         return Response.json({ message }, { status });

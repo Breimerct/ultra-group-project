@@ -1,8 +1,8 @@
-import { IRoom, IRoomDetail } from "@/app/api/room/room.service";
 import axios, { AxiosError } from "axios";
+import { toast } from "react-toastify";
 import { create } from "zustand";
 import { useCommonStore } from "../common-store/common.store";
-import { toast } from "react-toastify";
+import { IRoom, IRoomDetail } from "@services/room.service";
 
 type State = {
     rooms: IRoomDetail[];

@@ -1,4 +1,4 @@
-import { HotelService } from "../hotel.service";
+import { HotelService } from "../../../../services/hotel.service";
 
 export async function GET(request: Request, response: { params: { hotelId: string } }) {
     try {
@@ -8,7 +8,8 @@ export async function GET(request: Request, response: { params: { hotelId: strin
 
         return Response.json(hotel, { status: 200 });
     } catch (error: any) {
-        const message = error instanceof Error || error instanceof Object ? error.message : error;
+        const message =
+            error instanceof Error || error instanceof Object ? error.message : error;
         const status = error instanceof Error || error instanceof Object ? 500 : 400;
 
         return Response.json({ message }, { status });
@@ -24,14 +25,18 @@ export async function PUT(request: Request, response: { params: { hotelId: strin
 
         return Response.json(hotel, { status: 200 });
     } catch (error: any) {
-        const message = error instanceof Error || error instanceof Object ? error.message : error;
+        const message =
+            error instanceof Error || error instanceof Object ? error.message : error;
         const status = error instanceof Error || error instanceof Object ? 500 : 400;
 
         return Response.json({ message }, { status });
     }
 }
 
-export async function DELETE(request: Request, response: { params: { hotelId: string } }) {
+export async function DELETE(
+    request: Request,
+    response: { params: { hotelId: string } },
+) {
     try {
         const { hotelId } = response.params;
 
@@ -39,7 +44,8 @@ export async function DELETE(request: Request, response: { params: { hotelId: st
 
         return Response.json(hotel, { status: 200 });
     } catch (error: any) {
-        const message = error instanceof Error || error instanceof Object ? error.message : error;
+        const message =
+            error instanceof Error || error instanceof Object ? error.message : error;
         const status = error instanceof Error || error instanceof Object ? 500 : 400;
 
         return Response.json({ message }, { status });

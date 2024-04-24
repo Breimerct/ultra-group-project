@@ -1,4 +1,4 @@
-import { RoomService } from "../room.service";
+import { RoomService } from "../../../../services/room.service";
 
 export async function GET(request: Request, response: { params: { id: string } }) {
     try {
@@ -7,7 +7,8 @@ export async function GET(request: Request, response: { params: { id: string } }
 
         return Response.json(room, { status: 200 });
     } catch (error: any) {
-        const message = error instanceof Error || error instanceof Object ? error.message : error;
+        const message =
+            error instanceof Error || error instanceof Object ? error.message : error;
         const status = error instanceof Error || error instanceof Object ? 500 : 400;
 
         return Response.json({ message }, { status });
@@ -23,7 +24,8 @@ export async function PUT(request: Request, response: { params: { id: string } }
 
         return Response.json(room, { status: 200 });
     } catch (error: any) {
-        const message = error instanceof Error || error instanceof Object ? error.message : error;
+        const message =
+            error instanceof Error || error instanceof Object ? error.message : error;
         const status = error instanceof Error || error instanceof Object ? 500 : 400;
 
         return Response.json({ message }, { status });
@@ -38,7 +40,8 @@ export async function DELETE(request: Request, response: { params: { id: string 
 
         return Response.json(room, { status: 200 });
     } catch (error: any) {
-        const message = error instanceof Error || error instanceof Object ? error.message : error;
+        const message =
+            error instanceof Error || error instanceof Object ? error.message : error;
         const status = error instanceof Error || error instanceof Object ? 500 : 400;
 
         return Response.json({ message }, { status });

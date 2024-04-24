@@ -1,13 +1,14 @@
 "use client";
-import { EditIcon } from "@/app/components/Icons";
-import Input from "@/app/components/input/Input";
-import Select from "@/app/components/select/Select";
-import { useUserStore } from "@/app/store/user-store/user.store";
-import { FC, use, useEffect, useState } from "react";
+
+import { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Gender, IUser } from "@/app/api/user/user.service";
+import { useUserStore } from "@/app/store/user-store/user.store";
+import { Gender, IUser } from "@services/user.service";
 import { DOCUMENTS_TYPE } from "@/const/mocks";
+import Select from "@components/select/Select";
+import { EditIcon } from "@components/Icons";
+import Input from "@components/input/Input";
 
 const ProfileUserInfo: FC = () => {
     const { user, updateUser } = useUserStore();

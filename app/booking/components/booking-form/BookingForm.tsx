@@ -1,16 +1,16 @@
 "use client";
-import { ICompanion } from "@/app/api/booking/bookings.service";
-import { IRoom } from "@/app/api/room/room.service";
-import Input from "@/app/components/input/Input";
-import Select from "@/app/components/select/Select";
-import { DOCUMENTS_TYPE } from "@/const/mocks";
-import { useFormik } from "formik";
 import { FC, useEffect, useState } from "react";
-import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { useBookingStore } from "@/app/store/booking-store/booking.store";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { useRouter } from "next/navigation";
-import { Gender, IUser } from "@/app/api/user/user.service";
+import { DOCUMENTS_TYPE } from "@/const/mocks";
+import { useBookingStore } from "@store/booking-store/booking.store";
+import { Gender, IUser } from "@services/user.service";
+import { ICompanion } from "@services/bookings.service";
+import { IRoom } from "@services/room.service";
+import Select from "@components/select/Select";
+import Input from "@components/input/Input";
 
 interface IProps {
     numberOfCompanions: number;
@@ -35,10 +35,14 @@ const validationSchema = Yup.object().shape({
     companions: Yup.array().of(
         Yup.object().shape({
             name: Yup.string().required("El nombre es obligatorio"),
-            email: Yup.string().email("Formato de correo electrónico inválido").required("El email es obligatorio"),
+            email: Yup.string()
+                .email("Formato de correo electrónico inválido")
+                .required("El email es obligatorio"),
             gender: Yup.string().required("El genero es obligatorio"),
             documentType: Yup.string().required("El tipo de documento es obligatorio"),
-            documentNumber: Yup.string().required("El numero de documento es obligatorio"),
+            documentNumber: Yup.string().required(
+                "El numero de documento es obligatorio",
+            ),
             cellphone: Yup.string()
                 .required("El numero de celular es obligatorio")
                 .matches(/^[0-9]+$/, "Solo se aceptan números")
@@ -49,7 +53,8 @@ const validationSchema = Yup.object().shape({
 
 const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
     const [companions, setCompanions] = useState<IUser[]>([initialValues]);
-    const [prevNumberOfCompanions, setPrevNumberOfCompanions] = useState(numberOfCompanions);
+    const [prevNumberOfCompanions, setPrevNumberOfCompanions] =
+        useState(numberOfCompanions);
     const { bookingDto, createBooking, isLoading } = useBookingStore();
     const router = useRouter();
 
@@ -68,7 +73,11 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
         onSubmit: (values) => {
             const { emergencyContact, checkIn, checkOut } = bookingDto;
 
-            if (!emergencyContact || !emergencyContact.name || !emergencyContact.cellphone) {
+            if (
+                !emergencyContact ||
+                !emergencyContact.name ||
+                !emergencyContact.cellphone
+            ) {
                 toast.error("El contacto de emergencia es obligatorio");
                 return;
             }
@@ -132,12 +141,21 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
                                     isInvalid={
                                         !!formik.touched.companions &&
                                         !!formik.errors.companions &&
-                                        !!getValueByKey(formik.touched.companions[index], "name") &&
-                                        !!getValueByKey(formik.errors.companions[index], "name")
+                                        !!getValueByKey(
+                                            formik.touched.companions[index],
+                                            "name",
+                                        ) &&
+                                        !!getValueByKey(
+                                            formik.errors.companions[index],
+                                            "name",
+                                        )
                                     }
                                     messageError={
                                         formik.errors.companions &&
-                                        getValueByKey(formik.errors.companions[index], "name")
+                                        getValueByKey(
+                                            formik.errors.companions[index],
+                                            "name",
+                                        )
                                     }
                                     {...formik.getFieldProps(`companions[${index}].name`)}
                                 />
@@ -151,14 +169,25 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
                                     isInvalid={
                                         !!formik.touched.companions &&
                                         !!formik.errors.companions &&
-                                        !!getValueByKey(formik.touched.companions[index], "email") &&
-                                        !!getValueByKey(formik.errors.companions[index], "email")
+                                        !!getValueByKey(
+                                            formik.touched.companions[index],
+                                            "email",
+                                        ) &&
+                                        !!getValueByKey(
+                                            formik.errors.companions[index],
+                                            "email",
+                                        )
                                     }
                                     messageError={
                                         formik.errors.companions &&
-                                        getValueByKey(formik.errors.companions[index], "email")
+                                        getValueByKey(
+                                            formik.errors.companions[index],
+                                            "email",
+                                        )
                                     }
-                                    {...formik.getFieldProps(`companions[${index}].email`)}
+                                    {...formik.getFieldProps(
+                                        `companions[${index}].email`,
+                                    )}
                                 />
                             </div>
 
@@ -168,14 +197,25 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
                                     isInvalid={
                                         !!formik.touched.companions &&
                                         !!formik.errors.companions &&
-                                        !!getValueByKey(formik.touched.companions[index], "documentType") &&
-                                        !!getValueByKey(formik.errors.companions[index], "documentType")
+                                        !!getValueByKey(
+                                            formik.touched.companions[index],
+                                            "documentType",
+                                        ) &&
+                                        !!getValueByKey(
+                                            formik.errors.companions[index],
+                                            "documentType",
+                                        )
                                     }
                                     messageError={
                                         formik.errors.companions &&
-                                        getValueByKey(formik.errors.companions[index], "documentType")
+                                        getValueByKey(
+                                            formik.errors.companions[index],
+                                            "documentType",
+                                        )
                                     }
-                                    {...formik.getFieldProps(`companions[${index}].documentType`)}
+                                    {...formik.getFieldProps(
+                                        `companions[${index}].documentType`,
+                                    )}
                                 >
                                     <>
                                         <option value="">Tipo de documento</option>
@@ -195,15 +235,26 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
                                     isInvalid={
                                         !!formik.touched.companions &&
                                         !!formik.errors.companions &&
-                                        !!getValueByKey(formik.touched.companions[index], "documentNumber") &&
-                                        !!getValueByKey(formik.errors.companions[index], "documentNumber")
+                                        !!getValueByKey(
+                                            formik.touched.companions[index],
+                                            "documentNumber",
+                                        ) &&
+                                        !!getValueByKey(
+                                            formik.errors.companions[index],
+                                            "documentNumber",
+                                        )
                                     }
                                     messageError={
                                         formik.errors.companions &&
-                                        getValueByKey(formik.errors.companions[index], "documentNumber")
+                                        getValueByKey(
+                                            formik.errors.companions[index],
+                                            "documentNumber",
+                                        )
                                     }
                                     placeholder="Ingrese su documento"
-                                    {...formik.getFieldProps(`companions[${index}].documentNumber`)}
+                                    {...formik.getFieldProps(
+                                        `companions[${index}].documentNumber`,
+                                    )}
                                 />
                             </div>
 
@@ -215,14 +266,25 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
                                     isInvalid={
                                         !!formik.touched.companions &&
                                         !!formik.errors.companions &&
-                                        !!getValueByKey(formik.touched.companions[index], "cellphone") &&
-                                        !!getValueByKey(formik.errors.companions[index], "cellphone")
+                                        !!getValueByKey(
+                                            formik.touched.companions[index],
+                                            "cellphone",
+                                        ) &&
+                                        !!getValueByKey(
+                                            formik.errors.companions[index],
+                                            "cellphone",
+                                        )
                                     }
                                     messageError={
                                         formik.errors.companions &&
-                                        getValueByKey(formik.errors.companions[index], "cellphone")
+                                        getValueByKey(
+                                            formik.errors.companions[index],
+                                            "cellphone",
+                                        )
                                     }
-                                    {...formik.getFieldProps(`companions[${index}].cellphone`)}
+                                    {...formik.getFieldProps(
+                                        `companions[${index}].cellphone`,
+                                    )}
                                 />
                             </div>
 
@@ -232,14 +294,25 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
                                     isInvalid={
                                         !!formik.touched.companions &&
                                         !!formik.errors.companions &&
-                                        !!getValueByKey(formik.touched.companions[index], "gender") &&
-                                        !!getValueByKey(formik.errors.companions[index], "gender")
+                                        !!getValueByKey(
+                                            formik.touched.companions[index],
+                                            "gender",
+                                        ) &&
+                                        !!getValueByKey(
+                                            formik.errors.companions[index],
+                                            "gender",
+                                        )
                                     }
                                     messageError={
                                         formik.errors.companions &&
-                                        getValueByKey(formik.errors.companions[index], "gender")
+                                        getValueByKey(
+                                            formik.errors.companions[index],
+                                            "gender",
+                                        )
                                     }
-                                    {...formik.getFieldProps(`companions[${index}].gender`)}
+                                    {...formik.getFieldProps(
+                                        `companions[${index}].gender`,
+                                    )}
                                 >
                                     <option value="">Genero</option>
                                     <option value={Gender.Male}>Masculino</option>
@@ -248,7 +321,9 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
                             </div>
                         </div>
 
-                        {arr.length > 1 && index < arr.length - 1 && <hr className="mb-4 mt-6" />}
+                        {arr.length > 1 && index < arr.length - 1 && (
+                            <hr className="mb-4 mt-6" />
+                        )}
                     </div>
                 ))}
 

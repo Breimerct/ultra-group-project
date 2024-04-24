@@ -1,11 +1,12 @@
 "use client";
-import { IEmergencyContact } from "@/app/api/booking/bookings.service";
-import { EditIcon } from "@/app/components/Icons";
-import Input from "@/app/components/input/Input";
-import { useBookingStore } from "@/app/store/booking-store/booking.store";
-import { useFormik } from "formik";
+
 import { FC, useEffect, useState } from "react";
+import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useBookingStore } from "@store/booking-store/booking.store";
+import { IEmergencyContact } from "@services/bookings.service";
+import { EditIcon } from "@components/Icons";
+import Input from "@components/input/Input";
 
 interface IProps {}
 
@@ -43,7 +44,10 @@ const EmergencyContact: FC<IProps> = () => {
     });
 
     useEffect(() => {
-        if (!bookingDto.emergencyContact?.name || !bookingDto.emergencyContact?.cellphone) {
+        if (
+            !bookingDto.emergencyContact?.name ||
+            !bookingDto.emergencyContact?.cellphone
+        ) {
             formik.resetForm();
             setIsEdit(true);
         }

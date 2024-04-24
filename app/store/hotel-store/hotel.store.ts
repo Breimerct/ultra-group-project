@@ -1,8 +1,8 @@
-import { IHotel } from "@/app/api/hotel/hotel.service";
 import axios, { AxiosError } from "axios";
+import { toast } from "react-toastify";
 import { create } from "zustand";
 import { useCommonStore } from "../common-store/common.store";
-import { toast } from "react-toastify";
+import { IHotel } from "@services/hotel.service";
 
 export interface IRangedDate {
     checkIn?: string | null;
@@ -24,7 +24,11 @@ type Actions = {
     createHotel: (body: Partial<IHotel>) => Promise<void>;
     getAllHotels: () => Promise<void>;
     getHotelById: (id: string) => Promise<void>;
-    getHotelsByCityAndDate: (cityId: number | null, checkIn: string | null, checkOut: string | null) => Promise<void>;
+    getHotelsByCityAndDate: (
+        cityId: number | null,
+        checkIn: string | null,
+        checkOut: string | null,
+    ) => Promise<void>;
     setFilterSearch: (filterSearch: IFilterSearch) => void;
     updateHotelById: (id: string, body: Partial<IHotel>) => Promise<void>;
     deleteHotelById: (id: string) => Promise<void>;

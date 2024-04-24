@@ -1,4 +1,4 @@
-import { UserService } from "./user.service";
+import { UserService } from "../../../services/user.service";
 
 export async function GET() {
     const users = await UserService.getAll();

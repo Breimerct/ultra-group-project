@@ -1,7 +1,7 @@
 "use client";
-import { IRoom, IRoomDetail } from "@/app/api/room/room.service";
-import Link from "next/link";
 import { FC, useState } from "react";
+import Link from "next/link";
+import { IRoomDetail } from "@services/room.service";
 
 interface IProps {
     room: IRoomDetail;

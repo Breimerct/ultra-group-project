@@ -1,8 +1,8 @@
-import { IUser } from "@/app/api/user/user.service";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { create } from "zustand";
 import { useCommonStore } from "../common-store/common.store";
+import { IUser } from "@services/user.service";
 
 type State = {
     user: IUser | null;
@@ -11,7 +11,11 @@ type State = {
 type Actions = {
     setUser: (user: IUser | null) => void;
     updateUser: (id: string, user: Partial<IUser>) => Promise<void>;
-    updateUserPassword: (id: string, currentPassword: string, newPassword: string) => Promise<void>;
+    updateUserPassword: (
+        id: string,
+        currentPassword: string,
+        newPassword: string,
+    ) => Promise<void>;
 };
 
 type Store = State & Actions;

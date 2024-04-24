@@ -1,8 +1,7 @@
-import { IBooking, IBookingDetail, IEmergencyContact } from "@/app/api/booking/bookings.service";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { create } from "zustand";
-import { useHotelStore } from "../hotel-store/hotel.store";
+import { IBooking, IBookingDetail } from "@services/bookings.service";
 import { useCommonStore } from "../common-store/common.store";
 
 export interface IBookingDto extends Partial<IBooking> {}
@@ -43,7 +42,8 @@ const { setIsLoading: setGlobalLoading } = useCommonStore.getState();
 export const useBookingStore = create<State & Actions>((set) => ({
     ...initialState,
 
-    setBookingDto: (bookingDto: IBookingDto) => set((state) => ({ ...state.bookingDto, bookingDto })),
+    setBookingDto: (bookingDto: IBookingDto) =>
+        set((state) => ({ ...state.bookingDto, bookingDto })),
 
     createBooking: async (booking) => {
         const { setIsLoading } = useCommonStore.getState();

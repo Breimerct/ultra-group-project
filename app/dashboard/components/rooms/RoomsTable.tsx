@@ -1,10 +1,11 @@
 "use client";
-import { useRoomStore } from "@/app/store/room-store/room.store";
+
 import { FC, useEffect } from "react";
 import StatusBadget from "../StatusBadget";
-import { EditIcon, EyeSearchIcon, LoaderIcon, TrashIcon } from "@/app/components/Icons";
-import { IRoom } from "@/app/api/room/room.service";
 import { DEFAULT_IMAGE } from "@/hooks/useRandomImage/useRandomImage";
+import { useRoomStore } from "@store/room-store/room.store";
+import { IRoom } from "@services/room.service";
+import { EditIcon, EyeSearchIcon, LoaderIcon, TrashIcon } from "@components/Icons";
 
 interface IProps {
     onEdit?: (room: IRoom) => void;
@@ -60,7 +61,10 @@ const RoomsTable: FC<IProps> = ({ onEdit, onRemove, onView }) => {
                             <th scope="col" className="px-6 py-4">
                                 Estado
                             </th>
-                            <th scope="col" className="px-6 py-4 sticky right-[-1px] bg-white">
+                            <th
+                                scope="col"
+                                className="px-6 py-4 sticky right-[-1px] bg-white"
+                            >
                                 Acciones
                             </th>
                         </tr>
@@ -93,12 +97,15 @@ const RoomsTable: FC<IProps> = ({ onEdit, onRemove, onView }) => {
                         )}
                         {rooms.map((room, index) => (
                             <tr className="border-b dark:border-neutral-500" key={index}>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">
+                                    {index + 1}
+                                </td>
                                 <td className="whitespace-nowrap px-6 py-4">
                                     <picture className="flex justify-center items-center">
                                         <img
                                             src={
-                                                room?.imageUrls && room?.imageUrls.length > 0
+                                                room?.imageUrls &&
+                                                room?.imageUrls.length > 0
                                                     ? room.imageUrls[0]
                                                     : DEFAULT_IMAGE
                                             }
@@ -107,14 +114,24 @@ const RoomsTable: FC<IProps> = ({ onEdit, onRemove, onView }) => {
                                         />
                                     </picture>
                                 </td>
-                                <td className="whitespace-nowrap px-6 py-4">{room.name}</td>
-                                <td className="whitespace-nowrap px-6 py-4">{room.price}</td>
-                                <td className="whitespace-nowrap px-6 py-4">{room.description}</td>
-                                <td className="whitespace-nowrap px-6 py-4">{room.stars}</td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                    {room.name}
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                    {room.price}
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                    {room.description}
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                    {room.stars}
+                                </td>
                                 <td className="whitespace-nowrap px-6 py-4">
                                     {
                                         <StatusBadget status={room.isAvailable}>
-                                            {room.isAvailable ? "Disponible" : "No disponible"}
+                                            {room.isAvailable
+                                                ? "Disponible"
+                                                : "No disponible"}
                                         </StatusBadget>
                                     }
                                 </td>

@@ -1,12 +1,12 @@
 "use client";
-import { ILogin } from "@/app/api/auth/auth.service";
-import { useAuthStore } from "@/app/store/auth-store/auth.store";
-import Link from "next/link";
 import { FC } from "react";
+import Link from "next/link";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import Input from "@/app/components/input/Input";
 import { useRouter } from "next/navigation";
+import { ILogin } from "@services/auth.service";
+import { useAuthStore } from "@store/auth-store/auth.store";
+import Input from "@components/input/Input";
 
 interface IProps {}
 
@@ -19,7 +19,9 @@ const LoginForm: FC<IProps> = () => {
     };
 
     const validationSchema = Yup.object({
-        email: Yup.string().email("Dirección de Email invalida.").required("El campo es requerido."),
+        email: Yup.string()
+            .email("Dirección de Email invalida.")
+            .required("El campo es requerido."),
         password: Yup.string().required("El campo es requerido."),
     });
 
@@ -73,7 +75,10 @@ const LoginForm: FC<IProps> = () => {
 
             <div className="flex justify-center items-center">
                 ¿No tienes una cuenta?
-                <Link href="register" className="text-emerald-900 font-medium underline pl-1">
+                <Link
+                    href="register"
+                    className="text-emerald-900 font-medium underline pl-1"
+                >
                     Registrate
                 </Link>
             </div>

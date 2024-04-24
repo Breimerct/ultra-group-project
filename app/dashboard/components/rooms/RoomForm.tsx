@@ -1,20 +1,21 @@
 "use client";
-import { ICategoryRoom } from "@/app/api/data/common.service";
-import { IHotel } from "@/app/api/hotel/hotel.service";
-import { IRoom, IRoomDetail } from "@/app/api/room/room.service";
-import Autocomplete from "@/app/components/autocomplete/Autocomplete";
-import CheckBox from "@/app/components/checkbox/CheckBox";
-import Input from "@/app/components/input/Input";
-import Modal from "@/app/components/modal/Modal";
-import Select from "@/app/components/select/Select";
-import TextArea from "@/app/components/textarea/TextArea";
-import { useCommonStore } from "@/app/store/common-store/common.store";
-import { useHotelStore } from "@/app/store/hotel-store/hotel.store";
-import { useRoomStore } from "@/app/store/room-store/room.store";
-import { DEFAULT_IMAGE } from "@/hooks/useRandomImage/useRandomImage";
-import { useFormik } from "formik";
+
 import { FC, useEffect, useState } from "react";
+import { useFormik } from "formik";
 import * as Yup from "yup";
+
+import { IHotel } from "@services/hotel.service";
+import { IRoom } from "@services/room.service";
+import { DEFAULT_IMAGE } from "@/hooks/useRandomImage/useRandomImage";
+import { useCommonStore } from "@store/common-store/common.store";
+import { useHotelStore } from "@store/hotel-store/hotel.store";
+import { useRoomStore } from "@store/room-store/room.store";
+import Autocomplete from "@components/autocomplete/Autocomplete";
+import CheckBox from "@components/checkbox/CheckBox";
+import TextArea from "@components/textarea/TextArea";
+import Select from "@components/select/Select";
+import Input from "@components/input/Input";
+import Modal from "@components/modal/Modal";
 
 interface IProps {
     isOpen: boolean;

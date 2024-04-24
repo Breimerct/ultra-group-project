@@ -1,16 +1,16 @@
 "use client";
-import Autocomplete from "@/app/components/autocomplete/Autocomplete";
-import CheckBox from "@/app/components/checkbox/CheckBox";
-import Input from "@/app/components/input/Input";
-import Modal from "@/app/components/modal/Modal";
-import TextArea from "@/app/components/textarea/TextArea";
-import { useCommonStore } from "@/app/store/common-store/common.store";
 import { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { ICity } from "@/app/api/data/cities";
-import { useHotelStore } from "@/app/store/hotel-store/hotel.store";
-import { IHotel } from "@/app/api/hotel/hotel.service";
+import { ICity } from "@api/data/cities";
+import { IHotel } from "@services/hotel.service";
+import { useHotelStore } from "@store/hotel-store/hotel.store";
+import { useCommonStore } from "@store/common-store/common.store";
+import Autocomplete from "@components/autocomplete/Autocomplete";
+import CheckBox from "@components/checkbox/CheckBox";
+import TextArea from "@components/textarea/TextArea";
+import Input from "@components/input/Input";
+import Modal from "@components/modal/Modal";
 
 interface IProps {
     isOpen: boolean;
@@ -28,7 +28,13 @@ interface IFormValues {
     isAvailable: boolean;
 }
 
-const HotelForm: FC<IProps> = ({ isOpen, onClose, readOnly, hotel, title = "Nuevo Hotel" }) => {
+const HotelForm: FC<IProps> = ({
+    isOpen,
+    onClose,
+    readOnly,
+    hotel,
+    title = "Nuevo Hotel",
+}) => {
     const [show, setShow] = useState(isOpen);
     const { cities } = useCommonStore();
     const { createHotel, updateHotelById } = useHotelStore();
@@ -44,7 +50,9 @@ const HotelForm: FC<IProps> = ({ isOpen, onClose, readOnly, hotel, title = "Nuev
         },
         validationSchema: Yup.object({
             name: Yup.string().required("El nombre es requerido"),
-            stars: Yup.string().required("Las estrellas son requeridas").max(5, "Las estrellas deben ser menor a 5"),
+            stars: Yup.string()
+                .required("Las estrellas son requeridas")
+                .max(5, "Las estrellas deben ser menor a 5"),
             city: Yup.string().required("La ciudad es requerida"),
             description: Yup.string().required("La descripción es requerida"),
             isAvailable: Yup.boolean(),
@@ -123,11 +131,18 @@ const HotelForm: FC<IProps> = ({ isOpen, onClose, readOnly, hotel, title = "Nuev
             <div className="w-full relative">
                 {!!hotel && (
                     <picture className="rounded-full w-32 h-32 overflow-hidden border-[5px] border-white absolute z-[60] top-[-140px] left-[50%] translate-x-[-50%]">
-                        <img src={hotel.imageUrl} alt="" className="w-full h-full object-cover" />
+                        <img
+                            src={hotel.imageUrl}
+                            alt=""
+                            className="w-full h-full object-cover"
+                        />
                     </picture>
                 )}
 
-                <form className="w-full grid grid-cols-2 gap-3" onSubmit={formik.handleSubmit}>
+                <form
+                    className="w-full grid grid-cols-2 gap-3"
+                    onSubmit={formik.handleSubmit}
+                >
                     <div className="col-span-1">
                         <Input
                             readOnly={readOnly}
@@ -172,7 +187,9 @@ const HotelForm: FC<IProps> = ({ isOpen, onClose, readOnly, hotel, title = "Nuev
                             readOnly={readOnly}
                             label="Descripción"
                             placeholder="Descripción del hotel"
-                            isInvalid={formik.touched.description && !!formik.errors.description}
+                            isInvalid={
+                                formik.touched.description && !!formik.errors.description
+                            }
                             messageError={formik.errors.description}
                             {...formik.getFieldProps("description")}
                         />
@@ -183,7 +200,9 @@ const HotelForm: FC<IProps> = ({ isOpen, onClose, readOnly, hotel, title = "Nuev
                             readOnly={readOnly}
                             label="¿Es un hotel activo?"
                             checked={formik.values.isAvailable}
-                            isInvalid={formik.touched.isAvailable && !!formik.errors.isAvailable}
+                            isInvalid={
+                                formik.touched.isAvailable && !!formik.errors.isAvailable
+                            }
                             messageError={formik.errors.isAvailable}
                             {...formik.getFieldProps("isAvailable")}
                         />

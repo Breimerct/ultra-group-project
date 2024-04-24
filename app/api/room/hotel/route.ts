@@ -1,4 +1,4 @@
-import { IRoom, RoomService } from "../room.service";
+import { IRoom, RoomService } from "../../../../services/room.service";
 
 export async function GET(request: Request) {
     try {
@@ -22,12 +22,17 @@ export async function GET(request: Request) {
         }
 
         if (hotelId && !!checkIn && !!checkOut) {
-            rooms = await RoomService.getAvailableRoomsForHotelAndDate(hotelId, checkIn, checkOut);
+            rooms = await RoomService.getAvailableRoomsForHotelAndDate(
+                hotelId,
+                checkIn,
+                checkOut,
+            );
         }
 
         return Response.json(rooms, { status: 200 });
     } catch (error: any) {
-        const message = error instanceof Error || error instanceof Object ? error.message : error;
+        const message =
+            error instanceof Error || error instanceof Object ? error.message : error;
         const status = error instanceof Error || error instanceof Object ? 500 : 400;
 
         return Response.json({ message }, { status });

@@ -1,14 +1,15 @@
 "use client";
+
 import { FC, useState } from "react";
+import { useHotelStore } from "@store/hotel-store/hotel.store";
+import { useRoomStore } from "@store/room-store/room.store";
+import { IHotel } from "@services/hotel.service";
+import { IRoom } from "@services/room.service";
 import HotelsTable from "./components/hotels/HotelsTable";
 import RoomsTable from "./components/rooms/RoomsTable";
-import { PlusIcon } from "../components/Icons";
 import HotelForm from "./components/hotels/HotelForm";
-import { IHotel } from "../api/hotel/hotel.service";
-import { useHotelStore } from "../store/hotel-store/hotel.store";
-import { useRoomStore } from "../store/room-store/room.store";
-import { IRoom } from "../api/room/room.service";
 import RoomForm from "./components/rooms/RoomForm";
+import { PlusIcon } from "../components/Icons";
 
 const DashboardPage: FC = () => {
     const [showHotelForm, setShowHotelForm] = useState(false);

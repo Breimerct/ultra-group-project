@@ -1,10 +1,10 @@
 "use client";
 
-import { EditIcon, EyeSearchIcon, LoaderIcon, TrashIcon } from "@/app/components/Icons";
-import { useHotelStore } from "@/app/store/hotel-store/hotel.store";
 import { FC, useEffect } from "react";
 import StatusBadget from "../StatusBadget";
-import { IHotel } from "@/app/api/hotel/hotel.service";
+import { IHotel } from "@services/hotel.service";
+import { useHotelStore } from "@store/hotel-store/hotel.store";
+import { EditIcon, EyeSearchIcon, LoaderIcon, TrashIcon } from "@/app/components/Icons";
 
 interface IProps {
     onEdit?: (hotel: IHotel) => void;
@@ -55,7 +55,10 @@ const HotelsTable: FC<IProps> = ({ onEdit, onView, onRemove }) => {
                             <th scope="col" className="px-6 py-4">
                                 Estado
                             </th>
-                            <th scope="col" className="px-6 py-4 sticky right-[-1px] bg-white">
+                            <th
+                                scope="col"
+                                className="px-6 py-4 sticky right-[-1px] bg-white"
+                            >
                                 Acciones
                             </th>
                         </tr>
@@ -90,19 +93,33 @@ const HotelsTable: FC<IProps> = ({ onEdit, onView, onRemove }) => {
 
                         {hotels.map((hotel, index) => (
                             <tr className="border-b dark:border-neutral-500" key={index}>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">
+                                    {index + 1}
+                                </td>
                                 <td className="whitespace-nowrap px-6 py-4">
                                     <picture className="text-center flex justify-center">
-                                        <img src={hotel.imageUrl} alt={hotel.name} className="w-16 h-16 rounded-full" />
+                                        <img
+                                            src={hotel.imageUrl}
+                                            alt={hotel.name}
+                                            className="w-16 h-16 rounded-full"
+                                        />
                                     </picture>
                                 </td>
-                                <td className="whitespace-nowrap px-6 py-4">{hotel.name}</td>
-                                <td className="whitespace-nowrap px-6 py-4">{hotel.description}</td>
-                                <td className="whitespace-nowrap px-6 py-4">{hotel.stars}</td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                    {hotel.name}
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                    {hotel.description}
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                    {hotel.stars}
+                                </td>
                                 <td className="whitespace-nowrap px-6 py-4">
                                     {
                                         <StatusBadget status={hotel.isAvailable}>
-                                            {hotel.isAvailable ? "Disponible" : "No disponible"}
+                                            {hotel.isAvailable
+                                                ? "Disponible"
+                                                : "No disponible"}
                                         </StatusBadget>
                                     }
                                 </td>

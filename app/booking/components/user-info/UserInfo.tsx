@@ -1,6 +1,6 @@
-import { IUser } from "@/app/api/user/user.service";
-import Input from "@/app/components/input/Input";
 import { FC } from "react";
+import { IUser } from "@services/user.service";
+import Input from "@components/input/Input";
 
 interface IProps {
     user: IUser | null;
@@ -20,7 +20,9 @@ const UserInfo: FC<IProps> = ({ user }) => {
                     <Input
                         label="Documento"
                         readOnly
-                        value={`${user?.documentType ?? "-"} - ${user?.documentNumber ?? "-"}`}
+                        value={`${user?.documentType ?? "-"} - ${
+                            user?.documentNumber ?? "-"
+                        }`}
                     />
                 </div>
                 <div className="col-span-1">

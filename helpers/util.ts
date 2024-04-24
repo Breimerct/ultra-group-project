@@ -1,5 +1,3 @@
-import { IBooking } from "@/app/api/booking/bookings.service";
-
 interface IHtmlTemplate {
     name: string;
     checkIn: string;
@@ -11,7 +9,6 @@ export const generateTemplate = ({ name, checkIn, checkOut }: IHtmlTemplate) => 
       <html>
         <head>
           <style>
-            /* Agrega estilos CSS según sea necesario */
             body {
               font-family: Arial, sans-serif;
             }

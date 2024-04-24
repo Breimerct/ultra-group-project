@@ -1,8 +1,8 @@
-import { IHotelResponse } from "@/app/api/hotel/hotel.service";
-import { IRoom } from "@/app/api/room/room.service";
-import { CurrentLocationIcon } from "@/app/components/Icons";
-import StarRate, { StartPosition } from "@/app/components/StarRate";
 import { FC } from "react";
+import { IHotelResponse } from "@services/hotel.service";
+import { IRoom } from "@services/room.service";
+import { CurrentLocationIcon } from "@components/Icons";
+import StarRate, { StartPosition } from "@components/StarRate";
 
 interface IHotelInfoProps {
     hotel: IHotelResponse | null;
@@ -22,10 +22,15 @@ const HotelInfo: FC<IHotelInfoProps> = ({ hotel, room }) => {
             </picture>
             <div className="grid grid-cols-1 md:grid-cols-2 flex-1">
                 <div className="col-span-1 flex gap-3 flex-col">
-                    <h1 className="font-semibold text-2xl text-zinc-700"> {hotel?.name} </h1>
+                    <h1 className="font-semibold text-2xl text-zinc-700">
+                        {" "}
+                        {hotel?.name}{" "}
+                    </h1>
 
                     <div>
-                        <label className="text-md font-semi-bold text-zinc-600">Ubicación del hotel</label>
+                        <label className="text-md font-semi-bold text-zinc-600">
+                            Ubicación del hotel
+                        </label>
                         <p className="flex flex-nowrap items-center text-lg ">
                             <CurrentLocationIcon />
                             <span className="ml-2"> {hotel?.city.name} </span>
@@ -33,7 +38,10 @@ const HotelInfo: FC<IHotelInfoProps> = ({ hotel, room }) => {
                     </div>
 
                     <div>
-                        <StarRate size={hotel?.stars ?? 0} startPosition={StartPosition.LEFT} />
+                        <StarRate
+                            size={hotel?.stars ?? 0}
+                            startPosition={StartPosition.LEFT}
+                        />
                     </div>
                 </div>
 
@@ -41,12 +49,16 @@ const HotelInfo: FC<IHotelInfoProps> = ({ hotel, room }) => {
                     <h4 className="font-semibold text-2xl text-zinc-700"> Habitación </h4>
 
                     <div>
-                        <label className="text-md font-semi-bold text-zinc-600">Nombre de la habitación</label>
+                        <label className="text-md font-semi-bold text-zinc-600">
+                            Nombre de la habitación
+                        </label>
                         <p> {room?.name} </p>
                     </div>
 
                     <div>
-                        <label className="text-md font-semi-bold text-zinc-600">Descripción</label>
+                        <label className="text-md font-semi-bold text-zinc-600">
+                            Descripción
+                        </label>
                         <p className="text-lg"> {room?.description} </p>
                     </div>
 

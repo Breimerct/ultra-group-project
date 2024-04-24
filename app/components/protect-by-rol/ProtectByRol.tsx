@@ -1,9 +1,9 @@
 "use client";
-import { Role } from "@/app/api/auth/auth.service";
 import { FC, ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { toast } from "react-toastify";
-import { useUserStore } from "@/app/store/user-store/user.store";
+import { Role } from "@services/auth.service";
+import { useUserStore } from "@store/user-store/user.store";
 
 interface IProps {
     children: ReactNode;

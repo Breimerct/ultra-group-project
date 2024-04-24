@@ -3,12 +3,12 @@ import Link from "next/link";
 import { FC } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import Input from "@/app/components/input/Input";
-import { useAuthStore } from "@/app/store/auth-store/auth.store";
 import { useRouter } from "next/navigation";
-import { Gender, IUser } from "@/app/api/user/user.service";
-import Select from "@/app/components/select/Select";
 import { DOCUMENTS_TYPE } from "@/const/mocks";
+import { useAuthStore } from "@store/auth-store/auth.store";
+import { Gender, IUser } from "@services/user.service";
+import Select from "@components/select/Select";
+import Input from "@components/input/Input";
 
 const RegisterForm: FC = () => {
     const { register } = useAuthStore();
@@ -29,8 +29,12 @@ const RegisterForm: FC = () => {
     const validationSchema = Yup.object({
         name: Yup.string().required("El campo es requerido."),
         cellphone: Yup.string().required("El campo es requerido."),
-        email: Yup.string().email("Dirección de Email invalida.").required("El campo es requerido."),
-        password: Yup.string().min(8, "Minimo debe tener 8 caracteres o más.").required("El campo es requerido."),
+        email: Yup.string()
+            .email("Dirección de Email invalida.")
+            .required("El campo es requerido."),
+        password: Yup.string()
+            .min(8, "Minimo debe tener 8 caracteres o más.")
+            .required("El campo es requerido."),
         confirmPassword: Yup.string()
             .oneOf([Yup.ref("password")], "Las contraseñas no coinciden.")
             .required("El campo es requerido."),
@@ -115,7 +119,9 @@ const RegisterForm: FC = () => {
             <div className="col-span-1">
                 <Select
                     label="Tipo de documento"
-                    isInvalid={formik.touched.documentType && !!formik.errors.documentType}
+                    isInvalid={
+                        formik.touched.documentType && !!formik.errors.documentType
+                    }
                     messageError={formik.errors.documentType}
                     {...formik.getFieldProps("documentType")}
                 >
@@ -134,7 +140,9 @@ const RegisterForm: FC = () => {
                 <Input
                     label="Numero de documento"
                     type="text"
-                    isInvalid={formik.touched.documentNumber && !!formik.errors.documentNumber}
+                    isInvalid={
+                        formik.touched.documentNumber && !!formik.errors.documentNumber
+                    }
                     messageError={formik.errors.documentNumber}
                     placeholder="Ingrese su documento"
                     {...formik.getFieldProps("documentNumber")}
@@ -157,7 +165,9 @@ const RegisterForm: FC = () => {
                     label="Confirmar contraseña"
                     type="password"
                     placeholder="confirme su contraseña"
-                    isInvalid={formik.touched.confirmPassword && !!formik.errors.confirmPassword}
+                    isInvalid={
+                        formik.touched.confirmPassword && !!formik.errors.confirmPassword
+                    }
                     messageError={formik.errors.confirmPassword}
                     {...formik.getFieldProps("confirmPassword")}
                 />
@@ -172,7 +182,10 @@ const RegisterForm: FC = () => {
                         {...formik.getFieldProps("terms")}
                     />
                     Estoy de acuerdo con todos los
-                    <span className="text-emerald-900 font-medium underline mx-1">Terminos</span>y
+                    <span className="text-emerald-900 font-medium underline mx-1">
+                        Terminos
+                    </span>
+                    y
                     <span className="text-emerald-900 font-medium underline ml-1 inline-block">
                         Políticas de privacidad
                     </span>
@@ -191,7 +204,10 @@ const RegisterForm: FC = () => {
 
             <div className="flex justify-center items-center col-span-2 mt-2">
                 ¿Ya tienes una cuenta?
-                <Link href="login" className="text-emerald-900 font-medium underline pl-1">
+                <Link
+                    href="login"
+                    className="text-emerald-900 font-medium underline pl-1"
+                >
                     Inicia sesión
                 </Link>
             </div>

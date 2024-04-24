@@ -1,10 +1,10 @@
 "use client";
-import { IBooking } from "@/app/api/booking/bookings.service";
-import { EyeSearchIcon } from "@/app/components/Icons";
-import { useBookingStore } from "@/app/store/booking-store/booking.store";
 import { FC, useEffect, useState } from "react";
 import DetailModal from "../detail-modal/DetailModal";
-import { useUserStore } from "@/app/store/user-store/user.store";
+import { useBookingStore } from "@store/booking-store/booking.store";
+import { useUserStore } from "@store/user-store/user.store";
+import { IBooking } from "@services/bookings.service";
+import { EyeSearchIcon } from "@components/Icons";
 
 const BookingTable: FC = () => {
     const [showDetailModal, setShowDetailModal] = useState(false);
@@ -64,10 +64,18 @@ const BookingTable: FC = () => {
                         )}
                         {bookings.map((booking, index) => (
                             <tr className="border-b dark:border-neutral-500" key={index}>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
-                                <td className="whitespace-nowrap px-6 py-4">{booking.checkIn}</td>
-                                <td className="whitespace-nowrap px-6 py-4">{booking.checkOut}</td>
-                                <td className="whitespace-nowrap px-6 py-4">{booking.emergencyContact.name}</td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">
+                                    {index + 1}
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                    {booking.checkIn}
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                    {booking.checkOut}
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                    {booking.emergencyContact.name}
+                                </td>
                                 <td className="whitespace-nowrap px-6 py-4">
                                     <button
                                         className="bg-emerald-800 mx-auto text-white p-3 w-10 h-10 grid place-content-center rounded-full hover:bg-emerald-900 hover:shadow-sm hover:shadow-emerald-800 transition-all disabled:bg-gray-300 disabled:cursor-not-allowed disabled:shadow-none"

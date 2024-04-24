@@ -1,6 +1,6 @@
 import { generateTemplate } from "@/helpers/util";
-import { UserService } from "../user/user.service";
-import { BookingService, IBooking } from "./bookings.service";
+import { UserService } from "../../../services/user.service";
+import { BookingService, IBooking } from "../../../services/bookings.service";
 import nodemailer from "nodemailer";
 
 export async function GET(request: Request) {
