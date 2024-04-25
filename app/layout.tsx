@@ -17,11 +17,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="en">
             <body className={inter.className}>
-                <>
+                <main className="pb-10">
                     {children}
                     <ToastContainer theme="colored" limit={4} />
                     <CustomLoading />
-                </>
+                </main>
             </body>
         </html>
     );

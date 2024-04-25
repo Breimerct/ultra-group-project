@@ -3,6 +3,7 @@ import { useAuthStore } from "@/app/store/auth-store/auth.store";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import useCurrentUser from "@/hooks/current-user/useCurrentUser";
+import { Role } from "@/types";
 
 const UserOptions = () => {
     const { logout } = useAuthStore();
@@ -38,16 +39,23 @@ const UserOptions = () => {
         {
             name: "Perfil",
             href: "/profile",
+            role: Role.User,
         },
         {
             name: "Dashboard",
             href: "/dashboard",
+            role: Role.Admin,
         },
         {
             name: "Reservas",
             href: "/booking",
+            role: Role.User,
         },
     ];
+
+    const filteredRoutes = routes.filter((route) => {
+        return route.role === user?.role || route.role !== Role.Admin;
+    });
 
     return (
         <div
@@ -74,7 +82,7 @@ const UserOptions = () => {
                 }`}
             >
                 <ul className="flex flex-col text-black gap-5 w-full ">
-                    {routes.map((route, index) => (
+                    {filteredRoutes.map((route, index) => (
                         <li
                             key={index}
                             className="px-5 py-2 text-center shadow-md outline-1 outline rounded-md text-emerald-900 outline-emerald-900 cursor-pointer hover:bg-emerald-700  hover:text-white transition-all"
