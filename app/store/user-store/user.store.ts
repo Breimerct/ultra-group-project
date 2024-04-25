@@ -66,5 +66,6 @@ export const useUserStore = create<Store>((set) => ({
 
     setUser: (user) => {
         set({ user });
+        localStorage.setItem("user", JSON.stringify(user));
     },
 }));
