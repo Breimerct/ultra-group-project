@@ -201,16 +201,24 @@ const RoomForm: FC<IProps> = ({
                     </div>
 
                     <div className="col-span-2">
-                        <TextArea
-                            readOnly={readOnly}
-                            label="Descripción"
-                            placeholder="Descripción de la habitación"
-                            isInvalid={
-                                formik.touched.description && !!formik.errors.description
-                            }
-                            messageError={formik.errors.description}
-                            {...formik.getFieldProps("description")}
-                        />
+                        {!readOnly ? (
+                            <TextArea
+                                readOnly={readOnly}
+                                label="Descripción"
+                                placeholder="Descripción de la habitación"
+                                rows={4}
+                                isInvalid={
+                                    formik.touched.description &&
+                                    !!formik.errors.description
+                                }
+                                messageError={formik.errors.description}
+                                {...formik.getFieldProps("description")}
+                            />
+                        ) : (
+                            <div className="outline-none rounded-md border-2 border-solid p-2 w-full border-zinc-500/20 text-zinc-600/70">
+                                {formik.values.description}
+                            </div>
+                        )}
                     </div>
 
                     <div className="col-span-1">
