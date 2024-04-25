@@ -83,6 +83,7 @@ const SearchDestinationForm: FC = () => {
             <div className="w-full col-span-5">
                 <Autocomplete
                     label="Destino"
+                    placeholder="Ej: Cartagena, Medellín, Cali, etc."
                     items={Cities}
                     filterBy="name"
                     preValue={preValue}
