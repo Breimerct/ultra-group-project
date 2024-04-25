@@ -1,5 +1,5 @@
 "use client";
-import { useUserStore } from "@/app/store/user-store/user.store";
+import useCurrentUser from "@/hooks/current-user/useCurrentUser";
 import { FC, ReactNode } from "react";
 
 interface IProps {
@@ -8,7 +8,7 @@ interface IProps {
 }
 
 const HideComponent: FC<IProps> = ({ children, invert }) => {
-    const { user } = useUserStore();
+    const user = useCurrentUser();
 
     if (invert) {
         return !!user ? null : <>{children}</>;

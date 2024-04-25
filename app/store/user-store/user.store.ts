@@ -10,12 +10,12 @@ type State = {
 
 type Actions = {
     setUser: (user: IUser | null) => void;
-    updateUser: (id: string, user: Partial<IUser>) => Promise<void>;
+    updateUser: (id: string, user: Partial<IUser>) => Promise<boolean>;
     updateUserPassword: (
         id: string,
         currentPassword: string,
         newPassword: string,
-    ) => Promise<void>;
+    ) => Promise<boolean>;
 };
 
 type Store = State & Actions;
@@ -29,23 +29,25 @@ const { setIsLoading: setGlobalIsLoading } = useCommonStore.getState();
 export const useUserStore = create<Store>((set) => ({
     ...initialState,
 
-    updateUser: async (id, user) => {
+    async updateUser(id, user) {
         setGlobalIsLoading(true);
         try {
             const { data } = await axios.put<IUser>(`/api/user/${id}`, user);
 
             toast.success("usuario actualizado");
-            set({ user: data });
+            this.setUser(data);
+            return true;
         } catch (error: any) {
             if (error instanceof AxiosError) {
                 toast.error(error.response?.data?.message || error.message);
             }
+            return false;
         } finally {
             setGlobalIsLoading(false);
         }
     },
 
-    updateUserPassword: async (id, currentPassword, newPassword) => {
+    async updateUserPassword(id, currentPassword, newPassword) {
         setGlobalIsLoading(true);
         try {
             const { data } = await axios.patch<IUser>(`/api/user/${id}`, {
@@ -54,11 +56,13 @@ export const useUserStore = create<Store>((set) => ({
             });
 
             toast.success("contraseña actualizada");
-            set({ user: data });
+            this.setUser(data);
+            return true;
         } catch (error: any) {
             if (error instanceof AxiosError) {
                 toast.error(error.response?.data?.message || error.message);
             }
+            return false;
         } finally {
             setGlobalIsLoading(false);
         }
@@ -66,6 +70,6 @@ export const useUserStore = create<Store>((set) => ({
 
     setUser: (user) => {
         set({ user });
-        localStorage.setItem("user", JSON.stringify(user));
+        sessionStorage.setItem("user", JSON.stringify(user));
     },
 }));

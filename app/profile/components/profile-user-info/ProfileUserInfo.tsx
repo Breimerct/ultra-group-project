@@ -9,9 +9,11 @@ import Select from "@components/select/Select";
 import { EditIcon } from "@components/Icons";
 import Input from "@components/input/Input";
 import { Gender, IUser } from "@/types";
+import useCurrentUser from "@/hooks/current-user/useCurrentUser";
 
 const ProfileUserInfo: FC = () => {
-    const { user, updateUser } = useUserStore();
+    const { updateUser } = useUserStore();
+    const user = useCurrentUser();
     const [readOnly, setReadOnly] = useState(true);
 
     const handleEdit = () => {
@@ -41,7 +43,7 @@ const ProfileUserInfo: FC = () => {
     const formik = useFormik({
         initialValues,
         validationSchema,
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             const userDto: Partial<IUser> = {
                 name: values.name,
                 email: values.email,
@@ -52,8 +54,17 @@ const ProfileUserInfo: FC = () => {
             };
 
             if (user?._id) {
-                updateUser(user._id, userDto);
-                setReadOnly(true);
+                const result = await updateUser(user._id, userDto);
+
+                if (result) {
+                    setReadOnly(true);
+                }
+
+                if (!result) {
+                    formik.setErrors({
+                        email: "El email ya esta en uso",
+                    });
+                }
             }
         },
     });

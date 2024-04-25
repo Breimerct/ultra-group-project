@@ -2,11 +2,11 @@
 import { useAuthStore } from "@/app/store/auth-store/auth.store";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useUserStore } from "@/app/store/user-store/user.store";
+import useCurrentUser from "@/hooks/current-user/useCurrentUser";
 
 const UserOptions = () => {
     const { logout } = useAuthStore();
-    const { user } = useUserStore();
+    const user = useCurrentUser();
     const [isOpen, setIsOpen] = useState(false);
 
     const handleLogout = async () => {
@@ -50,7 +50,10 @@ const UserOptions = () => {
     ];
 
     return (
-        <div id="user-options" className="relative flex justify-center items-center gap-1 h-full">
+        <div
+            id="user-options"
+            className="relative flex justify-center items-center gap-1 h-full"
+        >
             <button
                 className="hover:bg-emerald-700 hover:text-white px-5 py-2 rounded-md transition-all text-current mr-2 "
                 onClick={onOpen}
