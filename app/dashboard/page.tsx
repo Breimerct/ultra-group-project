@@ -96,7 +96,7 @@ const DashboardPage: FC = () => {
 
     return (
         <div className="flex flex-col gap-5">
-            <div className="w-full bg-zinc-300 shadow-md shadow-zinc-500 p-4 rounded-md">
+            <div className="w-full shadow-md shadow-zinc-500 p-4 rounded-md border-t-4 border-emerald-700">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-3xl font-bold">Hoteles</h2>
 
@@ -127,7 +127,7 @@ const DashboardPage: FC = () => {
                 />
             </div>
 
-            <div className="w-full bg-zinc-300 shadow-md shadow-zinc-500 p-4 rounded-md">
+            <div className="w-full shadow-md shadow-zinc-500 p-4 rounded-md border-t-4 border-emerald-700">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-3xl font-bold">Habitaciones</h2>
 

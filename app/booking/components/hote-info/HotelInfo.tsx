@@ -10,16 +10,16 @@ interface IHotelInfoProps {
 
 const HotelInfo: FC<IHotelInfoProps> = ({ hotel, room }) => {
     return (
-        <div className="flex flex-nowrap gap-4">
-            <picture className="h-full w-[10.5rem] flex-1">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <picture className="h-full w-auto col-span-1">
                 <img
                     src={hotel?.imageUrl || "-"}
                     alt={hotel?.name}
                     loading="lazy"
-                    className="w-full h-full object-cover"
+                    className="w-auto h-80 lg:h-96 mx-auto object-cover bg-center rounded-md shadow-xl"
                 />
             </picture>
-            <div className="grid grid-cols-1 md:grid-cols-2 flex-1">
+            <div className="grid grid-cols-1 lg:grid-cols-2 flex-1 col-span-1 lg:col-span-2">
                 <div className="col-span-1 flex gap-3 flex-col">
                     <h1 className="font-semibold text-2xl text-zinc-700">
                         {" "}
@@ -44,7 +44,7 @@ const HotelInfo: FC<IHotelInfoProps> = ({ hotel, room }) => {
                     </div>
                 </div>
 
-                <div className="col-span-1 flex flex-col gap-3 mt-3 md:mt-0">
+                <div className="col-span-1 flex flex-col gap-2 mt-3 md:mt-0">
                     <h4 className="font-semibold text-2xl text-zinc-700"> Habitación </h4>
 
                     <div>

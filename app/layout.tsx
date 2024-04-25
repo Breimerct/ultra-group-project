@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ToastContainer } from "react-toastify";
+import CustomLoading from "./components/custom-loading/CustomLoading";
+
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
-import CustomLoading from "./components/custom-loading/CustomLoading";
 
 const inter = Inter({ subsets: ["latin"] });
 

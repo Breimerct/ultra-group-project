@@ -2,18 +2,18 @@
 import { FC, useEffect, useState } from "react";
 import DetailModal from "../detail-modal/DetailModal";
 import { useBookingStore } from "@store/booking-store/booking.store";
-import { useUserStore } from "@store/user-store/user.store";
 import { EyeSearchIcon } from "@components/Icons";
 import { IBooking } from "@/types";
+import useCurrentUser from "@/hooks/current-user/useCurrentUser";
 
 const BookingTable: FC = () => {
     const [showDetailModal, setShowDetailModal] = useState(false);
     const { findBookings, bookings, findBookingDetail } = useBookingStore();
-    const { user } = useUserStore();
+    const user = useCurrentUser();
 
     useEffect(() => {
         const userId = user?.role === "admin" ? null : user?._id;
-        !!user && findBookings(userId);
+        findBookings(userId);
     }, []);
 
     const handleSeeDetails = (booking: IBooking) => {

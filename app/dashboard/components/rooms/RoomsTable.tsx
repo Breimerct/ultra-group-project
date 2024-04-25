@@ -36,7 +36,7 @@ const RoomsTable: FC<IProps> = ({ onEdit, onRemove, onView }) => {
 
     return (
         <>
-            <div className="overflow-x-auto w-full">
+            <div className="overflow-x-auto scroll-container w-full">
                 <table className="min-w-full text-sm font-light text-center bg-white">
                     <thead className="border-b font-medium dark:border-neutral-500">
                         <tr>
