@@ -14,7 +14,7 @@ export async function GET(request: Request) {
             throw "el id del hotel es requerida";
         }
 
-        if ((checkIn || checkOut) && !hotelId) {
+        if (!hotelId && (checkIn || checkOut)) {
             throw "el id del hotel es requerido";
         }
 

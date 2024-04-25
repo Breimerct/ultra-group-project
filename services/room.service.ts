@@ -138,7 +138,7 @@ export class RoomService {
         return new Promise(async (resolve, reject) => {
             try {
                 const roomsData = await roomModel
-                    .find({ hotelId })
+                    .find({ hotelId, isAvailable: true })
                     .populate("categoryId")
                     .lean<IRoomDetail[]>();
 
