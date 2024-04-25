@@ -40,10 +40,10 @@ const ChangePassword: FC = () => {
                 newPassword: values.newPassword,
             };
 
-            if (!user?.id) return;
+            if (!user?._id) return;
 
             updateUserPassword(
-                user?.id,
+                user?._id,
                 newPassword.currentPassword,
                 newPassword.newPassword,
             ).then(() => {

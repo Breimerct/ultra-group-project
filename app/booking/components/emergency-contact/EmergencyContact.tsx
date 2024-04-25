@@ -4,9 +4,9 @@ import { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useBookingStore } from "@store/booking-store/booking.store";
-import { IEmergencyContact } from "@services/bookings.service";
 import { EditIcon } from "@components/Icons";
 import Input from "@components/input/Input";
+import { IEmergencyContact } from "@/types";
 
 interface IProps {}
 

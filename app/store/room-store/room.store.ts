@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { create } from "zustand";
 import { useCommonStore } from "../common-store/common.store";
-import { IRoom, IRoomDetail } from "@services/room.service";
+import { IRoom, IRoomDetail } from "@/types";
 
 type State = {
     rooms: IRoomDetail[];
@@ -91,7 +91,7 @@ export const useRoomStore = create<State & Actions>((set) => ({
             const { data } = await axios.put<IRoom>(`/api/room/${id}`, body);
 
             set((state) => {
-                const roomIndex = state.rooms.findIndex((room) => room.id === id);
+                const roomIndex = state.rooms.findIndex((room) => room._id === id);
 
                 state.rooms[roomIndex] = {
                     ...state.rooms[roomIndex],
@@ -117,7 +117,7 @@ export const useRoomStore = create<State & Actions>((set) => ({
             const { data } = await axios.delete<IRoom>(`/api/room/${id}`);
 
             set((state) => ({
-                rooms: state.rooms.filter((room) => room.id !== data.id),
+                rooms: state.rooms.filter((room) => room._id !== data._id),
             }));
 
             toast.success("Habitación eliminada correctamente");

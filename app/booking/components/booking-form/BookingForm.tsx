@@ -6,11 +6,9 @@ import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import { DOCUMENTS_TYPE } from "@/const/mocks";
 import { useBookingStore } from "@store/booking-store/booking.store";
-import { Gender, IUser } from "@services/user.service";
-import { ICompanion } from "@services/bookings.service";
-import { IRoom } from "@services/room.service";
 import Select from "@components/select/Select";
 import Input from "@components/input/Input";
+import { Gender, ICompanion, IRoom, IUser } from "@/types";
 
 interface IProps {
     numberOfCompanions: number;
@@ -90,8 +88,8 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
             const dto = {
                 ...bookingDto,
                 companions: values.companions,
-                userId: user?.id,
-                roomId: room?.id,
+                userId: user?._id,
+                roomId: room?._id,
             };
 
             createBooking(dto).then(() => router.push("/"));

@@ -4,16 +4,15 @@ import { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useUserStore } from "@/app/store/user-store/user.store";
-import { Gender, IUser } from "@services/user.service";
 import { DOCUMENTS_TYPE } from "@/const/mocks";
 import Select from "@components/select/Select";
 import { EditIcon } from "@components/Icons";
 import Input from "@components/input/Input";
+import { Gender, IUser } from "@/types";
 
 const ProfileUserInfo: FC = () => {
     const { user, updateUser } = useUserStore();
     const [readOnly, setReadOnly] = useState(true);
-    const [documentType, setDocumentType] = useState("");
 
     const handleEdit = () => {
         setReadOnly((prevValue) => !prevValue);
@@ -52,8 +51,8 @@ const ProfileUserInfo: FC = () => {
                 documentNumber: values.documentNumber,
             };
 
-            if (user?.id) {
-                updateUser(user.id, userDto);
+            if (user?._id) {
+                updateUser(user._id, userDto);
                 setReadOnly(true);
             }
         },
@@ -66,13 +65,6 @@ const ProfileUserInfo: FC = () => {
         formik.setFieldValue("gender", user?.gender || "");
         formik.setFieldValue("documentType", user?.documentType?.toLowerCase() || "");
         formik.setFieldValue("documentNumber", user?.documentNumber || "");
-
-        const document = DOCUMENTS_TYPE.find(
-            (document) => document.id === user?.documentType?.toLowerCase(),
-        );
-        setDocumentType(document?.name || "");
-
-        console.log(formik.values);
     };
 
     useEffect(() => {

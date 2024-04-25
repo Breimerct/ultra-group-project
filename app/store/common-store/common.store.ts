@@ -1,7 +1,6 @@
+import { ICategoryRoom, ICity } from "@/types";
 import axios from "axios";
 import { create } from "zustand";
-import { ICity } from "@api/data/cities";
-import { ICategoryRoom } from "@services/common.service";
 
 type State = {
     cities: ICity[];

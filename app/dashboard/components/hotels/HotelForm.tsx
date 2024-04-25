@@ -2,8 +2,6 @@
 import { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { ICity } from "@api/data/cities";
-import { IHotel } from "@services/hotel.service";
 import { useHotelStore } from "@store/hotel-store/hotel.store";
 import { useCommonStore } from "@store/common-store/common.store";
 import Autocomplete from "@components/autocomplete/Autocomplete";
@@ -11,6 +9,7 @@ import CheckBox from "@components/checkbox/CheckBox";
 import TextArea from "@components/textarea/TextArea";
 import Input from "@components/input/Input";
 import Modal from "@components/modal/Modal";
+import { ICity, IHotel } from "@/types";
 
 interface IProps {
     isOpen: boolean;
@@ -64,8 +63,8 @@ const HotelForm: FC<IProps> = ({
                 cityId: Number(citySelected?.id),
             };
 
-            if (hotel?.id) {
-                updateHotelById(hotel.id, newHotel).then(() => {
+            if (hotel?._id) {
+                updateHotelById(hotel._id?.toString(), newHotel).then(() => {
                     formik.resetForm();
                     onClose && onClose();
                     setShow(false);

@@ -3,11 +3,11 @@ import { FC, FormEvent, useEffect, useState } from "react";
 import { SearchIcon } from "../Icons";
 import Autocomplete from "../autocomplete/Autocomplete";
 import { useCommonStore } from "@/app/store/common-store/common.store";
-import { ICity } from "@/app/api/data/cities";
 import { toast } from "react-toastify";
 import { IRangedDate, useHotelStore } from "@/app/store/hotel-store/hotel.store";
 import { useRouter, usePathname } from "next/navigation";
 import Input from "../input/Input";
+import { ICity } from "@/types";
 
 const SearchDestinationForm: FC = () => {
     const { cities: Cities, getAllCities } = useCommonStore();
@@ -27,7 +27,8 @@ const SearchDestinationForm: FC = () => {
 
     useEffect(() => {
         if (pathName !== "/hotel") return () => {};
-        if (!filterSearch?.checkIn && !filterSearch?.checkOut && !filterSearch?.cityId) return () => {};
+        if (!filterSearch?.checkIn && !filterSearch?.checkOut && !filterSearch?.cityId)
+            return () => {};
 
         const city = Cities.find((city) => city.id === filterSearch.cityId);
 
@@ -58,7 +59,11 @@ const SearchDestinationForm: FC = () => {
             return;
         }
 
-        await getHotelsByCityAndDate(city?.id || null, dareRange.checkIn || null, dareRange.checkOut || null);
+        await getHotelsByCityAndDate(
+            city?.id || null,
+            dareRange.checkIn || null,
+            dareRange.checkOut || null,
+        );
 
         setFilterSearch({ ...dareRange, cityId: city?.id || null });
         pathName !== "/hotel" && router.push("/hotel");
@@ -95,7 +100,11 @@ const SearchDestinationForm: FC = () => {
                     label="Fecha de salida"
                     name="checkOut"
                     type="date"
-                    min={dareRange.checkIn ? dareRange.checkIn : new Date().toISOString().split("T")[0]}
+                    min={
+                        dareRange.checkIn
+                            ? dareRange.checkIn
+                            : new Date().toISOString().split("T")[0]
+                    }
                     value={dareRange?.checkOut ?? ""}
                     onChange={handleInputDateChange}
                 />

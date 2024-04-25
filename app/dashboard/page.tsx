@@ -3,13 +3,12 @@
 import { FC, useState } from "react";
 import { useHotelStore } from "@store/hotel-store/hotel.store";
 import { useRoomStore } from "@store/room-store/room.store";
-import { IHotel } from "@services/hotel.service";
-import { IRoom } from "@services/room.service";
 import HotelsTable from "./components/hotels/HotelsTable";
 import RoomsTable from "./components/rooms/RoomsTable";
 import HotelForm from "./components/hotels/HotelForm";
 import RoomForm from "./components/rooms/RoomForm";
 import { PlusIcon } from "../components/Icons";
+import { IHotel, IRoom } from "@/types";
 
 const DashboardPage: FC = () => {
     const [showHotelForm, setShowHotelForm] = useState(false);
@@ -53,8 +52,8 @@ const DashboardPage: FC = () => {
             `¿Está seguro de eliminar el hotel ${hotel.name}?`,
         );
 
-        if (confirm && hotel.id) {
-            deleteHotelById(hotel.id);
+        if (confirm && hotel._id?.toString()) {
+            deleteHotelById(hotel._id?.toString());
         }
     };
 
@@ -70,8 +69,8 @@ const DashboardPage: FC = () => {
             `¿Está seguro de eliminar la habitación ${room.name}?`,
         );
 
-        if (confirm && room.id) {
-            deleteRoomById(room.id);
+        if (confirm && room._id) {
+            deleteRoomById(room._id);
         }
     };
 

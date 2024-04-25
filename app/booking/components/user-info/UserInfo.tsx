@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { IUser } from "@services/user.service";
 import Input from "@components/input/Input";
+import { IUser } from "@/types";
 
 interface IProps {
     user: IUser | null;

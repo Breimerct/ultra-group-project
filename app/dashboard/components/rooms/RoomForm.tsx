@@ -4,8 +4,6 @@ import { FC, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import { IHotel } from "@services/hotel.service";
-import { IRoom } from "@services/room.service";
 import { DEFAULT_IMAGE } from "@/hooks/useRandomImage/useRandomImage";
 import { useCommonStore } from "@store/common-store/common.store";
 import { useHotelStore } from "@store/hotel-store/hotel.store";
@@ -16,6 +14,7 @@ import TextArea from "@components/textarea/TextArea";
 import Select from "@components/select/Select";
 import Input from "@components/input/Input";
 import Modal from "@components/modal/Modal";
+import { IHotel, IRoom } from "@/types";
 
 interface IProps {
     isOpen: boolean;
@@ -83,11 +82,11 @@ const RoomForm: FC<IProps> = ({
                 name: values.nameRoom,
                 stars: Number(values.stars),
                 price: Number(values.price),
-                hotelId: hotelSelected?.id || "",
+                hotelId: hotelSelected?._id || "",
             };
 
-            if (room?.id) {
-                updateRoomById(room.id, newRoom).then(() => {
+            if (room?._id) {
+                updateRoomById(room._id, newRoom).then(() => {
                     handleOnclose();
                 });
             } else {
@@ -99,9 +98,12 @@ const RoomForm: FC<IProps> = ({
     });
 
     useEffect(() => {
-        const hotelName = hotels.find((hotel) => hotel.id === room?.hotelId)?.name || "";
+        const hotelName =
+            hotels.find((hotel) => hotel._id?.toString() === room?.hotelId)?.name || "";
 
-        setHotelSelected(hotels.find((hotel) => hotel.id === room?.hotelId) || null);
+        setHotelSelected(
+            hotels.find((hotel) => hotel._id?.toString() === room?.hotelId) || null,
+        );
 
         formik.values.nameRoom = room?.name || "";
         formik.values.description = room?.description || "";
@@ -191,7 +193,7 @@ const RoomForm: FC<IProps> = ({
                         >
                             <option value="">Seleccione una categoría</option>
                             {categories.map((category) => (
-                                <option key={category.id} value={category.id}>
+                                <option key={category._id} value={category._id}>
                                     {category.category}
                                 </option>
                             ))}

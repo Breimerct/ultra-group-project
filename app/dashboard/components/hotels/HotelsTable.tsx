@@ -2,9 +2,9 @@
 
 import { FC, useEffect } from "react";
 import StatusBadget from "../StatusBadget";
-import { IHotel } from "@services/hotel.service";
 import { useHotelStore } from "@store/hotel-store/hotel.store";
 import { EditIcon, EyeSearchIcon, LoaderIcon, TrashIcon } from "@/app/components/Icons";
+import { IHotel } from "@/types";
 
 interface IProps {
     onEdit?: (hotel: IHotel) => void;

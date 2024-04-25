@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { IEmergencyContact } from "@services/bookings.service";
 import Input from "@components/input/Input";
+import { IEmergencyContact } from "@/types";
 
 interface IProps {
     emergencyContact?: IEmergencyContact;

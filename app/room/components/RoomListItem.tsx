@@ -1,8 +1,7 @@
 "use client";
 import { FC, useState } from "react";
 import Link from "next/link";
-import { IRoomDetail } from "@services/room.service";
-
+import { IRoomDetail } from "@/types";
 interface IProps {
     room: IRoomDetail;
 }
@@ -94,7 +93,7 @@ const RoomsListItem: FC<IProps> = ({ room }) => {
                 ))}
             </div>
             <div className="p-3 m-4 flex justify-end items-center">
-                <Link href={`/booking/${room.id}`}>
+                <Link href={`/booking/${room._id}`}>
                     <span className="bg-emerald-800 text-white py-2 px-7 rounded-lg hover:bg-emerald-900 hover:shadow-sm hover:shadow-emerald-800 transition-all">
                         Reservar
                     </span>

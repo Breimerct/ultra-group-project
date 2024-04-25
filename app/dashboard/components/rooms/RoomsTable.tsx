@@ -4,8 +4,8 @@ import { FC, useEffect } from "react";
 import StatusBadget from "../StatusBadget";
 import { DEFAULT_IMAGE } from "@/hooks/useRandomImage/useRandomImage";
 import { useRoomStore } from "@store/room-store/room.store";
-import { IRoom } from "@services/room.service";
 import { EditIcon, EyeSearchIcon, LoaderIcon, TrashIcon } from "@components/Icons";
+import { IRoom } from "@/types";
 
 interface IProps {
     onEdit?: (room: IRoom) => void;

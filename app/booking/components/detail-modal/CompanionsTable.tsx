@@ -1,5 +1,5 @@
+import { ICompanion } from "@/types";
 import { FC } from "react";
-import { ICompanion } from "@services/bookings.service";
 
 interface IProps {
     companions: ICompanion[];

@@ -6,7 +6,6 @@ import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import { DOCUMENTS_TYPE } from "@/const/mocks";
 import { useAuthStore } from "@store/auth-store/auth.store";
-import { Gender, IUser } from "@services/user.service";
 import Select from "@components/select/Select";
 import Input from "@components/input/Input";
 

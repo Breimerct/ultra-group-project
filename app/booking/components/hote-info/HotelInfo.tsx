@@ -1,8 +1,7 @@
 import { FC } from "react";
-import { IHotelResponse } from "@services/hotel.service";
-import { IRoom } from "@services/room.service";
 import { CurrentLocationIcon } from "@components/Icons";
 import StarRate, { StartPosition } from "@components/StarRate";
+import { IHotelResponse, IRoom } from "@/types";
 
 interface IHotelInfoProps {
     hotel: IHotelResponse | null;

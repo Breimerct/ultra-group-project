@@ -1,8 +1,8 @@
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { create } from "zustand";
-import { IBooking, IBookingDetail } from "@services/bookings.service";
 import { useCommonStore } from "../common-store/common.store";
+import { IBooking, IBookingDetail } from "@/types";
 
 export interface IBookingDto extends Partial<IBooking> {}
 

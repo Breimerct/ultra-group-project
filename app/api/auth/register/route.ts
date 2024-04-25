@@ -1,4 +1,4 @@
-import { IUser } from "@services/user.service";
+import { IUser } from "@/types";
 import { AuthService } from "@services/auth.service";
 
 export async function POST(request: Request) {

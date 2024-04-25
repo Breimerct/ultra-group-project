@@ -32,7 +32,7 @@ const RoomsList: FC<IProps> = ({ checkIn, checkOut }) => {
                 )}
 
                 {rooms?.map((room) => (
-                    <RoomsListItem key={room.id} room={room} />
+                    <RoomsListItem key={room._id} room={room} />
                 ))}
             </section>
         </div>

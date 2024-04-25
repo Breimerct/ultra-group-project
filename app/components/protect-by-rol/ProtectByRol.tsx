@@ -2,8 +2,8 @@
 import { FC, ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { toast } from "react-toastify";
-import { Role } from "@services/auth.service";
 import { useUserStore } from "@store/user-store/user.store";
+import { Role } from "@/types";
 
 interface IProps {
     children: ReactNode;

@@ -3,8 +3,8 @@ import { FC, useEffect, useState } from "react";
 import DetailModal from "../detail-modal/DetailModal";
 import { useBookingStore } from "@store/booking-store/booking.store";
 import { useUserStore } from "@store/user-store/user.store";
-import { IBooking } from "@services/bookings.service";
 import { EyeSearchIcon } from "@components/Icons";
+import { IBooking } from "@/types";
 
 const BookingTable: FC = () => {
     const [showDetailModal, setShowDetailModal] = useState(false);
@@ -12,13 +12,12 @@ const BookingTable: FC = () => {
     const { user } = useUserStore();
 
     useEffect(() => {
-        const userId = user?.role === "admin" ? undefined : user?.id;
-        findBookings(userId);
+        const userId = user?.role === "admin" ? null : user?._id;
+        !!user && findBookings(userId);
     }, []);
 
     const handleSeeDetails = (booking: IBooking) => {
-        findBookingDetail(booking.id).then(() => setShowDetailModal(true));
-        // setShowDetailModal(true);
+        findBookingDetail(booking._id).then(() => setShowDetailModal(true));
     };
 
     const handleCloseModal = () => {

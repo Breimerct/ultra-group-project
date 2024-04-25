@@ -1,7 +1,8 @@
-import { BookingService, IBooking } from "@services/bookings.service";
+import { BookingService } from "@services/bookings.service";
 import { UserService } from "@services/user.service";
 import { generateTemplate } from "@/helpers/util";
 import nodemailer from "nodemailer";
+import { IBooking } from "@/types";
 
 export async function GET(request: Request) {
     try {
@@ -29,6 +30,15 @@ export async function POST(request: Request) {
         const newBooking = (await request.json()) as IBooking;
         const booking = await BookingService.createBooking(newBooking);
         const user = await UserService.findOne(booking.userId);
+
+        console.log(
+            "Booking created",
+            generateTemplate({
+                name: user.name,
+                checkIn: booking.checkIn,
+                checkOut: booking.checkOut,
+            }),
+        );
 
         nodemailer.createTestAccount((err: any, account: any) => {
             let transporter = nodemailer.createTransport({

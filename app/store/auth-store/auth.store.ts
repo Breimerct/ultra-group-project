@@ -2,10 +2,9 @@
 import { create } from "zustand";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
-import { ILogin } from "@services/auth.service";
-import { IUser } from "@services/user.service";
 import { useCommonStore } from "../common-store/common.store";
 import { useUserStore } from "../user-store/user.store";
+import { ILogin, IUser } from "@/types";
 
 type State = {};
 

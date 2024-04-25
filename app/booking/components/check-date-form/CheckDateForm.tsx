@@ -14,7 +14,7 @@ const validationSchema = Yup.object({
     checkOut: Yup.string()
         .required("El campo es requerido.")
         .test("fechaMayor", "CheckOut debe ser mayor", function (checkOut) {
-            const checkIn = this.parent.checkIn;
+            const checkIn = this.parent.checkIn as string;
             if (!checkIn || !checkOut) {
                 return true;
             }
@@ -74,7 +74,9 @@ const CheckDateForm: FC<IProps> = () => {
         <>
             <div className="flex justify-between items-center">
                 <h3 className="text-2xl font-semibold mb-3">
-                    {isEdit ? "Selecciona las fechas de tu estadía" : "Fechas seleccionadas"}
+                    {isEdit
+                        ? "Selecciona las fechas de tu estadía"
+                        : "Fechas seleccionadas"}
                 </h3>
                 <button
                     className="mr-4 text-emerald-800 bg-zinc-300 p-2 rounded-full disabled:text-zinc-700/60 disabled:bg-slate-300/40 disabled:cursor-not-allowed disabled:shadow-none hover:scale-105 hover:shadow-md hover:shadow-zinc-500 transition-all"
@@ -84,7 +86,10 @@ const CheckDateForm: FC<IProps> = () => {
                     <EditIcon />
                 </button>
             </div>
-            <form className="grid grid-cols-1 lg:grid-cols-2 gap-3 w-full" onSubmit={formik.handleSubmit}>
+            <form
+                className="grid grid-cols-1 lg:grid-cols-2 gap-3 w-full"
+                onSubmit={formik.handleSubmit}
+            >
                 <div className="col-span-1">
                     <Input
                         readOnly={!isEdit}

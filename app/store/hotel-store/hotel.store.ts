@@ -2,8 +2,7 @@ import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { create } from "zustand";
 import { useCommonStore } from "../common-store/common.store";
-import { IHotel } from "@services/hotel.service";
-
+import { IHotel } from "@/types";
 export interface IRangedDate {
     checkIn?: string | null;
     checkOut?: string | null;
@@ -151,13 +150,9 @@ export const useHotelStore = create<State & Actions>((set, get) => ({
             const { data } = await axios.put<IHotel>(`/api/hotel/${id}`, body);
 
             set((state) => ({
-                hotels: state.hotels.map((hotel) => {
-                    if (hotel.id === data.id) {
-                        return data;
-                    }
-
-                    return hotel;
-                }),
+                hotels: state.hotels.map((hotel) =>
+                    hotel._id === data._id ? data : hotel,
+                ),
             }));
 
             toast.success("Hotel actualizado correctamente");
@@ -175,7 +170,7 @@ export const useHotelStore = create<State & Actions>((set, get) => ({
             const { data } = await axios.delete<IHotel>(`/api/hotel/${id}`);
 
             set((state) => ({
-                hotels: state.hotels.filter((hotel) => hotel.id !== data.id),
+                hotels: state.hotels.filter((hotel) => hotel._id !== data._id),
             }));
 
             toast.success("Hotel eliminado correctamente");

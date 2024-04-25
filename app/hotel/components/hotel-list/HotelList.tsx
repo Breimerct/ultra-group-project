@@ -31,7 +31,10 @@ const HotelList: FC<IProps> = () => {
                 )}
 
                 {hotels.map((hotel) => (
-                    <div key={hotel.id} className="bg-zinc-50 flex flex-col md:flex-row rounded-md shadow-md">
+                    <div
+                        key={hotel._id?.toString()}
+                        className="bg-zinc-50 flex flex-col md:flex-row rounded-md shadow-md"
+                    >
                         <picture className="w-full h-60 sm:h-full max-h-[16rem] md:max-w-[16rem]">
                             <img
                                 src={hotel.imageUrl}
@@ -50,7 +53,7 @@ const HotelList: FC<IProps> = () => {
                                 <StarRate size={hotel?.stars ?? 0} />
                                 <Link
                                     className="mt-2 outline-emerald-800 outline-1 outline text-emerald-800 text-xs py-2 px-4 rounded-md hover:outline-none-none hover:bg-emerald-800 hover:text-white hover:shadow-sm hover:shadow-emerald-900 transition-all ease-in-out"
-                                    href={`/hotel/${hotel.id}`}
+                                    href={`/hotel/${hotel._id?.toString()}`}
                                 >
                                     Reservar ahora
                                 </Link>

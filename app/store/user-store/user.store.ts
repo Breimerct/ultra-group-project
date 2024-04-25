@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { create } from "zustand";
 import { useCommonStore } from "../common-store/common.store";
-import { IUser } from "@services/user.service";
+import { IUser } from "@/types";
 
 type State = {
     user: IUser | null;

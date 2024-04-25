@@ -1,4 +1,5 @@
-import { HotelService, IHotel } from "@services/hotel.service";
+import { IHotel } from "@/types";
+import { HotelService } from "@services/hotel.service";
 
 export async function GET(request: Request) {
     try {
@@ -9,7 +10,7 @@ export async function GET(request: Request) {
         let hotels: IHotel[] = [];
 
         if (!cityId && !checkIn && !checkOut) {
-            hotels = await HotelService.getActiveHotels;
+            hotels = await HotelService.getActiveHotels();
         }
 
         if ((checkOut || checkIn) && !cityId) {
@@ -21,7 +22,7 @@ export async function GET(request: Request) {
         }
 
         if (cityId && checkIn && checkOut) {
-            hotels = HotelService.filterHotelsByCityAndAvailability(
+            hotels = await HotelService.filterHotelsByCityAndAvailability(
                 cityId,
                 checkIn,
                 checkOut,
