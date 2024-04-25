@@ -103,6 +103,6 @@ export interface IUser {
 }
 
 export enum Gender {
-    Female = "Femenino",
-    Male = "Masculino",
+    Female = "femenino",
+    Male = "masculino",
 }

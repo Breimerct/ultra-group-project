@@ -27,15 +27,21 @@ export class AuthService {
 
     static async register(userDto: IUser): Promise<IUser> {
         return new Promise(async (resolve, reject) => {
-            const newUser: IUser = {
-                ...userDto,
-                avatar: `https://robohash.org/${userDto.name}`,
-                role: Role.User,
-            };
+            try {
+                const newUser: IUser = {
+                    ...userDto,
+                    avatar: `https://robohash.org/${userDto.name}`,
+                    role: Role.User,
+                };
 
-            await UserService.create(newUser).catch(reject);
+                console.log("userDto", newUser);
 
-            resolve(newUser);
+                const newUserResult = await UserService.create(newUser);
+
+                return resolve(newUserResult);
+            } catch (error) {
+                return reject(error);
+            }
         });
     }
 }

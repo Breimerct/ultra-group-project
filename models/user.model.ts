@@ -1,4 +1,4 @@
-import { Gender } from "@/types";
+import { Gender, Role } from "@/types";
 import { Schema, Document, model, models } from "mongoose";
 
 export interface UserDocument extends Document {
@@ -19,11 +19,11 @@ const UserSchema: Schema = new Schema({
     email: { type: String, required: true, unique: true },
     cellphone: { type: String, required: true },
     avatar: { type: String },
-    password: { type: String },
-    role: { type: String },
+    password: { type: String, required: true },
+    role: { type: String, default: Role.User },
     gender: { type: String, enum: Gender, default: null },
-    documentType: { type: String },
-    documentNumber: { type: String },
+    documentType: { type: String, required: true },
+    documentNumber: { type: String, required: true },
 });
 
 export default models.User || model<UserDocument>("User", UserSchema);
