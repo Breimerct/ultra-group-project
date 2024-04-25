@@ -54,17 +54,15 @@ const ProfileUserInfo: FC = () => {
             };
 
             if (user?._id) {
-                const result = await updateUser(user._id, userDto);
-
-                if (result) {
-                    setReadOnly(true);
-                }
-
-                if (!result) {
-                    formik.setErrors({
-                        email: "El email ya esta en uso",
+                updateUser(user._id, userDto)
+                    .then(() => {
+                        setReadOnly(true);
+                    })
+                    .catch(() => {
+                        formik.setErrors({
+                            email: "El email ya esta en uso",
+                        });
                     });
-                }
             }
         },
     });

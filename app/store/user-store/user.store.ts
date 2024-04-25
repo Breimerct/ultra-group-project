@@ -26,25 +26,28 @@ const initialState: State = {
 
 const { setIsLoading: setGlobalIsLoading } = useCommonStore.getState();
 
-export const useUserStore = create<Store>((set) => ({
+export const useUserStore = create<Store>((set, get) => ({
     ...initialState,
 
     async updateUser(id, user) {
-        setGlobalIsLoading(true);
-        try {
-            const { data } = await axios.put<IUser>(`/api/user/${id}`, user);
+        return new Promise(async (resolve, reject) => {
+            setGlobalIsLoading(true);
+            try {
+                const { data } = await axios.put<IUser>(`/api/user/${id}`, user);
 
-            toast.success("usuario actualizado");
-            this.setUser(data);
-            return true;
-        } catch (error: any) {
-            if (error instanceof AxiosError) {
-                toast.error(error.response?.data?.message || error.message);
+                console.log("data", data);
+                toast.success("usuario actualizado");
+                get().setUser(data);
+                resolve(true);
+            } catch (error: any) {
+                if (error instanceof AxiosError) {
+                    toast.error(error.response?.data?.message || error.message);
+                }
+                reject(false);
+            } finally {
+                setGlobalIsLoading(false);
             }
-            return false;
-        } finally {
-            setGlobalIsLoading(false);
-        }
+        });
     },
 
     async updateUserPassword(id, currentPassword, newPassword) {
@@ -56,7 +59,7 @@ export const useUserStore = create<Store>((set) => ({
             });
 
             toast.success("contraseña actualizada");
-            this.setUser(data);
+            get().setUser(data);
             return true;
         } catch (error: any) {
             if (error instanceof AxiosError) {
