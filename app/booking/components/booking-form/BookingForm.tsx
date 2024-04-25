@@ -50,7 +50,9 @@ const validationSchema = Yup.object().shape({
 });
 
 const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
-    const [companions, setCompanions] = useState<IUser[]>([initialValues]);
+    const [companions, setCompanions] = useState<(typeof initialValues)[]>([
+        initialValues,
+    ]);
     const [prevNumberOfCompanions, setPrevNumberOfCompanions] =
         useState(numberOfCompanions);
     const { bookingDto, createBooking, isLoading } = useBookingStore();
