@@ -49,6 +49,12 @@ const SearchDestinationForm: FC = () => {
         setFilterSearch({ ...filterSearch, [e.target.name]: e.target.value });
     };
 
+    const handleClearAutoComplete = () => {
+        setCity(null);
+        setPreValue("");
+        setFilterSearch({ ...filterSearch, cityId: null });
+    };
+
     const handleSubmitSearch = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -81,6 +87,7 @@ const SearchDestinationForm: FC = () => {
                     filterBy="name"
                     preValue={preValue}
                     onSelectItem={handleSelectItem}
+                    onClearInput={handleClearAutoComplete}
                 />
             </div>
 
