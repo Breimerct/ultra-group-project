@@ -1,5 +1,9 @@
-import { BookingService } from "@services/bookings.service";
-import { UserService } from "@services/user.service";
+import {
+    createBooking,
+    getBookings,
+    getBookingsByUserId,
+} from "@services/bookings.service";
+import { findOneUser } from "@services/user.service";
 import { generateTemplate } from "@/helpers/util";
 import nodemailer from "nodemailer";
 import { IBooking } from "@/types";
@@ -10,11 +14,11 @@ export async function GET(request: Request) {
         const userId = params.get("userId");
 
         if (userId) {
-            const bookings = await BookingService.getBookingsByUserId(userId);
+            const bookings = await getBookingsByUserId(userId);
             return Response.json(bookings, { status: 200 });
         }
 
-        const bookings = await BookingService.getBookings();
+        const bookings = await getBookings();
         return Response.json(bookings, { status: 200 });
     } catch (error: any) {
         const message =
@@ -28,8 +32,8 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
     try {
         const newBooking = (await request.json()) as IBooking;
-        const booking = await BookingService.createBooking(newBooking);
-        const user = await UserService.findOne(booking.userId);
+        const booking = await createBooking(newBooking);
+        const user = await findOneUser(booking.userId);
 
         console.log(
             "Booking created",

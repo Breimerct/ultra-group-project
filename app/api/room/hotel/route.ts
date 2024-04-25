@@ -1,5 +1,8 @@
 import { IRoom } from "@/types";
-import { RoomService } from "@services/room.service";
+import {
+    getAvailableRoomsForHotelAndDate,
+    getRoomsByHotelId,
+} from "@services/room.service";
 
 export async function GET(request: Request) {
     try {
@@ -19,15 +22,11 @@ export async function GET(request: Request) {
         }
 
         if (hotelId && (!checkIn || !checkOut)) {
-            rooms = await RoomService.getRoomsByHotelId(hotelId);
+            rooms = await getRoomsByHotelId(hotelId);
         }
 
         if (hotelId && !!checkIn && !!checkOut) {
-            rooms = await RoomService.getAvailableRoomsForHotelAndDate(
-                hotelId,
-                checkIn,
-                checkOut,
-            );
+            rooms = await getAvailableRoomsForHotelAndDate(hotelId, checkIn, checkOut);
         }
 
         return Response.json(rooms, { status: 200 });

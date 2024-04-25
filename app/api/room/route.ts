@@ -1,9 +1,9 @@
-import { RoomService } from "@services/room.service";
+import { createRoom } from "@services/room.service";
 
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const room = await RoomService.createRoom(body);
+        const room = await createRoom(body);
         return Response.json(room, { status: 201 });
     } catch (error: any) {
         const message =

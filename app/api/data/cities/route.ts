@@ -1,7 +1,7 @@
-import CommonService from "@services/common.service";
+import { getCities } from "@services/common.service";
 
 export async function GET() {
-    const cities = await CommonService.getCities();
+    const cities = await getCities();
 
     return Response.json(cities, { status: 200 });
 }

@@ -1,11 +1,11 @@
-import { UserService } from "@services/user.service";
+import { updatePasswordUser, updateUser } from "@services/user.service";
 
 export async function PUT(request: Request, response: { params: { id: string } }) {
     try {
         const { id } = response.params;
         const body = await request.json();
 
-        const user = await UserService.update(id, body);
+        const user = await updateUser(id, body);
         return Response.json(user, { status: 200 });
     } catch (error: any) {
         const message =
@@ -25,11 +25,7 @@ export async function PATCH(request: Request, response: { params: { id: string }
             throw new Error("Faltan campos requeridos");
         }
 
-        const user = await UserService.updatePassword(
-            id,
-            body.currentPassword,
-            body.newPassword,
-        );
+        const user = await updatePasswordUser(id, body.currentPassword, body.newPassword);
         return Response.json(user, { status: 200 });
     } catch (error: any) {
         const message =

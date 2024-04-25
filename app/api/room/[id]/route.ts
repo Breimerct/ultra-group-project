@@ -1,9 +1,9 @@
-import { RoomService } from "@services/room.service";
+import { deleteRoomById, getRoomById, updateRoomById } from "@services/room.service";
 
 export async function GET(request: Request, response: { params: { id: string } }) {
     try {
         const { id } = response.params;
-        const room = await RoomService.getRoomById(id);
+        const room = await getRoomById(id);
 
         return Response.json(room, { status: 200 });
     } catch (error: any) {
@@ -20,7 +20,7 @@ export async function PUT(request: Request, response: { params: { id: string } }
         const { id } = response.params;
         const body = await request.json();
 
-        const room = await RoomService.updateRoomById(id, body);
+        const room = await updateRoomById(id, body);
 
         return Response.json(room, { status: 200 });
     } catch (error: any) {
@@ -36,7 +36,7 @@ export async function DELETE(request: Request, response: { params: { id: string 
     try {
         const { id } = response.params;
 
-        const room = await RoomService.deleteRoomById(id);
+        const room = await deleteRoomById(id);
 
         return Response.json(room, { status: 200 });
     } catch (error: any) {

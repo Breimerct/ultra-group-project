@@ -1,9 +1,9 @@
-import { BookingService } from "@services/bookings.service";
+import { getBookingDetail } from "@services/bookings.service";
 
 export async function GET(request: Request, response: { params: { id: string } }) {
     try {
         const { id } = response.params;
-        const booking = await BookingService.getBookingDetail(id);
+        const booking = await getBookingDetail(id);
 
         return Response.json(booking, { status: 200 });
     } catch (error: any) {

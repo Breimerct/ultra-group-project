@@ -1,10 +1,10 @@
 import { IUser } from "@/types";
-import { AuthService } from "@services/auth.service";
+import { register } from "@services/auth.service";
 
 export async function POST(request: Request) {
     try {
         const data = (await request.json()) as IUser;
-        const user = await AuthService.register(data);
+        const user = await register(data);
         return Response.json(user, { status: 200 });
     } catch (error: any) {
         const message =

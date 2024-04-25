@@ -1,47 +1,45 @@
 import { ILogin, IUser, Role } from "@/types";
-import { UserService } from "./user.service";
+import { createUser, findUserByEmail } from "./user.service";
 import { validatePassword } from "@/helpers/util";
 
-export class AuthService {
-    static async login({ email, password }: ILogin): Promise<{ user: IUser }> {
-        return new Promise(async (resolve, reject) => {
-            if (!email) {
-                return reject({ message: "Email requerido" });
-            }
+export async function login({ email, password }: ILogin): Promise<{ user: IUser }> {
+    return new Promise(async (resolve, reject) => {
+        if (!email) {
+            return reject({ message: "Email requerido" });
+        }
 
-            if (!password) {
-                return reject({ message: "Contraseña requerida" });
-            }
+        if (!password) {
+            return reject({ message: "Contraseña requerida" });
+        }
 
-            const user = await UserService.findByEmail(email);
+        const user = await findUserByEmail(email);
 
-            const isPasswordValid = await validatePassword(password, user.password);
+        const isPasswordValid = await validatePassword(password, user.password);
 
-            if (!isPasswordValid) {
-                return reject({ message: "Contraseña incorrecta" });
-            }
+        if (!isPasswordValid) {
+            return reject({ message: "Contraseña incorrecta" });
+        }
 
-            resolve({ user });
-        });
-    }
+        resolve({ user });
+    });
+}
 
-    static async register(userDto: IUser): Promise<IUser> {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const newUser: IUser = {
-                    ...userDto,
-                    avatar: `https://robohash.org/${userDto.name}`,
-                    role: Role.User,
-                };
+export async function register(userDto: IUser): Promise<IUser> {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const newUser: IUser = {
+                ...userDto,
+                avatar: `https://robohash.org/${userDto.name}`,
+                role: Role.User,
+            };
 
-                console.log("userDto", newUser);
+            console.log("userDto", newUser);
 
-                const newUserResult = await UserService.create(newUser);
+            const newUserResult = await createUser(newUser);
 
-                return resolve(newUserResult);
-            } catch (error) {
-                return reject(error);
-            }
-        });
-    }
+            return resolve(newUserResult);
+        } catch (error) {
+            return reject(error);
+        }
+    });
 }

@@ -1,5 +1,10 @@
 import { IHotel } from "@/types";
-import { HotelService } from "@services/hotel.service";
+import {
+    createHotel,
+    filterHotelsByCityAndAvailability,
+    getActiveHotels,
+    getHotelsByCityId,
+} from "@services/hotel.service";
 
 export async function GET(request: Request) {
     try {
@@ -10,7 +15,7 @@ export async function GET(request: Request) {
         let hotels: IHotel[] = [];
 
         if (!cityId && !checkIn && !checkOut) {
-            hotels = await HotelService.getActiveHotels();
+            hotels = await getActiveHotels();
         }
 
         if ((checkOut || checkIn) && !cityId) {
@@ -18,15 +23,11 @@ export async function GET(request: Request) {
         }
 
         if (cityId && (!checkIn || !checkOut)) {
-            hotels = await HotelService.getHotelsByCityId(cityId);
+            hotels = await getHotelsByCityId(cityId);
         }
 
         if (cityId && checkIn && checkOut) {
-            hotels = await HotelService.filterHotelsByCityAndAvailability(
-                cityId,
-                checkIn,
-                checkOut,
-            );
+            hotels = await filterHotelsByCityAndAvailability(cityId, checkIn, checkOut);
         }
 
         return Response.json(hotels, { status: 200 });
@@ -43,7 +44,7 @@ export async function POST(request: Request) {
     try {
         const newHotel = (await request.json()) as IHotel;
 
-        const hotels = await HotelService.createHotel(newHotel);
+        const hotels = await createHotel(newHotel);
 
         return Response.json(hotels, { status: 200 });
     } catch (error: any) {
