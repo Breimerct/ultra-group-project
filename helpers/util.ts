@@ -84,14 +84,23 @@ export const validateMongoId = (id: string) => {
 };
 
 export const lowerCaseObject = <T>(object: T | any): T => {
-    const { password, ...restOfObject } = object;
-    const objectString = JSON.stringify(restOfObject).toLowerCase();
-    const objectJson = JSON.parse(objectString);
+    const lowerCaseUserDto: T | any = {};
 
-    return {
-        ...objectJson,
-        password,
-    };
+    for (const key in object) {
+        if (Object.prototype.hasOwnProperty.call(object, key)) {
+            const value = object[key];
+
+            if (key === "password") {
+                lowerCaseUserDto[key] = value;
+            } else if (typeof value === "string") {
+                lowerCaseUserDto[key] = value.toLowerCase();
+            } else {
+                lowerCaseUserDto[key] = value;
+            }
+        }
+    }
+
+    return lowerCaseUserDto;
 };
 
 export const getAvatarUrl = (fullName: string) => {
