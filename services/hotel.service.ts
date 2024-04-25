@@ -1,131 +1,121 @@
+import { string } from "yup";
 import useRandomHotelImage, {
     DEFAULT_IMAGE,
 } from "@/hooks/useRandomImage/useRandomImage";
 import { RoomService } from "./room.service";
 import CommonService from "./common.service";
-import { ICity } from "@api/data/cities";
-
-export interface IHotel {
-    id?: string;
-    name: string;
-    description?: string | null;
-    stars?: number | null;
-    imageUrl: string;
-    cityId: number;
-    isAvailable: boolean;
-}
-
-export interface IHotelResponse extends IHotel {
-    city: ICity;
-}
-
-const hotels: IHotel[] = [
-    {
-        id: "1",
-        name: "Hotel 1",
-        description: "Description 1",
-        stars: 3,
-        imageUrl: DEFAULT_IMAGE,
-        cityId: 210,
-        isAvailable: true,
-    },
-    {
-        id: "2",
-        name: "Hotel 2",
-        description: "Description 2",
-        stars: 4,
-        imageUrl: DEFAULT_IMAGE,
-        cityId: 144,
-        isAvailable: true,
-    },
-    {
-        id: "3",
-        name: "Hotel 3",
-        description: "Description 3",
-        stars: 5,
-        imageUrl: DEFAULT_IMAGE,
-        cityId: 210,
-        isAvailable: false,
-    },
-];
+import { IHotel, IHotelResponse } from "@/types";
+import connectDB from "@/lib/mongo";
+import hotelModel from "@/models/hotel.model";
 
 export class HotelService {
     static getHotels(): Promise<IHotel[]> {
-        return new Promise((resolve) => {
-            resolve(hotels);
+        connectDB();
+        return new Promise(async (resolve, reject) => {
+            try {
+                const hotels = await hotelModel.find().lean<IHotel[]>();
+                resolve(hotels);
+            } catch (error) {
+                reject(error);
+            }
         });
     }
 
-    static get getActiveHotels(): Promise<IHotel[]> {
-        return new Promise((resolve) => {
-            const hotelsData = hotels.filter(async (hotel) => {
-                if (!hotel.isAvailable) return false;
+    static getActiveHotels(): Promise<IHotel[]> {
+        connectDB();
+        return new Promise(async (resolve, reject) => {
+            try {
+                const hotelsData: IHotel[] = [];
+                const hotels = await hotelModel
+                    .find({ isAvailable: true })
+                    .lean<IHotel[]>();
 
-                const hotelRooms = (await RoomService.getRooms()).filter(
-                    (room) => room.hotelId === hotel.id,
-                );
+                const hotelRooms = await RoomService.getRooms();
 
-                if (!hotelRooms.length) return false;
+                for (let hotelIndex = 0; hotelIndex < hotels.length; hotelIndex++) {
+                    const { _id } = hotels[hotelIndex];
 
-                return true;
-            });
-            resolve(hotelsData);
+                    for (
+                        let hotelRoomIndex = 0;
+                        hotelRoomIndex < hotelRooms.length;
+                        hotelRoomIndex++
+                    ) {
+                        const { hotelId } = hotelRooms[hotelRoomIndex];
+
+                        if (hotelId.toString() === _id?.toString()) {
+                            hotelsData.push(hotels[hotelIndex]);
+                            break;
+                        }
+                    }
+                }
+
+                return resolve(hotelsData);
+            } catch (error) {
+                return reject(error);
+            }
         });
     }
 
     static getHotelById(hotelId: string): Promise<IHotelResponse> {
+        connectDB();
         return new Promise(async (resolve, reject) => {
-            const hotelFound = hotels.find((hotel) => hotel.id === hotelId);
+            try {
+                const hotelFound = await hotelModel.findById(hotelId).lean<IHotel>();
 
-            if (!hotelFound) {
-                reject("No se encuentra el hotel");
-                return;
+                if (!hotelFound) {
+                    return reject("No se encuentra el hotel");
+                }
+
+                const city = await CommonService.getCityById(hotelFound.cityId);
+
+                return resolve({
+                    ...hotelFound,
+                    city,
+                });
+            } catch (error) {
+                return reject(error);
             }
-
-            const city = await CommonService.getCityById(hotelFound.cityId);
-
-            resolve({
-                ...hotelFound,
-                city,
-            });
         });
     }
 
     static getHotelsByCityId(cityId: number): Promise<IHotel[]> {
-        return new Promise((resolve, reject) => {
-            const hotelsData = hotels.filter(
-                (hotel) => hotel.cityId === cityId && hotel.isAvailable,
-            );
+        return new Promise(async (resolve, reject) => {
+            const hotels = await this.getActiveHotels();
+
+            const hotelsData = hotels.filter((hotel) => hotel.cityId === cityId);
 
             if (!hotelsData.length) {
-                reject("No se encuentran hoteles para esta ciudad");
-                return;
+                return reject("No se encuentran hoteles para esta ciudad");
             }
 
-            resolve(hotelsData);
+            return resolve(hotelsData);
         });
     }
 
-    static filterHotelsByCityAndAvailability(
+    static async filterHotelsByCityAndAvailability(
         cityId: number,
         checkIn: string,
         checkOut: string,
-    ): IHotel[] {
-        const hotelsData = hotels.filter(
-            (hotel) => hotel.cityId === cityId && hotel.isAvailable,
+    ): Promise<IHotel[]> {
+        const hotelsData = (await this.getActiveHotels()).filter(
+            (hotel) => hotel.cityId === cityId,
         );
 
         return hotelsData.filter(async (hotel) => {
             const hotelRooms = (await RoomService.getRooms()).filter(
-                (room) => room.hotelId === hotel.id,
+                (room) => room.hotelId.toString() === hotel._id?.toString(),
             );
 
             if (!hotelRooms.length) return false;
 
             const hasAvailableRooms = hotelRooms.some(
-                (room) =>
+                async (room) =>
                     room.isAvailable &&
-                    RoomService.isRoomAvailable(room.id ?? "", checkIn, checkOut),
+                    (await RoomService.isRoomAvailable(
+                        room._id ?? "",
+                        checkIn,
+                        checkOut,
+                    )),
             );
 
             return hasAvailableRooms;
@@ -133,69 +123,83 @@ export class HotelService {
     }
 
     static createHotel(hotel: IHotel): Promise<IHotel> {
+        connectDB();
         return new Promise(async (resolve, reject) => {
-            const existedHotel = hotels.some(
-                (item) => item.name.toLowerCase() === hotel.name.toLowerCase(),
-            );
+            try {
+                const existedHotel = await hotelModel
+                    .findOne({ name: hotel.name })
+                    .lean();
+                console.log(existedHotel);
 
-            if (existedHotel) {
-                reject("Este hotel ya existe");
-                return;
+                if (existedHotel) {
+                    return reject("Este hotel ya existe");
+                }
+
+                if (hotel.stars && hotel.stars > 5) {
+                    return reject("Solo se permiten 5 estrellas como máximo");
+                }
+
+                const imageUrl = await useRandomHotelImage();
+                const newHotel: IHotel = {
+                    ...hotel,
+                    stars: hotel?.stars || 0,
+                    imageUrl: String(imageUrl),
+                };
+
+                const newHotelResult = await hotelModel.create(newHotel);
+                resolve(newHotelResult);
+            } catch (error) {
+                reject(error);
             }
-
-            if (hotel.stars && hotel.stars > 5) {
-                reject("Solo se permiten 5 estrellas como máximo");
-                return;
-            }
-
-            const id = crypto.randomUUID();
-            const imageUrl = (await useRandomHotelImage()) as string;
-            const newHotel: IHotel = {
-                ...hotel,
-                id,
-                stars: hotel.stars || 0,
-                imageUrl,
-            };
-
-            hotels.push(newHotel);
-            resolve(newHotel);
         });
     }
 
-    static updateHotelById(hotelId: string, hotel: IHotel): Promise<IHotel> {
-        return new Promise((resolve, reject) => {
-            const hotelFound = hotels.find((item) => item.id === hotelId);
+    static updateHotelById(id: string, hotel: IHotel): Promise<IHotel> {
+        connectDB();
+        return new Promise(async (resolve, reject) => {
+            try {
+                const hotelFound = await hotelModel.findById(id).lean<IHotel>();
 
-            if (!hotelFound) {
-                reject("No se encuentra el hotel");
-                return;
+                if (!hotelFound) {
+                    reject("No se encuentra el hotel");
+                    return;
+                }
+
+                const newData = {
+                    ...hotelFound,
+                    ...hotel,
+                };
+
+                const hotelUpdated = await hotelModel.findByIdAndUpdate(id, newData, {
+                    new: true,
+                });
+
+                resolve(hotelUpdated);
+            } catch (error) {
+                reject(error);
             }
-
-            const hotelIndex = hotels.findIndex((item) => item.id === hotelId);
-
-            hotels[hotelIndex] = {
-                ...hotelFound,
-                ...hotel,
-            };
-
-            resolve(hotels[hotelIndex]);
         });
     }
 
     static deleteHotelById(hotelId: string): Promise<IHotel> {
-        return new Promise((resolve, reject) => {
-            const hotelFound = hotels.find((item) => item.id === hotelId);
+        connectDB();
+        return new Promise(async (resolve, reject) => {
+            try {
+                const hotelFound = await hotelModel.findById(hotelId);
 
-            if (!hotelFound) {
-                reject("No se encuentra el hotel");
-                return;
+                if (!hotelFound) {
+                    reject("No se encuentra el hotel");
+                    return;
+                }
+
+                const hotelDeleted = await hotelModel.findByIdAndDelete(hotelId);
+
+                console.log(hotelDeleted);
+
+                resolve(hotelDeleted);
+            } catch (error) {
+                reject(error);
             }
-
-            const hotelIndex = hotels.findIndex((item) => item.id === hotelId);
-
-            hotels.splice(hotelIndex, 1);
-
-            resolve(hotelFound);
         });
     }
 }

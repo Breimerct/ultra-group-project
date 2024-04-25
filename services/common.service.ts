@@ -1,37 +1,32 @@
-import CITIES from "@api/data/cities";
-
-export interface ICategoryRoom {
-    id: string;
-    category: string;
-    tax: number;
-}
-
-const categories: ICategoryRoom[] = [
-    { id: "1", category: "Individual", tax: 0.1 },
-    { id: "2", category: "Doble", tax: 0.15 },
-    { id: "3", category: "Suite", tax: 0.2 },
-];
+import connectDB from "@/lib/mongo";
+import categoryRoomModel from "@/models/category-room.model";
+import cityModel from "@/models/city.model";
+import { ICategoryRoom, ICity } from "@/types";
 
 export default class CommonService {
-    static cities = CITIES;
+    static getCities(): Promise<ICity[]> {
+        connectDB();
+        return new Promise(async (resolve, reject) => {
+            const cities = await cityModel.find().catch(reject);
 
-    static getCities(): Promise<any> {
-        return new Promise((resolve) => {
-            resolve(this.cities);
+            resolve(cities as ICity[]);
         });
     }
 
-    static getCategories(): Promise<any> {
-        return new Promise((resolve) => {
-            resolve(categories);
+    static getCategories(): Promise<ICategoryRoom[]> {
+        connectDB();
+        return new Promise(async (resolve, reject) => {
+            const roomCategories = await categoryRoomModel.find().catch(reject);
+
+            resolve(roomCategories as ICategoryRoom[]);
         });
     }
 
     static getCategoryById(categoryId: string): Promise<any> {
-        return new Promise((resolve, reject) => {
-            const categoryFound = categories.find(
-                (category) => category.id === categoryId,
-            );
+        return new Promise(async (resolve, reject) => {
+            const categoryFound = await categoryRoomModel
+                .findById(categoryId)
+                .catch(reject);
 
             if (!categoryFound) {
                 reject("Categoria no encontrada");
@@ -42,8 +37,9 @@ export default class CommonService {
     }
 
     static getCityById(cityId: number): Promise<any> {
-        return new Promise((resolve, reject) => {
-            const cityFound = this.cities.find((city) => city.id === cityId);
+        connectDB();
+        return new Promise(async (resolve, reject) => {
+            const cityFound = await cityModel.findOne({ id: cityId }).catch(reject);
 
             if (!cityFound) {
                 reject("City not found");

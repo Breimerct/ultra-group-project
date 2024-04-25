@@ -1,53 +1,18 @@
-export interface IUser {
-    id?: string;
-    name: string;
-    email: string;
-    cellphone: string;
-    avatar?: string;
-    password?: string;
-    role?: string;
-    gender?: Gender | string | null;
-    documentType?: string;
-    documentNumber?: string;
-}
-
-export enum Gender {
-    Female = "Femenino",
-
-    Male = "Masculino",
-}
-
-const users: IUser[] = [
-    {
-        email: "admin@admin.ad",
-        password: "admin",
-        name: "Admin User",
-        cellphone: "1234567890",
-        avatar: "https://robohash.org/admin",
-        id: "1",
-        role: "admin",
-        documentNumber: "1234567890",
-        documentType: "CC",
-        gender: Gender.Male,
-    },
-    {
-        email: "breimerct@gmail.com",
-        password: "user",
-        name: "Breimer Correa",
-        cellphone: "1234567890",
-        avatar: "https://robohash.org/breimerct",
-        id: "2",
-        role: "user",
-        documentNumber: "1234567890",
-        documentType: "CC",
-        gender: Gender.Male,
-    },
-];
+import {
+    hashPassword,
+    lowerCaseObject,
+    validateMongoId,
+    validatePassword,
+} from "@/helpers/util";
+import connectDB from "@/lib/mongo";
+import userModel from "@/models/user.model";
+import { IUser } from "@/types";
 
 export class UserService {
     static async findOne(id: string): Promise<IUser> {
+        connectDB();
         return new Promise((resolve, reject) => {
-            const user = users.find((u) => u.id === id);
+            const user = userModel.findById(id);
 
             if (!user) {
                 reject({ message: "Usuario no encontrado" });
@@ -59,12 +24,15 @@ export class UserService {
     }
 
     static async findByEmail(email: string): Promise<IUser> {
+        connectDB();
         return new Promise((resolve, reject) => {
-            const user = users.find((u) => u.email === email);
+            const loweCaseEmail = email.toLowerCase();
+            const user = userModel.findOne({ email: loweCaseEmail }).catch(reject);
 
             if (!user) {
-                reject({ message: "Usuario no encontrado" });
-                return;
+                return reject({
+                    message: `Usuario con email ${email} no encontrado.`,
+                });
             }
 
             resolve(user);
@@ -72,61 +40,115 @@ export class UserService {
     }
 
     static async getAll(): Promise<IUser[]> {
+        connectDB();
         return new Promise((resolve) => {
+            const users = userModel.find();
+
             resolve(users);
         });
     }
 
     static create(user: IUser): Promise<IUser> {
-        return new Promise((resolve) => {
-            users.push(user);
+        connectDB();
+        return new Promise(async (resolve, reject) => {
+            const lowerCaseUser = lowerCaseObject<IUser>(user);
 
-            resolve(user);
+            const existingUser = await userModel.findOne({
+                email: lowerCaseUser.email,
+            });
+
+            if (existingUser) {
+                reject({
+                    message: `Usuario con email ${lowerCaseUser.email}, ya existe.`,
+                });
+            }
+
+            const hashedPassword = await hashPassword(lowerCaseUser.password);
+            lowerCaseUser.password = hashedPassword;
+
+            const newUser = await userModel.create(lowerCaseUser).catch(reject);
+
+            resolve(newUser);
         });
     }
 
     static update(id: string, user: IUser): Promise<IUser> {
-        return new Promise((resolve, reject) => {
-            const userFound = users.find((u) => u.id === id);
+        connectDB();
+        return new Promise(async (resolve, reject) => {
+            validateMongoId(id).catch(reject);
+
+            const userFound = (await userModel
+                .findById(id)
+                .lean()
+                .catch(reject)) as IUser;
 
             if (!userFound) {
                 reject({ message: "Usuario no encontrado" });
                 return;
             }
 
-            const userIndex = users.findIndex((u) => u.id === id);
+            console.log(userFound);
 
-            users[userIndex] = {
+            const newData = {
                 ...userFound,
                 ...user,
+                avatar: `https://robohash.org/${user?.name ?? userFound.name}`,
             };
 
-            resolve(users[userIndex]);
+            const updateUser = await userModel
+                .findByIdAndUpdate(id, newData, { new: true })
+                .catch(reject);
+
+            resolve(updateUser);
         });
     }
 
-    static updatePassword(id: string, currentPassword: string, newPassword: string): Promise<IUser> {
-        return new Promise((resolve, reject) => {
-            const userFound = users.find((u) => u.id === id);
+    static updatePassword(
+        id: string,
+        currentPassword: string,
+        newPassword: string,
+    ): Promise<IUser> {
+        connectDB();
+        return new Promise(async (resolve, reject) => {
+            validateMongoId(id).catch(reject);
 
-            if (!userFound) {
+            if (!currentPassword) {
+                reject({ message: "Contraseña actual es requerida" });
+            }
+
+            if (!newPassword) {
+                reject({ message: "Contraseña nueva es requerida" });
+            }
+
+            const user = await userModel.findById(id).catch(reject);
+
+            if (!user) {
                 reject({ message: "Usuario no encontrado" });
-                return;
             }
 
-            if (userFound.password !== currentPassword) {
-                reject({ message: "La contraseña actual no coincide" });
-                return;
+            const isPasswordValid = await validatePassword(
+                currentPassword,
+                user.password,
+            );
+
+            if (!isPasswordValid) {
+                reject({ message: "Contraseña actual incorrecta" });
             }
 
-            const userIndex = users.findIndex((u) => u.id === id);
+            const isValidPassword = await validatePassword(newPassword, user.password);
 
-            users[userIndex] = {
-                ...userFound,
-                password: newPassword,
-            };
+            if (isValidPassword) {
+                reject({ message: "La nueva contraseña debe ser diferente a la actual" });
+            }
 
-            resolve(users[userIndex]);
+            const hashedPassword = await hashPassword(newPassword);
+            user.password = hashedPassword;
+
+            const updatedUser = await userModel.findByIdAndUpdate(id, user, {
+                new: true,
+            });
+
+            resolve(updatedUser);
         });
     }
 }

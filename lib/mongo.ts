@@ -1,8 +1,7 @@
+import { MONGO_URI } from "@/const/env.const";
 import mongoose, { connection } from "mongoose";
 
-const MONGODB_URI = process.env.MONGO_URI as string;
-
-if (!MONGODB_URI) {
+if (!MONGO_URI) {
     console.error("No MongoDB URI provided");
     process.exit(1);
 }
@@ -14,7 +13,7 @@ const conn = {
 const connectDB = async () => {
     if (conn.isConnected) return;
 
-    const db = await mongoose.connect(MONGODB_URI);
+    const db = await mongoose.connect(MONGO_URI);
 
     conn.isConnected = !!db.connections[0].readyState;
     console.log(`MongoDB Connected: ${conn.isConnected}`);

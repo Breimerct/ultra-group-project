@@ -1,3 +1,5 @@
+import * as bcrypt from "bcrypt";
+import mongoose, { Model } from "mongoose";
 interface IHtmlTemplate {
     name: string;
     checkIn: string;
@@ -41,4 +43,57 @@ export const generateTemplate = ({ name, checkIn, checkOut }: IHtmlTemplate) => 
         </body>
       </html>
     `;
+};
+
+export const hashPassword = async (password: string | undefined) => {
+    if (!password) {
+        throw new Error("password required");
+    }
+
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash(password, salt);
+
+    return passwordHash;
+};
+
+export const validatePassword = async (password: string, hashPassword: string) => {
+    if (!password) {
+        throw new Error("password required");
+    }
+
+    if (!hashPassword) {
+        throw new Error("hashPassword required");
+    }
+
+    return await bcrypt.compare(password, hashPassword);
+};
+
+export const validateMongoId = (id: string) => {
+    return new Promise((resolve, reject) => {
+        if (!id) {
+            reject({ message: "ID required" });
+        }
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            reject({ message: "Invalid ID" });
+            return;
+        }
+
+        resolve(true);
+    });
+};
+
+export const lowerCaseObject = <T>(object: T | any): T => {
+    const { password, ...restOfObject } = object;
+    const objectString = JSON.stringify(restOfObject).toLowerCase();
+    const objectJson = JSON.parse(objectString);
+
+    return {
+        ...objectJson,
+        password,
+    };
+};
+
+export const getAvatarUrl = (fullName: string) => {
+    return `https://ui-avatars.com/api/?name=${fullName}&background=random&bold=true&uppercase=true`;
 };

@@ -1,192 +1,158 @@
-import useRandomHotelImage, {
-    DEFAULT_IMAGE,
-} from "@/hooks/useRandomImage/useRandomImage";
-import { HotelService, IHotel } from "./hotel.service";
+import useRandomHotelImage from "@/hooks/useRandomImage/useRandomImage";
+import { HotelService } from "./hotel.service";
 import { BookingService } from "./bookings.service";
-import CommonService, { ICategoryRoom } from "./common.service";
-
-export interface IRoom {
-    id?: string;
-    name: string;
-    description?: string | null;
-    stars?: number;
-    imageUrls: string[];
-    hotelId: string;
-    categoryId: string;
-    price?: number;
-    isAvailable: boolean;
-}
-
-export interface IRoomDetail extends IRoom {
-    category: ICategoryRoom;
-}
-
-const rooms: IRoom[] = [
-    {
-        id: "1",
-        name: "Room 1",
-        description: "Description 1",
-        stars: 5,
-        imageUrls: [
-            "https://images.unsplash.com/photo-1671798747347-690f91e569b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MDA2MDkyNjZ8&ixlib=rb-4.0.3&q=80&w=1080",
-            "https://images.unsplash.com/photo-1518537708190-1e8c9c61ea9a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MDA2MTMwOTV8&ixlib=rb-4.0.3&q=80&w=1080",
-            "https://images.unsplash.com/photo-1625332787231-31effa85c454?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MDA2MTMwOTV8&ixlib=rb-4.0.3&q=80&w=1080",
-            "https://images.unsplash.com/photo-1602582401490-7bef59dfe400?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MDA2MTMwOTV8&ixlib=rb-4.0.3&q=80&w=1080",
-        ],
-        hotelId: "1",
-        categoryId: "1",
-        isAvailable: true,
-        price: 100,
-    },
-    {
-        id: "2",
-        name: "Room 2",
-        description: "Description 2",
-        stars: 4,
-        imageUrls: [DEFAULT_IMAGE],
-        hotelId: "2",
-        categoryId: "1",
-        isAvailable: true,
-        price: 200,
-    },
-    {
-        id: "3",
-        name: "Room 3",
-        description: "Description 3",
-        stars: 5,
-        imageUrls: [DEFAULT_IMAGE],
-        hotelId: "1",
-        categoryId: "2",
-        isAvailable: false,
-        price: 300,
-    },
-];
+import { ICategoryRoom, IHotel, IRoom, IRoomDetail } from "@/types";
+import connectDB from "@/lib/mongo";
+import roomModel from "@/models/room.model";
 
 export class RoomService {
     static get getActiveRooms(): Promise<IRoom[]> {
-        return new Promise((resolve) => {
-            const roomsData = rooms.filter((room) => room.isAvailable);
+        connectDB();
+        return new Promise(async (resolve, reject) => {
+            try {
+                const roomsData = roomModel.find({ isAvailable: true }).lean<IRoom[]>();
 
-            resolve(roomsData);
+                return resolve(roomsData);
+            } catch (error) {
+                return reject(error);
+            }
         });
     }
 
     static createRoom(room: IRoom): Promise<IRoom> {
-        return new Promise(async (resolve) => {
-            const imageUrl: string[] = (await useRandomHotelImage(true, 4)) as string[];
+        connectDB();
+        return new Promise(async (resolve, reject) => {
+            try {
+                const imageUrl: string[] = (await useRandomHotelImage(
+                    true,
+                    4,
+                )) as string[];
 
-            const id = crypto.randomUUID();
+                const newRoom = {
+                    ...room,
+                    imageUrls: imageUrl,
+                };
 
-            rooms.push({
-                ...room,
-                imageUrls: imageUrl,
-                id,
-            });
-            resolve(room);
+                const roomCreated = await roomModel.create(newRoom);
+
+                return resolve(roomCreated);
+            } catch (error) {
+                return reject(error);
+            }
         });
     }
 
     static updateRoomById(id: string, room: IRoom): Promise<IRoom> {
+        connectDB();
         return new Promise(async (resolve, reject) => {
-            const roomFound = rooms.find((room) => room.id === id);
+            try {
+                const roomFound = await roomModel.findById(id).lean<IRoom>();
 
-            if (!roomFound) {
-                reject("No se encuentra la habitación");
-                return;
+                if (!roomFound) {
+                    return reject("No se encuentra la habitación");
+                }
+
+                const newData = {
+                    ...roomFound,
+                    ...room,
+                };
+
+                const roomUpdated = await roomModel.findByIdAndUpdate(id, newData, {
+                    new: true,
+                });
+
+                return resolve(roomUpdated);
+            } catch (error) {
+                return reject(error);
             }
-
-            const roomIndex = rooms.findIndex((room) => room.id === id);
-
-            rooms[roomIndex] = {
-                ...roomFound,
-                ...room,
-            };
-
-            resolve(rooms[roomIndex]);
         });
     }
 
     static deleteRoomById(id: string): Promise<IRoom> {
+        connectDB();
         return new Promise(async (resolve, reject) => {
-            const roomFound = rooms.find((room) => room.id === id);
+            try {
+                const roomFound = await roomModel.findById(id).lean<IRoom>();
 
-            if (!roomFound) {
-                reject("No se encuentra la habitación");
-                return;
+                if (!roomFound) {
+                    return reject("No se encuentra la habitación");
+                }
+
+                const roomDeleted = await roomModel.findByIdAndDelete(id);
+
+                return resolve(roomDeleted);
+            } catch (error) {
+                return reject(error);
             }
-
-            const roomIndex = rooms.findIndex((room) => room.id === id);
-
-            rooms.splice(roomIndex, 1);
-
-            resolve(roomFound);
         });
     }
 
     static getRooms(): Promise<IRoomDetail[]> {
-        return new Promise((resolve) => {
-            Promise.all(
-                rooms.map(async (room) => {
-                    const category = await CommonService.getCategoryById(
-                        room.categoryId ?? "",
-                    );
+        connectDB();
+        return new Promise(async (resolve, reject) => {
+            try {
+                const rooms = await roomModel
+                    .find()
+                    .populate("categoryId")
+                    .lean<IRoomDetail[]>();
 
-                    return {
-                        ...room,
-                        category,
-                    };
-                }),
-            ).then((roomsData) => {
-                resolve(roomsData);
-            });
+                const roomResponse = this.formatRooms(rooms);
+
+                return resolve(roomResponse);
+            } catch (error) {
+                return reject(error);
+            }
         });
     }
 
     static getRoomById(id: string): Promise<IRoomDetail> {
+        connectDB();
         return new Promise(async (resolve, reject) => {
-            const roomData = rooms.find((room) => room.id === id);
+            try {
+                const roomData = await roomModel
+                    .findById(id)
+                    .populate("categoryId")
+                    .lean<IRoomDetail>();
 
-            if (!roomData) {
-                reject("No se encuentra la habitación");
-                return;
+                if (!roomData) {
+                    return reject("No se encuentra la habitación");
+                }
+
+                const category = roomData.categoryId as unknown as ICategoryRoom;
+
+                const roomResponse = {
+                    ...roomData,
+                    category,
+                    categoryId: category._id,
+                };
+
+                return resolve(roomResponse);
+            } catch (error) {
+                return reject(error);
             }
-
-            const category = await CommonService.getCategoryById(
-                roomData.categoryId ?? "",
-            );
-
-            resolve({
-                ...roomData,
-                category,
-            });
         });
     }
 
     static getRoomsByHotelId(hotelId: string): Promise<IRoomDetail[]> {
-        return new Promise((resolve, reject) => {
-            const roomsData = rooms.filter(
-                (room) => room.hotelId === hotelId && room.isAvailable,
-            );
+        connectDB();
+        return new Promise(async (resolve, reject) => {
+            try {
+                const roomsData = await roomModel
+                    .find({ hotelId })
+                    .populate("categoryId")
+                    .lean<IRoomDetail[]>();
 
-            if (!roomsData.length) {
-                reject("No se encuentran habitaciones para este hotel");
-                return;
+                if (!roomsData.length) {
+                    reject("No se encuentran habitaciones para este hotel");
+                    return;
+                }
+
+                const roomResponse = this.formatRooms(roomsData);
+
+                return resolve(roomResponse);
+            } catch (error) {
+                return reject(error);
             }
-
-            Promise.all(
-                roomsData.map(async (room) => {
-                    const category = await CommonService.getCategoryById(
-                        room.categoryId ?? "",
-                    );
-
-                    return {
-                        ...room,
-                        category,
-                    };
-                }),
-            ).then((rooms) => {
-                resolve(rooms);
-            });
         });
     }
 
@@ -196,36 +162,49 @@ export class RoomService {
         checkOut: string,
     ): Promise<IRoomDetail[]> {
         return new Promise(async (resolve, reject) => {
-            const hotels: IHotel[] = await HotelService.getHotels();
-            let availableRooms: IRoom[] = [];
+            connectDB();
+            try {
+                const hotels: IHotel[] = await HotelService.getHotels();
+                let availableRooms = [];
 
-            const hotel = hotels.find((h) => h.id === hotelId);
+                const hotel = hotels.find((h) => h._id?.toString() === hotelId);
 
-            if (!hotel) {
-                reject("No se encuentra el hotel");
-                return;
-            }
-            availableRooms = rooms
-                .filter((room) => room.isAvailable)
-                .filter((room) => room.hotelId === hotel.id)
-                .filter((room) =>
-                    this.isRoomAvailable(room?.id ?? "", checkIn, checkOut),
-                );
+                if (!hotel) {
+                    return reject("No se encuentra el hotel");
+                }
 
-            Promise.all(
-                availableRooms.map(async (room) => {
-                    const category = await CommonService.getCategoryById(
-                        room.categoryId ?? "",
+                console.log(hotel._id);
+
+                const rooms = await roomModel
+                    .find({
+                        isAvailable: true,
+                        hotelId: hotel._id?.toString(),
+                    })
+                    .populate("categoryId")
+                    .lean<IRoomDetail[]>();
+
+                for (let index = 0; index < rooms.length; index++) {
+                    const { _id } = rooms[index];
+
+                    if (!_id) return;
+
+                    const validRoom = await this.isRoomAvailable(
+                        _id?.toString(),
+                        checkIn,
+                        checkOut,
                     );
 
-                    return {
-                        ...room,
-                        category,
-                    };
-                }),
-            ).then((rooms) => {
-                resolve(rooms);
-            });
+                    if (!!validRoom) {
+                        availableRooms.push(rooms[index]);
+                    }
+                }
+
+                availableRooms = this.formatRooms(availableRooms);
+
+                return resolve(availableRooms);
+            } catch (error) {
+                return reject(error);
+            }
         });
     }
 
@@ -235,7 +214,7 @@ export class RoomService {
         checkOut: string,
     ): Promise<boolean> {
         const roomBookings = (await BookingService.getBookings()).filter(
-            (booking) => booking.roomId === roomId,
+            (booking) => booking.roomId.toString() === roomId.toString(),
         );
 
         for (const booking of roomBookings) {
@@ -254,5 +233,13 @@ export class RoomService {
         }
 
         return true;
+    }
+
+    private static formatRooms(rooms: any): IRoomDetail[] {
+        return rooms.map((room: any) => ({
+            ...room,
+            category: room.categoryId as unknown as ICategoryRoom,
+            categoryId: room?.categoryId?._id || "",
+        }));
     }
 }
