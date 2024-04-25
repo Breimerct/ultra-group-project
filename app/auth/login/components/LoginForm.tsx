@@ -4,9 +4,9 @@ import Link from "next/link";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
-import { ILogin } from "@services/auth.service";
 import { useAuthStore } from "@store/auth-store/auth.store";
 import Input from "@components/input/Input";
+import { ILogin } from "@/types";
 
 interface IProps {}
 

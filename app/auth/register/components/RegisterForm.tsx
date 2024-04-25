@@ -8,6 +8,7 @@ import { DOCUMENTS_TYPE } from "@/const/mocks";
 import { useAuthStore } from "@store/auth-store/auth.store";
 import Select from "@components/select/Select";
 import Input from "@components/input/Input";
+import { Gender, IUser } from "@/types";
 
 const RegisterForm: FC = () => {
     const { register } = useAuthStore();
