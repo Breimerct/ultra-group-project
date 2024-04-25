@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Estilos para la scrollbar en navegadores WebKit (Chrome, Safari) */
+.scroll-container::-webkit-scrollbar {
+    width: 8px; /* Ancho de la scrollbar */
+    height: 8px; /* Altura de la scrollbar para scrollbar horizontal */
+}
+
+.scroll-container::-webkit-scrollbar-track {
+    background: #f0f0f0; /* Color de fondo de la pista de la scrollbar */
+}
+
+.scroll-container::-webkit-scrollbar-thumb,
+.scroll-container::-webkit-scrollbar-thumb:horizontal {
+    background-color: #ccc; /* Color del "pulgar" de la scrollbar */
+    border-radius: 8px; /* Borde redondeado del "pulgar" */
+}
+
+/* Estilos para la scrollbar en navegadores Mozilla (Firefox) */
+.scroll-container {
+    scrollbar-width: thin; /* Ancho de la scrollbar */
+    scrollbar-color: #ccc #f0f0f0; /* Color de la scrollbar (pulgar y pista) */
+}
