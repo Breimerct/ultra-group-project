@@ -120,8 +120,10 @@ const RoomsTable: FC<IProps> = ({ onEdit, onRemove, onView }) => {
                                 <td className="whitespace-nowrap px-6 py-4">
                                     {room.price}
                                 </td>
-                                <td className="whitespace-nowrap px-6 py-4">
-                                    {room.description}
+                                <td className="px-6 py-4">
+                                    <span className="block whitespace-nowrap text-left max-w-[200px] overflow-hidden text-ellipsis">
+                                        {room.description}
+                                    </span>
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4">
                                     {room.stars}
