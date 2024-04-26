@@ -9,7 +9,7 @@ import useCurrentUser from "@/hooks/current-user/useCurrentUser";
 const BookingTable: FC = () => {
     const [showDetailModal, setShowDetailModal] = useState(false);
     const { findBookings, bookings, findBookingDetail } = useBookingStore();
-    const user = useCurrentUser();
+    const { user } = useCurrentUser();
 
     useEffect(() => {
         const userId = user?.role === "admin" ? null : user?._id;

@@ -10,18 +10,16 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-    const user = useCurrentUser();
+    const { user, loading } = useCurrentUser();
 
     useEffect(() => {
-        // const storedUser = JSON.parse(sessionStorage?.user || "null");
-
-        if (!user) {
+        if (!user && !loading) {
             toast.info("Debe iniciar sesión para acceder a esta página.");
             redirect("/auth/login");
         }
 
         return () => {};
-    }, [user]);
+    }, [user, loading]);
 
     return <>{children}</>;
 };

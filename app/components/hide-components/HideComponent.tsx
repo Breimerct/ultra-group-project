@@ -8,7 +8,7 @@ interface IProps {
 }
 
 const HideComponent: FC<IProps> = ({ children, invert }) => {
-    const user = useCurrentUser();
+    const {user} = useCurrentUser();
 
     if (invert) {
         return !!user ? null : <>{children}</>;

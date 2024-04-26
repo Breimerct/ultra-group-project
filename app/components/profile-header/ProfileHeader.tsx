@@ -8,7 +8,7 @@ interface Props {
 }
 
 const ProfileHeader: FC<Props> = ({ background }) => {
-    const user = useCurrentUser();
+    const { user } = useCurrentUser();
 
     return (
         <header

@@ -7,7 +7,7 @@ import { Role } from "@/types";
 
 const UserOptions = () => {
     const { logout } = useAuthStore();
-    const user = useCurrentUser();
+    const { user } = useCurrentUser();
     const [isOpen, setIsOpen] = useState(false);
 
     const handleLogout = async () => {
