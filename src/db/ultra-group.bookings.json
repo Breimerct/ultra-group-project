@@ -1,0 +1,73 @@
+[{
+  "_id": {
+    "$oid": "662a97775d6c8a2039dd0def"
+  },
+  "checkIn": "2024-04-25",
+  "checkOut": "2024-04-30",
+  "roomId": {
+    "$oid": "662a8883833d39b62cb43649"
+  },
+  "userId": {
+    "$oid": "662a5b5f3bcf5baa3ec19afd"
+  },
+  "companions": [
+    {
+      "name": "manuel",
+      "email": "manuel@test.com",
+      "cellphone": "3024421505",
+      "documentType": "cc",
+      "documentNumber": "1234568790",
+      "gender": "masculino",
+      "_id": {
+        "$oid": "662a97775d6c8a2039dd0df0"
+      }
+    }
+  ],
+  "emergencyContact": {
+    "name": "breimer",
+    "cellphone": "1234567890"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662ac7d2ff83654af08be6aa"
+  },
+  "checkIn": "2024-04-25",
+  "checkOut": "2024-04-27",
+  "roomId": {
+    "$oid": "662ac742ff83654af08be693"
+  },
+  "userId": {
+    "$oid": "662a5b5f3bcf5baa3ec19afd"
+  },
+  "companions": [
+    {
+      "name": "manuel",
+      "email": "manuel@test.com",
+      "cellphone": "3024421505",
+      "documentType": "cc",
+      "documentNumber": "1234568790",
+      "gender": "masculino",
+      "_id": {
+        "$oid": "662ac7d2ff83654af08be6ab"
+      }
+    },
+    {
+      "name": "marlis",
+      "email": "marlist@test.com",
+      "cellphone": "1234567890",
+      "documentType": "cc",
+      "documentNumber": "1234567890",
+      "gender": "masculino",
+      "_id": {
+        "$oid": "662ac7d2ff83654af08be6ac"
+      }
+    }
+  ],
+  "emergencyContact": {
+    "name": "Enrique",
+    "cellphone": "1234567890"
+  },
+  "__v": 0
+}]

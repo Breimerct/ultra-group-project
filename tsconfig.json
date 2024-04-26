@@ -20,13 +20,13 @@
         ],
         "rootDir": "./",
         "paths": {
-            "@/*": ["./*"],
-            "@app/*": ["./app/*"],
-            "@api/*": ["./app/api/*"],
-            "@components/*": ["./app/components/*"],
-            "@store/*": ["./app/store/*"],
-            "@services/*": ["./services/*"],
-            "@models/*": ["./models/*"]
+            "@/*": ["./src/*"],
+            "@app/*": ["./src/app/*"],
+            "@api/*": ["./src/app/api/*"],
+            "@components/*": ["./src/components/*"],
+            "@store/*": ["./src/store/*"],
+            "@services/*": ["./src/services/*"],
+            "@models/*": ["./src/models/*"]
         }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

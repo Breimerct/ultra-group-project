@@ -1,0 +1,21 @@
+[{
+  "_id": {
+    "$oid": "6629b47a79ee1e8e161f525a"
+  },
+  "category": "Individual",
+  "tax": 0.1
+},
+{
+  "_id": {
+    "$oid": "6629b47a79ee1e8e161f525b"
+  },
+  "category": "Doble",
+  "tax": 0.15
+},
+{
+  "_id": {
+    "$oid": "6629b47a79ee1e8e161f525c"
+  },
+  "category": "Suite",
+  "tax": 0.2
+}]

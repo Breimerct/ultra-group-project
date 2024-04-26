@@ -1,0 +1,161 @@
+[{
+  "_id": {
+    "$oid": "662a8883833d39b62cb43649"
+  },
+  "name": "Suite Ocean View",
+  "description": "Nuestra Suite Ocean View ofrece impresionantes vistas al mar desde una terraza privada. Esta lujosa habitación cuenta con una cama king-size, baño de mármol con bañera de hidromasaje y una decoración elegante y contemporánea. Disfruta de comodidades exclusivas y servicios de primer nivel.",
+  "stars": 5,
+  "imageUrls": [
+    "https://images.unsplash.com/photo-1489171078254-c3365d6e359f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNjM0OTF8&ixlib=rb-4.0.3&q=80&w=1080",
+    "https://images.unsplash.com/photo-1711470623168-885d5b054e57?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNjM0OTF8&ixlib=rb-4.0.3&q=80&w=1080",
+    "https://images.unsplash.com/photo-1534986622832-777a66b043bc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNjM0OTF8&ixlib=rb-4.0.3&q=80&w=1080",
+    "https://images.unsplash.com/photo-1633595917981-b344de9c5246?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNjM0OTF8&ixlib=rb-4.0.3&q=80&w=1080"
+  ],
+  "hotelId": {
+    "$oid": "662a8833833d39b62cb43647"
+  },
+  "categoryId": {
+    "$oid": "6629b47a79ee1e8e161f525c"
+  },
+  "price": 350000,
+  "isAvailable": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662a8df55d6c8a2039dd0d17"
+  },
+  "name": "Deluxe Poolside Room",
+  "description": "La Deluxe Poolside Room es una habitación elegante con acceso directo a la piscina. Ofrece comodidades modernas y un ambiente relajante. Disfruta de una terraza privada con vistas a la piscina y todas las comodidades necesarias para una estancia confortable.",
+  "stars": 4,
+  "imageUrls": [
+    "https://images.unsplash.com/photo-1622429420355-5677170f4fad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNjQ4ODV8&ixlib=rb-4.0.3&q=80&w=1080",
+    "https://images.unsplash.com/photo-1663659508428-9e1a9ce517d1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNjQ4ODV8&ixlib=rb-4.0.3&q=80&w=1080",
+    "https://images.unsplash.com/photo-1663659507002-304e741e9912?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNjQ4ODV8&ixlib=rb-4.0.3&q=80&w=1080",
+    "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNjQ4ODV8&ixlib=rb-4.0.3&q=80&w=1080"
+  ],
+  "hotelId": {
+    "$oid": "662a8833833d39b62cb43647"
+  },
+  "categoryId": {
+    "$oid": "6629b47a79ee1e8e161f525a"
+  },
+  "price": 250000,
+  "isAvailable": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662a8e185d6c8a2039dd0d19"
+  },
+  "name": "Family Suite",
+  "description": "La Family Suite es perfecta para familias o grupos grandes. Esta espaciosa suite cuenta con varias habitaciones conectadas, incluyendo una sala de estar y áreas separadas para adultos y niños. Disfruta de comodidades modernas y vistas al jardín.",
+  "stars": 5,
+  "imageUrls": [
+    "https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNjQ5MTl8&ixlib=rb-4.0.3&q=80&w=1080",
+    "https://images.unsplash.com/photo-1628870571248-4f5db428986c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNjQ5MTl8&ixlib=rb-4.0.3&q=80&w=1080",
+    "https://images.unsplash.com/photo-1567016376408-0226e4d0c1ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNjQ5MTl8&ixlib=rb-4.0.3&q=80&w=1080",
+    "https://images.unsplash.com/photo-1647401924819-cd72b2df69b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNjQ5MTl8&ixlib=rb-4.0.3&q=80&w=1080"
+  ],
+  "hotelId": {
+    "$oid": "662a8833833d39b62cb43647"
+  },
+  "categoryId": {
+    "$oid": "6629b47a79ee1e8e161f525c"
+  },
+  "price": 400000,
+  "isAvailable": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662ac742ff83654af08be693"
+  },
+  "name": "Suite Vista al Mar",
+  "description": "Amplia suite con vistas panorámicas al mar, perfecta para una estancia de lujo. Equipada con comodidades modernas y elegantes, esta habitación te brinda la máxima comodidad y privacidad durante tu estadía.",
+  "stars": 5,
+  "imageUrls": [
+    "https://images.unsplash.com/photo-1554995207-c18c203602cb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNzk1NTR8&ixlib=rb-4.0.3&q=80&w=1080",
+    "https://images.unsplash.com/photo-1481277542470-605612bd2d61?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNzk1NTR8&ixlib=rb-4.0.3&q=80&w=1080",
+    "https://images.unsplash.com/photo-1643949915314-2e0a99db15bf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNzk1NTR8&ixlib=rb-4.0.3&q=80&w=1080",
+    "https://images.unsplash.com/photo-1633595917637-456478c6a28d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNzk1NTR8&ixlib=rb-4.0.3&q=80&w=1080"
+  ],
+  "hotelId": {
+    "$oid": "662ac709ff83654af08be691"
+  },
+  "categoryId": {
+    "$oid": "6629b47a79ee1e8e161f525c"
+  },
+  "price": 350000,
+  "isAvailable": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662ac760ff83654af08be695"
+  },
+  "name": "Habitación Deluxe con Terraza",
+  "description": "Habitación espaciosa con terraza privada, ideal para disfrutar del aire fresco y las vistas al jardín. Equipada con todas las comodidades necesarias para una estancia relajante y confortable.",
+  "stars": 3,
+  "imageUrls": [
+    "https://images.unsplash.com/photo-1628870571248-4f5db428986c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNzk1ODR8&ixlib=rb-4.0.3&q=80&w=1080",
+    "https://images.unsplash.com/photo-1524932563317-9962c267d8bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNzk1ODR8&ixlib=rb-4.0.3&q=80&w=1080",
+    "https://images.unsplash.com/photo-1486304873000-235643847519?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNzk1ODR8&ixlib=rb-4.0.3&q=80&w=1080",
+    "https://images.unsplash.com/photo-1609915725242-3fcc4e5e8150?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNzk1ODR8&ixlib=rb-4.0.3&q=80&w=1080"
+  ],
+  "hotelId": {
+    "$oid": "662ac709ff83654af08be691"
+  },
+  "categoryId": {
+    "$oid": "6629b47a79ee1e8e161f525a"
+  },
+  "price": 250000,
+  "isAvailable": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662ad94e77b78203d3653a79"
+  },
+  "name": "Suite Presidencial",
+  "description": "Nuestra suite presidencial es el epítome del lujo y la elegancia. Con vistas panorámicas al océano, esta amplia suite cuenta con una decoración exquisita, comodidades de primera clase y un diseño exclusivo para ofrecer una experiencia inolvidable. Disfruta de servicios personalizados y privacidad absoluta durante tu estancia en la Suite Presidencial del Sunset Paradise Resort.",
+  "stars": 5,
+  "imageUrls": [
+    "https://images.unsplash.com/photo-1564078516393-cf04bd966897?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwODQxNzR8&ixlib=rb-4.0.3&q=80&w=1080",
+    "https://images.unsplash.com/photo-1517467139951-f5a925c9f9de?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwODQxNzR8&ixlib=rb-4.0.3&q=80&w=1080",
+    "https://images.unsplash.com/photo-1647401924819-cd72b2df69b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwODQxNzR8&ixlib=rb-4.0.3&q=80&w=1080",
+    "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwODQxNzR8&ixlib=rb-4.0.3&q=80&w=1080"
+  ],
+  "hotelId": {
+    "$oid": "662ad92577b78203d3653a77"
+  },
+  "categoryId": {
+    "$oid": "6629b47a79ee1e8e161f525c"
+  },
+  "price": 1000000,
+  "isAvailable": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662adf8e3a12c870101a262e"
+  },
+  "name": "Habitación Familiar con Vista al Jardín",
+  "description": "Esta cómoda habitación familiar ofrece espacio y comodidad para toda la familia. Con vistas al exuberante jardín tropical, esta habitación está equipada con camas espaciosas, área de estar y todas las comodidades necesarias para una estancia relajante. Ideal para familias que desean disfrutar de unas vacaciones tranquilas en el Sunset Paradise Resort.",
+  "stars": 4,
+  "imageUrls": [
+    "https://images.unsplash.com/photo-1505691938895-1758d7feb511?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwODU3NzR8&ixlib=rb-4.0.3&q=80&w=1080",
+    "https://images.unsplash.com/photo-1656215587585-f2bdcdce9686?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwODU3NzR8&ixlib=rb-4.0.3&q=80&w=1080",
+    "https://images.unsplash.com/photo-1642525719427-a4103b6442a4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwODU3NzR8&ixlib=rb-4.0.3&q=80&w=1080",
+    "https://images.unsplash.com/photo-1674754847319-64408e3482ee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwODU3NzR8&ixlib=rb-4.0.3&q=80&w=1080"
+  ],
+  "hotelId": {
+    "$oid": "662ad92577b78203d3653a77"
+  },
+  "categoryId": {
+    "$oid": "6629b47a79ee1e8e161f525c"
+  },
+  "price": 300000,
+  "isAvailable": true,
+  "__v": 0
+}]

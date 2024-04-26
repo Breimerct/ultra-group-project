@@ -1,0 +1,48 @@
+[{
+  "_id": {
+    "$oid": "662a8833833d39b62cb43647"
+  },
+  "name": "Sunshine Resort",
+  "description": "Ubicado en una tranquila playa con vistas panorámicas al océano, Sunshine Resort ofrece una experiencia de lujo con habitaciones espaciosas y modernas. Disfruta de nuestras instalaciones de primera clase, incluyendo piscinas infinitas, restaurantes gourmet y acceso directo a la playa privada. Ideal para unas vacaciones relajantes y memorables.",
+  "stars": 4,
+  "imageUrl": "https://images.unsplash.com/photo-1602013414997-f8f7f52d1d50?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNjM0MTF8&ixlib=rb-4.0.3&q=80&w=1080",
+  "cityId": 210,
+  "isAvailable": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662ac709ff83654af08be691"
+  },
+  "name": "Grand Riviera Resort",
+  "description": "Disfruta de unas vacaciones de lujo en nuestro exclusivo resort frente al mar. Grand Riviera Resort ofrece una experiencia única con amplias habitaciones, restaurantes gourmet, actividades recreativas y un servicio excepcional.",
+  "stars": 4,
+  "imageUrl": "https://images.unsplash.com/photo-1534014963325-599a7fdebdf4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwNzk0OTd8&ixlib=rb-4.0.3&q=80&w=1080",
+  "cityId": 144,
+  "isAvailable": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662ad92577b78203d3653a77"
+  },
+  "name": "Sunset Paradise Resort",
+  "description": "Experimenta la verdadera serenidad en nuestro exclusivo resort de cinco estrellas. Ubicado en una playa privada con aguas cristalinas, nuestro resort ofrece lujo, relajación y un servicio excepcional. Disfruta de suites elegantes, restaurantes gourmet y actividades emocionantes durante tu estancia en el Sunset Paradise Resort.",
+  "stars": 5,
+  "imageUrl": "https://images.unsplash.com/photo-1539284811665-fd56f8b1b47c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwODQxMzN8&ixlib=rb-4.0.3&q=80&w=1080",
+  "cityId": 210,
+  "isAvailable": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "662adff13a12c870101a263b"
+  },
+  "name": "Azure Bay Resort",
+  "description": "Sumérgete en la belleza natural en el Azure Bay Resort, ubicado en una bahía pintoresca con aguas cristalinas y playas de arena blanca. Nuestro resort de cuatro estrellas ofrece alojamientos modernos, una variedad de opciones gastronómicas, actividades acuáticas emocionantes y un ambiente relajado para unas vacaciones inolvidables junto al mar.",
+  "stars": 3,
+  "imageUrl": "https://images.unsplash.com/photo-1570900808791-d530855f79e3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1MjMwMzh8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQwODU4NzN8&ixlib=rb-4.0.3&q=80&w=1080",
+  "cityId": 210,
+  "isAvailable": true,
+  "__v": 0
+}]

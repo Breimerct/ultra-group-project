@@ -1,0 +1,30 @@
+[{
+  "_id": {
+    "$oid": "662a5b5f3bcf5baa3ec19afd"
+  },
+  "name": "administrador",
+  "email": "admin@admin.ad",
+  "cellphone": "1234567890",
+  "avatar": "https://robohash.org/administrador",
+  "password": "$2b$10$gkfL1vRiySsg.7dOl5Vwjuu9mW1Tw/lNYBRAxTuSRkT49.arNeEca",
+  "role": "admin",
+  "gender": "masculino",
+  "__v": 0,
+  "documentNumber": "1234567890",
+  "documentType": "cc"
+},
+{
+  "_id": {
+    "$oid": "662a8a5cb034c4432ed5de07"
+  },
+  "name": "breimer",
+  "email": "breimerct@gmail.com",
+  "cellphone": "3024421505",
+  "avatar": "https://robohash.org/breimer",
+  "password": "$2b$10$FRLWcTRv4ePUILPS2apbL.jMW52uH4o7D7TusgamKOORQy25AUA7e",
+  "role": "user",
+  "gender": "masculino",
+  "documentType": "cc",
+  "documentNumber": "1234567890",
+  "__v": 0
+}]
