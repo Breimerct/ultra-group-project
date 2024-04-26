@@ -19,51 +19,39 @@ export function getBookings(): Promise<IBooking[]> {
 }
 
 export async function getBookingDetail(id: string): Promise<IBookingDetail> {
-    try {
-        await Promise.all([connectDB(), validateMongoId(id)]);
-        const booking = await bookingModel.findById(id).lean<IBooking>();
+    await Promise.all([connectDB(), validateMongoId(id)]);
+    const booking = await bookingModel.findById(id).lean<IBooking>();
 
-        if (!booking) {
-            throw new Error("No se encuentra la reserva");
-        }
-
-        const room = await getRoomById(booking.roomId);
-        const hotel = await getHotelById(room.hotelId);
-        const user = await findOneUser(booking.userId);
-
-        return {
-            ...booking,
-            user,
-            room,
-            hotel,
-        };
-    } catch (error: Error | any) {
-        throw new Error(error);
+    if (!booking) {
+        throw new Error("No se encuentra la reserva");
     }
+
+    const room = await getRoomById(booking.roomId);
+    const hotel = await getHotelById(room.hotelId);
+    const user = await findOneUser(booking.userId);
+
+    return {
+        ...booking,
+        user,
+        room,
+        hotel,
+    };
 }
 
 export async function getBookingsByUserId(userId: string): Promise<IBooking[]> {
-    try {
-        await Promise.all([connectDB(), validateMongoId(userId)]);
-        const bookingsData = await bookingModel.find({ userId }).lean<IBooking[]>();
+    await Promise.all([connectDB(), validateMongoId(userId)]);
+    const bookingsData = await bookingModel.find({ userId }).lean<IBooking[]>();
 
-        if (!bookingsData.length) {
-            throw new Error("No se encuentran reservas para este usuario");
-        }
-
-        return bookingsData;
-    } catch (error: Error | any) {
-        throw new Error(error);
+    if (!bookingsData.length) {
+        throw new Error("No se encuentran reservas para este usuario");
     }
+
+    return bookingsData;
 }
 
 export async function createBooking(booking: IBooking): Promise<IBooking> {
-    try {
-        await connectDB();
-        const newBooking = await bookingModel.create(booking);
+    await connectDB();
+    const newBooking = await bookingModel.create(booking);
 
-        return newBooking;
-    } catch (error: Error | any) {
-        throw new Error(error);
-    }
+    return newBooking;
 }

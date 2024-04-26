@@ -5,53 +5,37 @@ import cityModel from "@/models/city.model";
 import { ICategoryRoom, ICity } from "@/types";
 
 export async function getCities(): Promise<ICity[]> {
-    try {
-        await connectDB();
-        const cities = await cityModel.find().lean<ICity[]>();
+    await connectDB();
+    const cities = await cityModel.find().lean<ICity[]>();
 
-        return cities;
-    } catch (error: Error | any) {
-        throw new Error(error);
-    }
+    return cities;
 }
 
 export async function getCategories(): Promise<ICategoryRoom[]> {
-    try {
-        await connectDB();
-        const roomCategories = await categoryRoomModel.find().lean<ICategoryRoom[]>();
+    await connectDB();
+    const roomCategories = await categoryRoomModel.find().lean<ICategoryRoom[]>();
 
-        return roomCategories;
-    } catch (error: Error | any) {
-        throw new Error(error);
-    }
+    return roomCategories;
 }
 
 export async function getCategoryById(categoryId: string): Promise<any> {
-    try {
-        await Promise.all([connectDB(), validateMongoId(categoryId)]);
-        const categoryFound = await categoryRoomModel.findById(categoryId);
+    await Promise.all([connectDB(), validateMongoId(categoryId)]);
+    const categoryFound = await categoryRoomModel.findById(categoryId);
 
-        if (!categoryFound) {
-            throw new Error("Categoria no encontrada");
-        }
-
-        return categoryFound;
-    } catch (error: Error | any) {
-        throw new Error(error);
+    if (!categoryFound) {
+        throw new Error("Categoria no encontrada");
     }
+
+    return categoryFound;
 }
 
 export async function getCityById(cityId: number): Promise<any> {
-    try {
-        await connectDB();
-        const cityFound = await cityModel.findOne({ id: cityId });
+    await connectDB();
+    const cityFound = await cityModel.findOne({ id: cityId });
 
-        if (!cityFound) {
-            throw new Error("Ciudad no encontrada");
-        }
-
-        return cityFound;
-    } catch (error: Error | any) {
-        throw new Error(error);
+    if (!cityFound) {
+        throw new Error("Ciudad no encontrada");
     }
+
+    return cityFound;
 }

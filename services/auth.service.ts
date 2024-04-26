@@ -23,17 +23,13 @@ export async function login({ email, password }: ILogin): Promise<IUser> {
 }
 
 export async function register(userDto: IUser): Promise<IUser> {
-    try {
-        const newUser: IUser = {
-            ...userDto,
-            avatar: `https://robohash.org/${userDto.name}`,
-            role: Role.User,
-        };
+    const newUser: IUser = {
+        ...userDto,
+        avatar: `https://robohash.org/${userDto.name}`,
+        role: Role.User,
+    };
 
-        const newUserResult = await createUser(newUser);
+    const newUserResult = await createUser(newUser);
 
-        return newUserResult;
-    } catch (error: Error | any) {
-        throw new Error(error);
-    }
+    return newUserResult;
 }
