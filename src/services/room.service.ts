@@ -2,19 +2,16 @@ import generateRandomImages from "@/hooks/useRandomImage/useRandomImage";
 import { getHotels } from "./hotel.service";
 import { getBookings } from "./bookings.service";
 import { ICategoryRoom, IHotel, IRoom, IRoomDetail } from "@/types";
-import connectDB from "@/lib/mongo";
 import roomModel from "@/models/room.model";
 import { validateMongoId } from "@/helpers/util";
 
 export async function getActiveRooms(): Promise<IRoom[]> {
-    await connectDB();
-    const roomsData = roomModel.find({ isAvailable: true }).lean<IRoom[]>();
+    const roomsData = roomModel.find({ isAvailable: true });
 
     return roomsData;
 }
 
 export async function createRoom(room: IRoom): Promise<IRoom> {
-    await connectDB();
     const imageUrl = await generateRandomImages(true, 4);
 
     const newRoom = {
@@ -28,7 +25,6 @@ export async function createRoom(room: IRoom): Promise<IRoom> {
 }
 
 export async function updateRoomById(id: string, room: IRoom): Promise<IRoom> {
-    await connectDB();
     const roomFound = await roomModel.findById(id).lean<IRoom>();
 
     if (!roomFound) {
@@ -48,7 +44,6 @@ export async function updateRoomById(id: string, room: IRoom): Promise<IRoom> {
 }
 
 export async function deleteRoomById(id: string): Promise<IRoom> {
-    await connectDB();
     const roomFound = await roomModel.findById(id).lean<IRoom>();
 
     if (!roomFound) {
@@ -61,7 +56,6 @@ export async function deleteRoomById(id: string): Promise<IRoom> {
 }
 
 export async function getRooms(): Promise<IRoomDetail[]> {
-    await connectDB();
     const rooms = await roomModel.find().populate("categoryId").lean<IRoomDetail[]>();
 
     const roomResponse = formatRooms(rooms);
@@ -70,7 +64,7 @@ export async function getRooms(): Promise<IRoomDetail[]> {
 }
 
 export async function getRoomById(id: string): Promise<IRoomDetail> {
-    await Promise.all([connectDB(), validateMongoId(id)]);
+    validateMongoId(id);
 
     const roomData = await roomModel.findById(id).populate("categoryId").lean<IRoomDetail>();
 
@@ -90,7 +84,7 @@ export async function getRoomById(id: string): Promise<IRoomDetail> {
 }
 
 export async function getRoomsByHotelId(hotelId: string): Promise<IRoomDetail[]> {
-    await Promise.all([connectDB(), validateMongoId(hotelId)]);
+    validateMongoId(hotelId);
 
     const roomsData = await roomModel
         .find({ hotelId, isAvailable: true })
@@ -111,7 +105,7 @@ export async function getAvailableRoomsForHotelAndDate(
     checkIn: string,
     checkOut: string,
 ): Promise<IRoomDetail[]> {
-    await Promise.all([connectDB(), validateMongoId(hotelId)]);
+    validateMongoId(hotelId);
     const hotels: IHotel[] = await getHotels();
     let availableRooms = [];
 

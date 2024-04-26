@@ -2,19 +2,16 @@ import generateRandomImages from "@/hooks/useRandomImage/useRandomImage";
 import { getRooms, isRoomAvailable } from "./room.service";
 import { getCityById } from "./common.service";
 import { IHotel, IHotelResponse } from "@/types";
-import connectDB from "@/lib/mongo";
 import hotelModel from "@/models/hotel.model";
 import { validateMongoId } from "@/helpers/util";
 
-export async function getHotels(): Promise<IHotel[]> {
-    await connectDB();
-    const hotels = await hotelModel.find().lean<IHotel[]>();
+export async function getHotels() {
+    const hotels = await hotelModel.find();
 
     return hotels;
 }
 
 export async function getActiveHotels(): Promise<IHotel[]> {
-    await connectDB();
     const hotelsData: IHotel[] = [];
     const hotels = await hotelModel.find({ isAvailable: true }).lean<IHotel[]>();
 
@@ -37,7 +34,6 @@ export async function getActiveHotels(): Promise<IHotel[]> {
 }
 
 export async function getHotelById(hotelId: string): Promise<IHotelResponse> {
-    await Promise.all([connectDB(), validateMongoId(hotelId)]);
     const hotelFound = await hotelModel.findById(hotelId).lean<IHotel>();
 
     if (!hotelFound) {
@@ -87,7 +83,6 @@ export async function filterHotelsByCityAndAvailability(
 }
 
 export async function createHotel(hotel: IHotel): Promise<IHotel> {
-    await connectDB();
     const existedHotel = await hotelModel.findOne({ name: hotel.name }).lean();
     console.log(existedHotel);
 
@@ -112,7 +107,6 @@ export async function createHotel(hotel: IHotel): Promise<IHotel> {
 }
 
 export async function updateHotelById(id: string, hotel: IHotel): Promise<IHotel> {
-    await Promise.all([connectDB(), validateMongoId(id)]);
     const hotelFound = await hotelModel.findById(id).lean<IHotel>();
 
     if (!hotelFound) {
@@ -132,7 +126,6 @@ export async function updateHotelById(id: string, hotel: IHotel): Promise<IHotel
 }
 
 export async function deleteHotelById(hotelId: string): Promise<IHotel> {
-    await Promise.all([connectDB(), validateMongoId(hotelId)]);
     const hotelFound = await hotelModel.findById(hotelId);
 
     if (!hotelFound) {

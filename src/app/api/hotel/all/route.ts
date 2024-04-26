@@ -3,6 +3,7 @@ import { getHotels } from "@services/hotel.service";
 export async function GET() {
     try {
         const hotels = await getHotels();
+
         return Response.json(hotels, { status: 200 });
     } catch (error: Error | any) {
         const { message } = error;

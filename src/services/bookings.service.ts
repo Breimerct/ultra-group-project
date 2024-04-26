@@ -1,4 +1,3 @@
-import connectDB from "@/lib/mongo";
 import { IBooking, IBookingDetail } from "@/types";
 import { getHotelById } from "./hotel.service";
 import { getRoomById } from "./room.service";
@@ -7,19 +6,14 @@ import bookingModel from "@/models/booking.model";
 import { validateMongoId } from "@/helpers/util";
 
 export function getBookings(): Promise<IBooking[]> {
-    connectDB();
     bookingModel.find();
-    try {
-        const bookings = bookingModel.find().lean<IBooking[]>();
+    const bookings = bookingModel.find().lean<IBooking[]>();
 
-        return bookings;
-    } catch (error: Error | any) {
-        throw new Error(error);
-    }
+    return bookings;
 }
 
 export async function getBookingDetail(id: string): Promise<IBookingDetail> {
-    await Promise.all([connectDB(), validateMongoId(id)]);
+    await validateMongoId(id);
     const booking = await bookingModel.findById(id).lean<IBooking>();
 
     if (!booking) {
@@ -39,7 +33,7 @@ export async function getBookingDetail(id: string): Promise<IBookingDetail> {
 }
 
 export async function getBookingsByUserId(userId: string): Promise<IBooking[]> {
-    await Promise.all([connectDB(), validateMongoId(userId)]);
+    await validateMongoId(userId);
     const bookingsData = await bookingModel.find({ userId }).lean<IBooking[]>();
 
     if (!bookingsData.length) {
@@ -50,7 +44,6 @@ export async function getBookingsByUserId(userId: string): Promise<IBooking[]> {
 }
 
 export async function createBooking(booking: IBooking): Promise<IBooking> {
-    await connectDB();
     const newBooking = await bookingModel.create(booking);
 
     return newBooking;

@@ -4,12 +4,11 @@ import {
     validateMongoId,
     validatePassword,
 } from "@/helpers/util";
-import connectDB from "@/lib/mongo";
 import userModel from "@/models/user.model";
 import { IUser } from "@/types";
 
 export async function findOneUser(id: string): Promise<IUser> {
-    await Promise.all([connectDB(), validateMongoId(id)]);
+    validateMongoId(id);
     const user = await userModel.findById(id).lean<IUser>();
 
     if (!user) {
@@ -20,7 +19,6 @@ export async function findOneUser(id: string): Promise<IUser> {
 }
 
 export async function findUserByEmail(email: string): Promise<IUser> {
-    await connectDB();
     const loweCaseEmail = email.toLowerCase();
     const user = await userModel.findOne({ email: loweCaseEmail }).lean<IUser>();
 
@@ -32,14 +30,12 @@ export async function findUserByEmail(email: string): Promise<IUser> {
 }
 
 export async function getAllUser(): Promise<IUser[]> {
-    await connectDB();
     const users = await userModel.find();
 
     return users;
 }
 
 export async function createUser(user: IUser): Promise<IUser> {
-    await connectDB();
     const lowerCaseUser = lowerCaseObject<IUser>(user);
 
     const existingUser = await userModel.findOne({
@@ -59,8 +55,7 @@ export async function createUser(user: IUser): Promise<IUser> {
 }
 
 export async function updateUser(id: string, user: IUser): Promise<IUser> {
-    await Promise.all([connectDB(), validateMongoId(id)]);
-
+    validateMongoId(id);
     const userFound = await userModel.findById(id).lean<IUser>();
 
     if (!userFound) {
@@ -97,7 +92,7 @@ export async function updatePasswordUser(
     currentPassword: string,
     newPassword: string,
 ): Promise<IUser> {
-    await Promise.all([connectDB(), validateMongoId(id)]);
+    validateMongoId(id);
 
     if (!currentPassword) {
         throw new Error("Contraseña actual es requerida");
