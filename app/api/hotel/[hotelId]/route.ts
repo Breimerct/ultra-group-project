@@ -7,12 +7,11 @@ export async function GET(request: Request, response: { params: { hotelId: strin
         const hotel = await getHotelById(hotelId);
 
         return Response.json(hotel, { status: 200 });
-    } catch (error: any) {
-        const message =
-            error instanceof Error || error instanceof Object ? error.message : error;
-        const status = error instanceof Error || error instanceof Object ? 500 : 400;
+    } catch (error: Error | any) {
+        const { message } = error;
 
-        return Response.json({ message }, { status });
+        console.log("ERROR MESSAGE LOG: ", message);
+        return Response.json({ message: message }, { status: 400 });
     }
 }
 
@@ -24,30 +23,25 @@ export async function PUT(request: Request, response: { params: { hotelId: strin
         const hotel = await updateHotelById(hotelId, body);
 
         return Response.json(hotel, { status: 200 });
-    } catch (error: any) {
-        const message =
-            error instanceof Error || error instanceof Object ? error.message : error;
-        const status = error instanceof Error || error instanceof Object ? 500 : 400;
+    } catch (error: Error | any) {
+        const { message } = error;
 
-        return Response.json({ message }, { status });
+        console.log("ERROR MESSAGE LOG: ", message);
+        return Response.json({ message: message }, { status: 400 });
     }
 }
 
-export async function DELETE(
-    request: Request,
-    response: { params: { hotelId: string } },
-) {
+export async function DELETE(request: Request, response: { params: { hotelId: string } }) {
     try {
         const { hotelId } = response.params;
 
         const hotel = await deleteHotelById(hotelId);
 
         return Response.json(hotel, { status: 200 });
-    } catch (error: any) {
-        const message =
-            error instanceof Error || error instanceof Object ? error.message : error;
-        const status = error instanceof Error || error instanceof Object ? 500 : 400;
+    } catch (error: Error | any) {
+        const { message } = error;
 
-        return Response.json({ message }, { status });
+        console.log("ERROR MESSAGE LOG: ", message);
+        return Response.json({ message: message }, { status: 400 });
     }
 }

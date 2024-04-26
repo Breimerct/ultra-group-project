@@ -6,11 +6,10 @@ export async function GET(request: Request, response: { params: { id: string } }
         const booking = await getBookingDetail(id);
 
         return Response.json(booking, { status: 200 });
-    } catch (error: any) {
-        const message =
-            error instanceof Error || error instanceof Object ? error.message : error;
-        const status = error instanceof Error || error instanceof Object ? 500 : 400;
+    } catch (error: Error | any) {
+        const { message } = error;
 
-        return Response.json({ message }, { status });
+        console.log("ERROR MESSAGE LOG: ", message);
+        return Response.json({ message: message }, { status: 400 });
     }
 }

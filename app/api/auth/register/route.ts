@@ -5,14 +5,12 @@ export async function POST(request: Request) {
     try {
         const data = (await request.json()) as IUser;
         const user = await register(data);
-        return Response.json(user, { status: 200 });
-    } catch (error: any) {
-        const message =
-            error instanceof Error || error instanceof Object
-                ? error["message"] ?? "-"
-                : "Error desconocido";
-        const status = error instanceof Error || error instanceof Object ? 400 : 500;
 
-        return Response.json({ message }, { status });
+        return Response.json(user, { status: 200 });
+    } catch (error: Error | any) {
+        const { message } = error;
+
+        console.log("ERROR MESSAGE LOG: ", message);
+        return Response.json({ message: message }, { status: 400 });
     }
 }

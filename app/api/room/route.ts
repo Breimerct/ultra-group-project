@@ -5,11 +5,10 @@ export async function POST(request: Request) {
         const body = await request.json();
         const room = await createRoom(body);
         return Response.json(room, { status: 201 });
-    } catch (error: any) {
-        const message =
-            error instanceof Error || error instanceof Object ? error.message : error;
-        const status = error instanceof Error || error instanceof Object ? 500 : 400;
+    } catch (error: Error | any) {
+        const { message } = error;
 
-        return Response.json({ message }, { status });
+        console.log("ERROR MESSAGE LOG: ", message);
+        return Response.json({ message: message }, { status: 400 });
     }
 }

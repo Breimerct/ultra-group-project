@@ -4,16 +4,14 @@ import { IResponseImage } from "./interfaces";
 export const DEFAULT_IMAGE =
     "https://www.nbmchealth.com/wp-content/uploads/2018/04/default-placeholder.png";
 
-const useRandomHotelImage = async (
+const generateRandomImages = async (
     returnArray: boolean = false,
     count: number = 0,
 ): Promise<string | string[]> => {
     try {
         const endpoint = "https://api.unsplash.com/photos/random";
         const headers = { Authorization: process.env.CLIENT_ID };
-        const params = returnArray
-            ? { count, query: "hotels-rooms" }
-            : { query: "hotels" };
+        const params = returnArray ? { count, query: "hotels-rooms" } : { query: "hotels" };
 
         if (returnArray && count) {
             const { data } = await axios.get<IResponseImage[]>(endpoint, {
@@ -35,4 +33,4 @@ const useRandomHotelImage = async (
     }
 };
 
-export default useRandomHotelImage;
+export default generateRandomImages;
