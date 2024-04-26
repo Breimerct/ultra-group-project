@@ -2,12 +2,12 @@
 import { useRoomStore } from "@store/room-store/room.store";
 import { useParams } from "next/navigation";
 import { FC, useEffect, useState } from "react";
-import UserInfo from "@components/user-info/UserInfo";
-import BookingForm from "@components/booking-form/BookingForm";
+import UserInfo from "../components/user-info/UserInfo";
+import BookingForm from "../components/booking-form/BookingForm";
 import { MinusIcon, PlusIcon } from "@components/Icons";
 import Header from "@components/header/Header";
-import EmergencyContact from "@components/emergency-contact/EmergencyContact";
-import CheckDateForm from "@components/check-date-form/CheckDateForm";
+import EmergencyContact from "../components/emergency-contact/EmergencyContact";
+import CheckDateForm from "../components/check-date-form/CheckDateForm";
 import { useUserStore } from "@store/user-store/user.store";
 
 const Page: FC = () => {
