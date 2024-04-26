@@ -16,6 +16,7 @@ type Actions = {
         currentPassword: string,
         newPassword: string,
     ) => Promise<boolean>;
+    getUser: (id: string) => Promise<IUser>;
 };
 
 type Store = State & Actions;
@@ -71,8 +72,27 @@ export const useUserStore = create<Store>((set, get) => ({
         }
     },
 
+    async getUser(id) {
+        setGlobalIsLoading(true);
+        try {
+            const { data } = await axios.get<IUser>(`/api/user/${id}`);
+
+            get().setUser(data);
+            return data;
+        } catch (error: any) {
+            if (error instanceof AxiosError) {
+                toast.error(error.response?.data?.message || error.message);
+            }
+            return {} as IUser;
+        } finally {
+            setGlobalIsLoading(false);
+        }
+    },
+
     setUser: (user) => {
         set({ user });
-        sessionStorage.setItem("user", JSON.stringify(user));
+
+        const sessionData = user?._id ? { _id: user?._id } : null;
+        sessionStorage.setItem("user", JSON.stringify(sessionData));
     },
 }));
