@@ -1,4 +1,18 @@
-import { updatePasswordUser, updateUser } from "@services/user.service";
+import { findOneUser, updatePasswordUser, updateUser } from "@services/user.service";
+
+export async function GET(request: Request, response: { params: { id: string } }) {
+    try {
+        const { id } = response.params;
+        const user = await findOneUser(id);
+
+        return Response.json(user, { status: 200 });
+    } catch (error: Error | any) {
+        const { message } = error;
+
+        console.log("ERROR MESSAGE LOG: ", message);
+        return Response.json({ message: message }, { status: 400 });
+    }
+}
 
 export async function PUT(request: Request, response: { params: { id: string } }) {
     try {
