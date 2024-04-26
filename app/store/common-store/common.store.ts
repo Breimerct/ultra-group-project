@@ -27,7 +27,7 @@ export const useCommonStore = create<State & Actions>((set, get) => ({
         try {
             const { data } = await axios.get("/api/data/cities");
             set({ cities: data });
-        } catch (error) {
+        } catch (error: Error | any) {
             console.error("GET ALL CITIES ERROR: ", error);
         }
     },
@@ -36,7 +36,7 @@ export const useCommonStore = create<State & Actions>((set, get) => ({
         try {
             const { data } = await axios.get("/api/data/categories");
             set({ categories: data });
-        } catch (error) {
+        } catch (error: Error | any) {
             console.error("GET ALL CATEGORIES ERROR: ", error);
         }
     },

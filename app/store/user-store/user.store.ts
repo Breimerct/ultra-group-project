@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { create } from "zustand";
 import { useCommonStore } from "../common-store/common.store";
 import { IUser } from "@/types";
@@ -42,7 +42,8 @@ export const useUserStore = create<Store>((set, get) => ({
                 resolve(true);
             } catch (error: any) {
                 if (error instanceof AxiosError) {
-                    toast.error(error.response?.data?.message || error.message);
+                    const message = error.response?.data?.message || error.message;
+                    toast.error(message);
                 }
                 reject(false);
             } finally {
@@ -64,7 +65,8 @@ export const useUserStore = create<Store>((set, get) => ({
             return true;
         } catch (error: any) {
             if (error instanceof AxiosError) {
-                toast.error(error.response?.data?.message || error.message);
+                const message = error.response?.data?.message || error.message;
+                toast.error(message);
             }
             return false;
         } finally {
@@ -81,7 +83,8 @@ export const useUserStore = create<Store>((set, get) => ({
             return data;
         } catch (error: any) {
             if (error instanceof AxiosError) {
-                toast.error(error.response?.data?.message || error.message);
+                const message = error.response?.data?.message || error.message;
+                toast.error(message);
             }
             return {} as IUser;
         } finally {

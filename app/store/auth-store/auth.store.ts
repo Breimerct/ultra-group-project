@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { create } from "zustand";
 import axios, { AxiosError } from "axios";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { useCommonStore } from "../common-store/common.store";
 import { useUserStore } from "../user-store/user.store";
 import { ILogin, IUser } from "@/types";
@@ -31,11 +31,10 @@ export const useAuthStore = create<State & Actions>((set) => ({
 
             setUser(data);
             return true;
-        } catch (error) {
+        } catch (error: Error | any) {
             if (error instanceof AxiosError) {
-                toast(error.response?.data?.message || error.message, {
-                    type: "error",
-                });
+                const message = error.response?.data?.message || error.message;
+                toast.error(message);
             }
             return false;
         } finally {
@@ -52,17 +51,14 @@ export const useAuthStore = create<State & Actions>((set) => ({
         try {
             const { data } = await axios.post("/api/auth/register", payload);
 
-            toast("Usuario registrado correctamente", {
-                type: "success",
-            });
+            toast.success("Usuario registrado correctamente.");
 
             setUser(data);
             return true;
-        } catch (error) {
+        } catch (error: Error | any) {
             if (error instanceof AxiosError) {
-                toast(error.response?.data?.message || error.message, {
-                    type: "error",
-                });
+                const message = error.response?.data?.message || error.message;
+                toast.error(message);
             }
             return false;
         } finally {

@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { create } from "zustand";
 import { useCommonStore } from "../common-store/common.store";
 import { IHotel } from "@/types";
@@ -62,7 +62,8 @@ export const useHotelStore = create<State & Actions>((set, get) => ({
             toast.success("Hotel creado correctamente");
         } catch (error: any) {
             if (error instanceof AxiosError) {
-                toast.error(error.response?.data?.message || error.message);
+                const message = error.response?.data?.message || error.message;
+                toast.error(message);
             }
         } finally {
             setGlobalLoading(false);
@@ -75,9 +76,10 @@ export const useHotelStore = create<State & Actions>((set, get) => ({
             const { data } = await axios<IHotel[]>("/api/hotel");
 
             set({ hotels: data });
-        } catch (error) {
+        } catch (error: Error | any) {
             if (error instanceof AxiosError) {
-                toast.error(error.response?.data?.message || error.message);
+                const message = error.response?.data?.message || error.message;
+                toast.error(message);
             }
         } finally {
             set({ isLoadingHotels: false });
@@ -92,9 +94,10 @@ export const useHotelStore = create<State & Actions>((set, get) => ({
             const hotel = await response.json();
 
             set({ hotel });
-        } catch (error) {
+        } catch (error: Error | any) {
             if (error instanceof AxiosError) {
-                toast.error(error.response?.data?.message || error.message);
+                const message = error.response?.data?.message || error.message;
+                toast.error(message);
             }
         } finally {
             setGlobalLoading(false);
@@ -114,9 +117,10 @@ export const useHotelStore = create<State & Actions>((set, get) => ({
             });
 
             set({ hotels: data });
-        } catch (error) {
+        } catch (error: Error | any) {
             if (error instanceof AxiosError) {
-                toast.error(error.response?.data?.message || error.message);
+                const message = error.response?.data?.message || error.message;
+                toast.error(message);
             }
         } finally {
             setGlobalLoading(false);
@@ -134,9 +138,10 @@ export const useHotelStore = create<State & Actions>((set, get) => ({
             const { data } = await axios.get<IHotel[]>("/api/hotel/all");
 
             set({ hotels: data });
-        } catch (error) {
+        } catch (error: Error | any) {
             if (error instanceof AxiosError) {
-                toast.error(error.response?.data?.message || error.message);
+                const message = error.response?.data?.message || error.message;
+                toast.error(message);
             }
         } finally {
             setGlobalLoading(false);
@@ -150,15 +155,14 @@ export const useHotelStore = create<State & Actions>((set, get) => ({
             const { data } = await axios.put<IHotel>(`/api/hotel/${id}`, body);
 
             set((state) => ({
-                hotels: state.hotels.map((hotel) =>
-                    hotel._id === data._id ? data : hotel,
-                ),
+                hotels: state.hotels.map((hotel) => (hotel._id === data._id ? data : hotel)),
             }));
 
             toast.success("Hotel actualizado correctamente");
-        } catch (error) {
+        } catch (error: Error | any) {
             if (error instanceof AxiosError) {
-                toast.error(error.response?.data?.message || error.message);
+                const message = error.response?.data?.message || error.message;
+                toast.error(message);
             }
         } finally {
             setGlobalLoading(false);
@@ -174,9 +178,10 @@ export const useHotelStore = create<State & Actions>((set, get) => ({
             }));
 
             toast.success("Hotel eliminado correctamente");
-        } catch (error) {
+        } catch (error: Error | any) {
             if (error instanceof AxiosError) {
-                toast.error(error.response?.data?.message || error.message);
+                const message = error.response?.data?.message || error.message;
+                toast.error(message);
             }
         }
     },

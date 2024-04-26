@@ -28,7 +28,7 @@ const generateRandomImages = async (
         });
 
         return data.urls.regular;
-    } catch (error) {
+    } catch (error: Error | any) {
         return DEFAULT_IMAGE;
     }
 };

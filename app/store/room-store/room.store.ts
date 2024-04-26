@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { create } from "zustand";
 import { useCommonStore } from "../common-store/common.store";
 import { IRoom, IRoomDetail } from "@/types";
@@ -42,7 +42,8 @@ export const useRoomStore = create<State & Actions>((set) => ({
             set({ rooms: data });
         } catch (error: any) {
             if (error instanceof AxiosError) {
-                toast.error(error.response?.data?.message || error.message);
+                const message = error.response?.data?.message || error.message;
+                toast.error(message);
             }
         } finally {
             setGlobalLoading(false);
@@ -58,7 +59,8 @@ export const useRoomStore = create<State & Actions>((set) => ({
             set({ room });
         } catch (error: any) {
             if (error instanceof AxiosError) {
-                toast.error(error.response?.data?.message || error.message);
+                const message = error.response?.data?.message || error.message;
+                toast.error(message);
             }
         }
     },
@@ -76,9 +78,10 @@ export const useRoomStore = create<State & Actions>((set) => ({
             });
 
             set({ rooms: data });
-        } catch (error) {
+        } catch (error: Error | any) {
             if (error instanceof AxiosError) {
-                toast.error(error.response?.data?.message || error.message);
+                const message = error.response?.data?.message || error.message;
+                toast.error(message);
             }
         } finally {
             set({ isLoadingRooms: false });
@@ -102,9 +105,10 @@ export const useRoomStore = create<State & Actions>((set) => ({
             });
 
             toast.success("Habitación actualizada correctamente");
-        } catch (error) {
+        } catch (error: Error | any) {
             if (error instanceof AxiosError) {
-                toast.error(error.response?.data?.message || error.message);
+                const message = error.response?.data?.message || error.message;
+                toast.error(message);
             }
         } finally {
             setGlobalLoading(false);
@@ -121,9 +125,10 @@ export const useRoomStore = create<State & Actions>((set) => ({
             }));
 
             toast.success("Habitación eliminada correctamente");
-        } catch (error) {
+        } catch (error: Error | any) {
             if (error instanceof AxiosError) {
-                toast.error(error.response?.data?.message || error.message);
+                const message = error.response?.data?.message || error.message;
+                toast.error(message);
             }
         } finally {
             setGlobalLoading(false);
@@ -140,9 +145,10 @@ export const useRoomStore = create<State & Actions>((set) => ({
             }));
 
             toast.success("Habitación creada correctamente");
-        } catch (error) {
+        } catch (error: Error | any) {
             if (error instanceof AxiosError) {
-                toast.error(error.response?.data?.message || error.message);
+                const message = error.response?.data?.message || error.message;
+                toast.error(message);
             }
         } finally {
             setGlobalLoading(false);

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { redirect } from "next/navigation";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { useUserStore } from "@/app/store/user-store/user.store";
 import useCurrentUser from "@/hooks/current-user/useCurrentUser";
 

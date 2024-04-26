@@ -1,6 +1,6 @@
 "use client";
 import { FC, useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRouter } from "next/navigation";
@@ -38,9 +38,7 @@ const validationSchema = Yup.object().shape({
                 .required("El email es obligatorio"),
             gender: Yup.string().required("El genero es obligatorio"),
             documentType: Yup.string().required("El tipo de documento es obligatorio"),
-            documentNumber: Yup.string().required(
-                "El numero de documento es obligatorio",
-            ),
+            documentNumber: Yup.string().required("El numero de documento es obligatorio"),
             cellphone: Yup.string()
                 .required("El numero de celular es obligatorio")
                 .matches(/^[0-9]+$/, "Solo se aceptan números")
@@ -50,11 +48,8 @@ const validationSchema = Yup.object().shape({
 });
 
 const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
-    const [companions, setCompanions] = useState<(typeof initialValues)[]>([
-        initialValues,
-    ]);
-    const [prevNumberOfCompanions, setPrevNumberOfCompanions] =
-        useState(numberOfCompanions);
+    const [companions, setCompanions] = useState<(typeof initialValues)[]>([initialValues]);
+    const [prevNumberOfCompanions, setPrevNumberOfCompanions] = useState(numberOfCompanions);
     const { bookingDto, createBooking, isLoading } = useBookingStore();
     const router = useRouter();
 
@@ -73,11 +68,7 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
         onSubmit: (values) => {
             const { emergencyContact, checkIn, checkOut } = bookingDto;
 
-            if (
-                !emergencyContact ||
-                !emergencyContact.name ||
-                !emergencyContact.cellphone
-            ) {
+            if (!emergencyContact || !emergencyContact.name || !emergencyContact.cellphone) {
                 toast.error("El contacto de emergencia es obligatorio");
                 return;
             }
@@ -152,10 +143,7 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
                                     }
                                     messageError={
                                         formik.errors.companions &&
-                                        getValueByKey(
-                                            formik.errors.companions[index],
-                                            "name",
-                                        )
+                                        getValueByKey(formik.errors.companions[index], "name")
                                     }
                                     {...formik.getFieldProps(`companions[${index}].name`)}
                                 />
@@ -180,14 +168,9 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
                                     }
                                     messageError={
                                         formik.errors.companions &&
-                                        getValueByKey(
-                                            formik.errors.companions[index],
-                                            "email",
-                                        )
+                                        getValueByKey(formik.errors.companions[index], "email")
                                     }
-                                    {...formik.getFieldProps(
-                                        `companions[${index}].email`,
-                                    )}
+                                    {...formik.getFieldProps(`companions[${index}].email`)}
                                 />
                             </div>
 
@@ -282,9 +265,7 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
                                             "cellphone",
                                         )
                                     }
-                                    {...formik.getFieldProps(
-                                        `companions[${index}].cellphone`,
-                                    )}
+                                    {...formik.getFieldProps(`companions[${index}].cellphone`)}
                                 />
                             </div>
 
@@ -310,9 +291,7 @@ const BookingForm: FC<IProps> = ({ numberOfCompanions, user, room }) => {
                                             "gender",
                                         )
                                     }
-                                    {...formik.getFieldProps(
-                                        `companions[${index}].gender`,
-                                    )}
+                                    {...formik.getFieldProps(`companions[${index}].gender`)}
                                 >
                                     <option value="">Genero</option>
                                     <option value={Gender.Male}>Masculino</option>

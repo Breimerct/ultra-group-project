@@ -3,7 +3,7 @@ import { FC, FormEvent, useEffect, useState } from "react";
 import { SearchIcon } from "../Icons";
 import Autocomplete from "../autocomplete/Autocomplete";
 import { useCommonStore } from "@/app/store/common-store/common.store";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { IRangedDate, useHotelStore } from "@/app/store/hotel-store/hotel.store";
 import { useRouter, usePathname } from "next/navigation";
 import Input from "../input/Input";
@@ -59,10 +59,7 @@ const SearchDestinationForm: FC = () => {
         event.preventDefault();
 
         if ((dareRange.checkIn || dareRange.checkOut) && !city) {
-            toast("Por favor, seleccione una ciudad!", {
-                type: "error",
-            });
-            return;
+            return toast.error("Por favor, seleccione una ciudad!");
         }
 
         await getHotelsByCityAndDate(

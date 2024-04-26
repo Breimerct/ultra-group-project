@@ -1,7 +1,7 @@
 "use client";
 import { FC, ReactNode } from "react";
 import { notFound } from "next/navigation";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { useUserStore } from "@store/user-store/user.store";
 import { Role } from "@/types";
 

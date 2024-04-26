@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { create } from "zustand";
 import { useCommonStore } from "../common-store/common.store";
 import { IBooking, IBookingDetail } from "@/types";
@@ -51,14 +51,13 @@ export const useBookingStore = create<State & Actions>((set) => ({
         try {
             await axios.post("/api/booking", booking);
 
-            toast("Reserva creada correctamente", {
-                type: "success",
-            });
+            toast.success("Reserva creada correctamente");
 
             set({ bookingDto: {} });
         } catch (error: any) {
             if (error instanceof AxiosError) {
-                toast.error(error.response?.data?.message || error.message);
+                const message = error.response?.data?.message || error.message;
+                toast.error(message);
             }
         } finally {
             setIsLoading(false);
@@ -78,7 +77,8 @@ export const useBookingStore = create<State & Actions>((set) => ({
         } catch (error: any) {
             set({ bookings: [] });
             if (error instanceof AxiosError) {
-                toast.error(error.response?.data?.message || error.message);
+                const message = error.response?.data?.message || error.message;
+                toast.error(message);
             }
         } finally {
             setGlobalLoading(false);
@@ -94,7 +94,8 @@ export const useBookingStore = create<State & Actions>((set) => ({
         } catch (error: any) {
             set({ booking: null });
             if (error instanceof AxiosError) {
-                toast.error(error.response?.data?.message || error.message);
+                const message = error.response?.data?.message || error.message;
+                toast.error(message);
             }
         } finally {
             setGlobalLoading(false);
