@@ -1,5 +1,7 @@
 import { findOneUser, updatePasswordUser, updateUser } from "@services/user.service";
 
+export const revalidate = 0;
+
 export async function GET(request: Request, response: { params: { id: string } }) {
     try {
         const { id } = response.params;

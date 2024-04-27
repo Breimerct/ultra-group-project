@@ -1,6 +1,8 @@
 import { IUser } from "@/types";
 import { register } from "@services/auth.service";
 
+export const revalidate = 0;
+
 export async function POST(request: Request) {
     try {
         const data = (await request.json()) as IUser;

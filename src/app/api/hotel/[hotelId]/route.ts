@@ -1,5 +1,7 @@
 import { deleteHotelById, getHotelById, updateHotelById } from "@services/hotel.service";
 
+export const revalidate = 0;
+
 export async function GET(request: Request, response: { params: { hotelId: string } }) {
     try {
         const { hotelId } = response.params;

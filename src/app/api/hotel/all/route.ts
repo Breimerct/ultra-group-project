@@ -1,5 +1,7 @@
 import { getHotels } from "@services/hotel.service";
 
+export const revalidate = 0;
+
 export async function GET() {
     try {
         const hotels = await getHotels();

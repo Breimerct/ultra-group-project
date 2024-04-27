@@ -1,5 +1,7 @@
 import { login } from "@services/auth.service";
 
+export const revalidate = 0;
+
 export async function POST(request: Request) {
     try {
         const { email, password } = await request.json();

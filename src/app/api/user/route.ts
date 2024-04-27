@@ -1,5 +1,7 @@
 import { getAllUser } from "@services/user.service";
 
+export const revalidate = 0;
+
 export async function GET() {
     try {
         const users = await getAllUser();

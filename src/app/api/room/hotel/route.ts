@@ -1,6 +1,8 @@
 import { IRoom } from "@/types";
 import { getAvailableRoomsForHotelAndDate, getRoomsByHotelId } from "@services/room.service";
 
+export const revalidate = 0;
+
 export async function GET(request: Request) {
     try {
         const params = new URL(request.url).searchParams;
