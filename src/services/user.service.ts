@@ -9,6 +9,7 @@ import { IUser } from "@/types";
 
 export async function findOneUser(id: string): Promise<IUser> {
     validateMongoId(id);
+
     const user = await userModel.findById(id).lean<IUser>();
 
     if (!user) {

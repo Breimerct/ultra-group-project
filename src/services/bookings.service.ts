@@ -4,10 +4,12 @@ import { getRoomById } from "./room.service";
 import { findOneUser } from "./user.service";
 import bookingModel from "@/models/booking.model";
 import { validateMongoId } from "@/helpers/util";
+import connectDB from "@/lib/mongo";
 
-export function getBookings(): Promise<IBooking[]> {
-    bookingModel.find();
-    const bookings = bookingModel.find().lean<IBooking[]>();
+export async function getBookings(): Promise<IBooking[]> {
+    await connectDB();
+
+    const bookings = await bookingModel.find().lean<IBooking[]>();
 
     return bookings;
 }
@@ -33,7 +35,8 @@ export async function getBookingDetail(id: string): Promise<IBookingDetail> {
 }
 
 export async function getBookingsByUserId(userId: string): Promise<IBooking[]> {
-    await validateMongoId(userId);
+    await Promise.all([validateMongoId(userId), connectDB()]);
+
     const bookingsData = await bookingModel.find({ userId }).lean<IBooking[]>();
 
     if (!bookingsData.length) {
@@ -44,6 +47,8 @@ export async function getBookingsByUserId(userId: string): Promise<IBooking[]> {
 }
 
 export async function createBooking(booking: IBooking): Promise<IBooking> {
+    await connectDB();
+
     const newBooking = await bookingModel.create(booking);
 
     return newBooking;

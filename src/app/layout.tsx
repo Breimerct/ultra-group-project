@@ -4,9 +4,6 @@ import CustomLoading from "@components/custom-loading/CustomLoading";
 import { Toaster } from "sonner";
 
 import "./globals.css";
-import connectDB from "@/lib/mongo";
-
-connectDB();
 
 const inter = Inter({ subsets: ["latin"] });
 
