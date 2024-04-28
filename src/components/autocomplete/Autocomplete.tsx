@@ -32,26 +32,26 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
     ...props
 }) => {
     const [searchTerm, setSearchTerm] = useState(preValue);
-    const [results, setResults] = useState<any[]>([]);
+    const [results, setResults] = useState<Record<string, string>[]>([]);
     const [showResults, setShowResults] = useState(false);
+    const [selectedItem, setSelectedItem] = useState<Record<string, string> | null>(null);
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const term = e.target.value;
-        onChangeInput && onChangeInput(term);
-        setSearchTerm(term);
-    };
 
-    useEffect(() => {
-        let filteredResults = items.filter((item) => item[filterBy].toLowerCase().includes(searchTerm.toLowerCase()));
-
-        if (filteredResults.length < 1) {
-            filteredResults = items.slice(0, 10);
+        if (term === "") {
+            setResults(items);
+            setSearchTerm(term);
+            setSelectedItem(null);
+            return;
         }
 
-        setResults(filteredResults);
-
-        return () => {};
-    }, [searchTerm, items]);
+        setSearchTerm(term);
+        setResults(() => {
+            return items.filter((item) => item[filterBy].toLowerCase().includes(searchTerm.toLowerCase()));
+        });
+        onChangeInput && onChangeInput(term);
+    };
 
     useEffect(() => {
         if (preValue) {
@@ -61,20 +61,22 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
         return () => {};
     }, [preValue]);
 
-    const handleSelectItem = (item: any) => {
+    const handleSelectItem = (item: Record<string, string>) => {
         setSearchTerm(item[filterBy]);
-        setResults(items.slice(0, 10));
+        setResults(items);
+        setSelectedItem(item);
         setShowResults(false);
         onSelectItem && onSelectItem(item);
     };
 
     const handleFocus = () => {
         setShowResults(true);
+        setResults(items.filter((item) => item[filterBy].toLowerCase().includes(searchTerm.toLowerCase())));
     };
 
     const clearSearch = () => {
         setSearchTerm("");
-        setResults([]);
+        setSelectedItem(null);
         onClearInput && onClearInput();
     };
 
@@ -83,6 +85,37 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
 
         if (autocomplete && !autocomplete.contains(event.target as Node)) {
             setShowResults(false);
+        }
+    };
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+
+            if (
+                results.length > 0 &&
+                searchTerm &&
+                results[0][filterBy].toLowerCase().includes(searchTerm.toString())
+            ) {
+                handleSelectItem(results[0]);
+                setShowResults(false);
+            }
+        }
+    };
+
+    const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+        const inputValue = e.target.value;
+
+        if (!selectedItem) {
+            setSearchTerm("");
+        }
+
+        if (inputValue === "") {
+            setSelectedItem(null);
+        }
+
+        if (selectedItem && inputValue && inputValue !== selectedItem[filterBy]) {
+            setSearchTerm(selectedItem[filterBy]);
         }
     };
 
@@ -107,15 +140,24 @@ const Autocomplete: React.FC<AutocompleteProps> = ({
                     messageError={messageError}
                     onChange={handleSearch}
                     onFocus={handleFocus}
+                    onKeyDown={handleKeyDown}
+                    onBlur={handleBlur}
                     {...props}
                 />
             </div>
             {showResults && (
-                <ul className="absolute z-20 top-16 mt-1 w-full bg-white border border-gray-300 rounded max-h-[200px] overflow-y-auto">
+                <ul
+                    id="result-list"
+                    className="absolute z-20 top-16 mt-1 w-full bg-white border border-gray-300 rounded max-h-[200px] overflow-y-auto"
+                >
                     {results.map((result, index) => (
                         <li
                             key={index}
-                            className="p-2 cursor-pointer hover:bg-gray-100 select-none"
+                            className={`p-2 cursor-pointer hover:bg-gray-300 focus:bg-emerald-200 select-none ${
+                                selectedItem && selectedItem[filterBy] === result[filterBy]
+                                    ? "bg-emerald-800 hover:!bg-emerald-800 text-white"
+                                    : ""
+                            }`}
                             onClick={() => handleSelectItem(result)}
                         >
                             {result[filterBy] ?? "-"}
