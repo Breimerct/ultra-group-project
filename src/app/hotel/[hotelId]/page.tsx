@@ -23,7 +23,7 @@ const Page: FC = () => {
     return (
         <div className="flex flex-col gap-5">
             <section className="grid grid-cols-1 justify-center md:grid-cols-2 gap-3 mt-4">
-                <picture className="col-span-1">
+                <picture className="col-span-1 flex justify-center items-center">
                     <img
                         src={hotel?.imageUrl}
                         alt={hotel?.name}
