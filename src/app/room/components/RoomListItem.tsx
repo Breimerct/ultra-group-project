@@ -32,13 +32,31 @@ const RoomsListItem: FC<IProps> = ({ room }) => {
 
     return (
         <div className="bg-zinc-200 rounded-md overflow-hidden">
-            <picture className="flex justify-between items-center">
+            <picture className="flex justify-center items-center">
                 <img
                     src={room.imageUrls[imageSelected]}
                     alt={room.name}
                     className="object-cover w-full h-full max-h-[20rem] aspect-square"
                 />
             </picture>
+
+            <div className="flex justify-center gap-2 m-5">
+                {room.imageUrls.map((url, index) => (
+                    <picture
+                        key={index}
+                        onClick={handleClick.bind(null, index)}
+                        className={`relative shadow-md flex cursor-pointer rounded-lg overflow-hidden hover:scale-110 hover:shadow-zinc-800/50 !transition-all before:h-[4px] before:w-full before:translate-x-full before:hover:translate-x-0 before:bg-emerald-600 before:absolute before:bottom-0 ${
+                            imageSelected === index && "before:!translate-x-0"
+                        }`}
+                    >
+                        <img
+                            src={url}
+                            alt={room.name + " " + index}
+                            className="object-cover aspect-square w-20 h-20"
+                        />
+                    </picture>
+                ))}
+            </div>
 
             <section className="flex flex-col gap-3 mt-3">
                 <div className="px-5">
@@ -77,21 +95,6 @@ const RoomsListItem: FC<IProps> = ({ room }) => {
                 </div>
             </section>
 
-            <div className="flex justify-center gap-2 m-5">
-                {room.imageUrls.map((url, index) => (
-                    <picture
-                        key={index}
-                        onClick={handleClick.bind(null, index)}
-                        className="flex cursor-pointer rounded-lg overflow-hidden hover:scale-110 hover:shadow-sm hover:shadow-zinc-800/50 transition-all"
-                    >
-                        <img
-                            src={url}
-                            alt={room.name + " " + index}
-                            className="object-cover aspect-square w-20 h-20"
-                        />
-                    </picture>
-                ))}
-            </div>
             <div className="p-3 m-4 flex justify-end items-center">
                 <Link href={`/booking/${room._id}`}>
                     <span className="bg-emerald-800 text-white py-2 px-7 rounded-lg hover:bg-emerald-900 hover:shadow-sm hover:shadow-emerald-800 transition-all">
