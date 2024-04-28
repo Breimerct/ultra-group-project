@@ -38,9 +38,6 @@ const HotelsTable: FC<IProps> = ({ onEdit, onView, onRemove }) => {
                     <thead className="border-b font-medium dark:border-neutral-500">
                         <tr>
                             <th scope="col" className="px-6 py-4">
-                                #
-                            </th>
-                            <th scope="col" className="px-6 py-4">
                                 Presentación
                             </th>
                             <th scope="col" className="px-6 py-4">
@@ -89,10 +86,7 @@ const HotelsTable: FC<IProps> = ({ onEdit, onView, onRemove }) => {
                         )}
 
                         {hotels.map((hotel, index) => (
-                            <tr className="border-b dark:border-neutral-500" key={index}>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">
-                                    {index + 1}
-                                </td>
+                            <tr className="border-b dark:border-neutral-500" key={hotel._id}>
                                 <td className="whitespace-nowrap px-6 py-4">
                                     <picture className="text-center flex justify-center">
                                         <img
